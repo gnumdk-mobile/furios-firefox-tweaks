@@ -1,0 +1,22 @@
+Source: firefox-esr-mobile-config
+Section: x11
+Priority: optional
+Maintainer: Arnaud Ferraris <arnaud.ferraris@gmail.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.5.0
+Homepage: https://gitlab.com/postmarketOS/mobile-config-firefox
+Vcs-Browser: https://gitlab.com/mobian1/packages/firefox-mobile-config
+Vcs-Git: https://gitlab.com/mobian1/packages/firefox-mobile-config.git
+Rules-Requires-Root: no
+
+Package: firefox-esr-mobile-config
+Architecture: all
+Depends:
+ ${misc:Depends},
+ firefox-esr,
+Conflicts: mobian-tweaks (<< 0.3.1)
+Description: Default mobile-friendly configuration for Firefox ESR
+ This package provides a set of configuration files aimed at making Firefox ESR
+ more mobile-friendly. It provides:
+  * default preferences values
+  * custom userChrome.css

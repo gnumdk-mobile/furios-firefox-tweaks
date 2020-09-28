@@ -1,0 +1,7 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+override_dh_auto_install:
+	dh_auto_install -- FIREFOX_DIR=/usr/lib/firefox-esr DISTRO=Mobian FIREFOX_CONFIG_DIR=/etc/firefox-esr
