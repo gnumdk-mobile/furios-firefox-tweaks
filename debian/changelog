@@ -1,0 +1,5 @@
+firefox-esr-mobile-config (2.0.0-1) unstable; urgency=medium
+
+  * Initial Debian release
+
+ -- Arnaud Ferraris <arnaud.ferraris@gmail.com>  Fri, 04 Dec 2020 17:19:04 +0100
