@@ -1,3 +1,10 @@
+firefox-esr-mobile-config (2.1.0-2) unstable; urgency=medium
+
+  * d/patches: allow selecting a different config directory
+  * d/rules: make sure we ship with the right distro name
+
+ -- Arnaud Ferraris <arnaud.ferraris@collabora.com>  Thu, 15 Jul 2021 16:31:40 +0200
+
 firefox-esr-mobile-config (2.1.0-1) unstable; urgency=medium
 
   [ Dmytro Mishchenko ]
