@@ -1,3 +1,15 @@
+firefox-esr-mobile-config (2.1.0-1) unstable; urgency=medium
+
+  [ Dmytro Mishchenko ]
+  * d/rules: Fix usage of DISTRO variable
+
+  [ Arnaud Ferraris ]
+  * New upstream version 2.1.0
+  * d/patches: refresh Mobian patches
+  * debian: drop salsa-ci
+
+ -- Arnaud Ferraris <arnaud.ferraris@collabora.com>  Thu, 15 Jul 2021 15:17:56 +0200
+
 firefox-esr-mobile-config (2.0.0-1) unstable; urgency=medium
 
   * Initial Debian release
