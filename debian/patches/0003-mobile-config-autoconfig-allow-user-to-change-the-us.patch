@@ -1,0 +1,44 @@
+From a107d03c5934168470023f1686a1dda3fcd59738 Mon Sep 17 00:00:00 2001
+From: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+Date: Thu, 15 Jul 2021 15:32:46 +0200
+Subject: [PATCH] mobile-config-autoconfig: allow user to change the user-agent
+
+Preferences set with `pref()` can be changed by the user, but they're
+then reset on each Firefox startup.
+
+As users may want a different UA and keep it persistent, we should set
+the default value with `defaultPref()` instead. This requires moving the
+preference to the autoconfig file though, as `defaultPref()` isn't
+recognized in the main config file.
+---
+ src/mobile-config-autoconfig.js | 3 +++
+ src/mobile-config-prefs.js      | 3 ---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/mobile-config-autoconfig.js b/src/mobile-config-autoconfig.js
+index 7e8ade6..2d59ffc 100644
+--- a/src/mobile-config-autoconfig.js
++++ b/src/mobile-config-autoconfig.js
+@@ -119,3 +119,6 @@ if (contentFile.exists() && defaultContent.exists() &&
+ // Default value: -1 (adaptable)
+ // Goal: Save RAM
+ defaultPref("browser.sessionhistory.max_total_viewers", 1);
++
++// Select a mobile user agent for firefox (same as tor browser on android)
++defaultPref('general.useragent.override', 'Mozilla/5.0 (Android 9; Mobile; rv:78.0) Gecko/20100101 Firefox/78.0');
+diff --git a/src/mobile-config-prefs.js b/src/mobile-config-prefs.js
+index 6090643..d49e00c 100644
+--- a/src/mobile-config-prefs.js
++++ b/src/mobile-config-prefs.js
+@@ -5,9 +5,6 @@
+ pref('general.config.filename', "mobile-config-autoconfig.js");
+ pref('general.config.obscure_value', 0);
+ 
+-// Select a mobile user agent for firefox (same as tor browser on android)
+-pref('general.useragent.override', 'Mozilla/5.0 (Android 9; Mobile; rv:78.0) Gecko/20100101 Firefox/78.0');
+-
+ // Enable android-style pinch-to-zoom
+ pref('dom.w3c.touch_events.enabled', true);
+ pref('apz.allow_zooming', true);
+-- 
+2.30.2
