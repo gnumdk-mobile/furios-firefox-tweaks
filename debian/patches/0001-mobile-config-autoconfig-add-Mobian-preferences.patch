@@ -11,9 +11,9 @@ diff --git a/src/mobile-config-autoconfig.js b/src/mobile-config-autoconfig.js
 index 07e3194..8f50064 100644
 --- a/src/mobile-config-autoconfig.js
 +++ b/src/mobile-config-autoconfig.js
-@@ -31,3 +31,75 @@ if (chromeFile.exists() && defaultChrome.exists() &&
- if (!chromeFile.exists()) {
-   defaultChrome.copyTo(chromeDir, "userChrome.css");
+@@ -47,3 +47,75 @@ if (chromeFile.exists() && defaultChrome.exists() &&
+ if (!contentFile.exists()) {
+   defaultContent.copyTo(chromeDir, "userContent.css");
  }
 +
 +// Default preferences for Mobian (can be overridden by users)
