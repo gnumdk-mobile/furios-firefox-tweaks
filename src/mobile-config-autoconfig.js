@@ -1,4 +1,4 @@
-// Copyright 2020 Arnaud Ferraris, Oliver Smith
+// Copyright 2021 Arnaud Ferraris, Oliver Smith
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 // This is a Firefox autoconfig file:
@@ -30,4 +30,20 @@ if (chromeFile.exists() && defaultChrome.exists() &&
 // Copy userChrome.css to <profile>/chrome/
 if (!chromeFile.exists()) {
   defaultChrome.copyTo(chromeDir, "userChrome.css");
+}
+
+// Create nsIFile objects for userContent.css in <profile>/chrome/ and in /etc/
+var contentFile = chromeDir.clone();
+contentFile.append("userContent.css");
+var defaultContent = new FileUtils.File("/etc/mobile-config-firefox/userContent.css");
+
+// Remove the existing userContent.css if older than the installed one
+if (contentFile.exists() && defaultContent.exists() &&
+    contentFile.lastModifiedTime < defaultContent.lastModifiedTime) {
+  contentFile.remove(false);
+}
+
+// Copy userContent.css to <profile>/chrome/
+if (!contentFile.exists()) {
+  defaultContent.copyTo(chromeDir, "userContent.css");
 }

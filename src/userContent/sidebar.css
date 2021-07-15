@@ -1,0 +1,42 @@
+/* Copyright 2021 plata, Anri Dellal
+   SPDX-License-Identifier: GPL-3.0-or-later */
+
+@-moz-document regexp("about:(preferences|addons|policies).*") {
+    .category-icon {
+        user-select: none !important;
+    }
+
+    @media (max-width: 700px) {
+        /* avoid that sidebar is too wide */
+        :root {
+            --in-content-sidebar-width: 50px !important;
+            --sidebar-width: 50px !important;
+        }
+
+        /* reduce space around category icons */
+        #categories > .category {
+            margin-inline-start: auto !important;
+            padding-inline: auto !important;
+        }
+
+        .category-name {
+            display: none !important;
+        }
+
+        /* reduce space around footer icons (addons, help) */
+        .sidebar-footer-list {
+            margin-inline: auto !important;
+            padding-inline: auto !important;
+        }
+
+        .sidebar-footer-label {
+            display: none !important;
+        }
+    }
+
+    @media (max-height: 400px) {
+        #categories {
+            margin-top: 8px !important;
+        }
+    }
+}

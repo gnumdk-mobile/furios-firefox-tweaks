@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- Copyright 2020 Oliver Smith
+<!-- Copyright 2021 Oliver Smith
      SPDX-License-Identifier: GPL-3.0-or-later -->
 
 <html>
@@ -51,6 +51,23 @@ a {
 	border-bottom: none;
 	color: black;
 	padding: 0px;
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		color: #f0f0f0;
+		background-color: #222;
+	}
+	a {
+		background: #111;
+		color: #0b0;
+	}
+	.text a {
+		color: white;
+	}
+	h1, h2 {
+		color: unset;
+	}
 }
 </style>
 </head>

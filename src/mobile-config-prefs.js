@@ -1,4 +1,4 @@
-// Copyright 2020 Oliver Smith, Martijn Braam
+// Copyright 2021 Oliver Smith, Martijn Braam
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 // Set up autoconfig (we use it to copy/update userChrome.css into profile dir)
@@ -12,6 +12,9 @@ pref('general.useragent.override', 'Mozilla/5.0 (Android 9; Mobile; rv:78.0) Gec
 pref('dom.w3c.touch_events.enabled', true);
 pref('apz.allow_zooming', true);
 pref('apz.allow_double_tap_zooming', true);
+
+// Save vertical space by drawing directly in the titlebar
+pref('browser.tabs.drawInTitlebar', true);
 
 // Disable search suggestions
 pref('browser.search.suggest.enabled', false);
