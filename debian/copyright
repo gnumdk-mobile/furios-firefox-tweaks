@@ -23,6 +23,17 @@ Copyright:
  2020 Martijn Braam <martijn@brixit.nl>
 License: GPL-3.0-or-later
 
+Files: org.postmarketos.mobile_config_firefox.metainfo.xml
+Copyright:
+ 2021 Oliver Smith <ollieparanoid@postmarketos.org>
+License: CC0-1.0
+
+License: CC0-1.0
+ This work has been dedicated to the public domain.
+ .
+ On Debian systems, the complete text of the CC0 Licence version 1 can be found
+ in "/usr/share/common-licenses/CC0-1.0".
+
 License: GPL-3.0-or-later
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
