@@ -1,3 +1,11 @@
+firefox-esr-mobile-config (2.2.0-1) unstable; urgency=medium
+
+  * New upstream version 2.2.0
+  * d/patches: remove upstreamed patches
+  * d/patches: refresh patches
+
+ -- Arnaud Ferraris <arnaud.ferraris@gmail.com>  Mon, 19 Jul 2021 14:32:27 +0200
+
 firefox-esr-mobile-config (2.1.0-2) unstable; urgency=medium
 
   * d/patches: allow selecting a different config directory
