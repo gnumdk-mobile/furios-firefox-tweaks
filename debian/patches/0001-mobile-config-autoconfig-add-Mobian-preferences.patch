@@ -11,10 +11,9 @@ diff --git a/src/mobile-config-autoconfig.js b/src/mobile-config-autoconfig.js
 index 07e3194..8f50064 100644
 --- a/src/mobile-config-autoconfig.js
 +++ b/src/mobile-config-autoconfig.js
-@@ -47,3 +47,75 @@ if (chromeFile.exists() && defaultChrome.exists() &&
- if (!contentFile.exists()) {
-   defaultContent.copyTo(chromeDir, "userContent.css");
- }
+@@ -51,2 +51,74 @@ if (chromeFile.exists() && defaultChrome.exists() &&
+ // Select a mobile user agent for firefox (same as tor browser on android)
+ defaultPref('general.useragent.override', 'Mozilla/5.0 (Android 9; Mobile; rv:78.0) Gecko/78.0 Firefox/78.0');
 +
 +// Default preferences for Mobian (can be overridden by users)
 +
