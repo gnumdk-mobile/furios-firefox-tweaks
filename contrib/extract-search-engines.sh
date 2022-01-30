@@ -1,5 +1,5 @@
 #!/bin/sh -e
-# Copyright 2021 Oliver Smith
+# Copyright 2022 Oliver Smith
 # SPDX-License-Identifier: MPL-2.0
 #
 # Extract the search engine names found in your current Firefox installation,

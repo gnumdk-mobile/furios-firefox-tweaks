@@ -1,4 +1,4 @@
-// Copyright 2021 Arnaud Ferraris, Oliver Smith
+// Copyright 2022 Arnaud Ferraris, Oliver Smith
 // SPDX-License-Identifier: MPL-2.0
 
 // This is a Firefox autoconfig file:

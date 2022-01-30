@@ -1,4 +1,4 @@
-// Copyright 2021 Oliver Smith, Martijn Braam
+// Copyright 2022 Oliver Smith, Martijn Braam
 // SPDX-License-Identifier: MPL-2.0
 
 // Set up autoconfig (we use it to copy/update userChrome.css into profile dir)
