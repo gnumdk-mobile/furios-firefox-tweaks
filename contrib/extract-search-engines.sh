@@ -1,6 +1,6 @@
 #!/bin/sh -e
 # Copyright 2021 Oliver Smith
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: MPL-2.0
 #
 # Extract the search engine names found in your current Firefox installation,
 # and create a list suitable for policies.json that removes all of them except

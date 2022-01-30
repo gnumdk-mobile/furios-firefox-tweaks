@@ -1,6 +1,6 @@
 #!/bin/sh -e
 # Copyright 2021 Oliver Smith
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: MPL-2.0
 #
 # As of writing, it seems that every existing CSS linter is either written in
 # JS or ruby and has tons of dependencies... so instead of that let's use this

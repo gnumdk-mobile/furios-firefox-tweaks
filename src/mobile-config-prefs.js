@@ -1,5 +1,5 @@
 // Copyright 2021 Oliver Smith, Martijn Braam
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: MPL-2.0
 
 // Set up autoconfig (we use it to copy/update userChrome.css into profile dir)
 pref('general.config.filename', "mobile-config-autoconfig.js");

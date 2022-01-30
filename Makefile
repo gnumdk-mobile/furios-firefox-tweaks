@@ -1,5 +1,5 @@
 # Copyright 2021 Oliver Smith
-# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-License-Identifier: MPL-2.0
 
 HEADER_FILE := src/common/header.css
 USERCHROME_FILES := $(HEADER_FILE) $(sort $(wildcard src/userChrome/*.css))

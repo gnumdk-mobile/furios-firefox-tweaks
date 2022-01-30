@@ -1,5 +1,5 @@
 /* Copyright 2021 Tim Magee
- * SPDX-License-Identifier: GPL-3.0-or-later */
+ * SPDX-License-Identifier: MPL-2.0 */
 
 @-moz-document url-prefix("about:reader") {
     @media (max-width: 800px) {

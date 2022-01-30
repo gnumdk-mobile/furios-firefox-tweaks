@@ -1,5 +1,5 @@
 // Copyright 2021 Arnaud Ferraris, Oliver Smith
-// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-License-Identifier: MPL-2.0
 
 // This is a Firefox autoconfig file:
 // https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig
