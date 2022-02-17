@@ -1,33 +1,34 @@
 /* Copyright 2021 Oliver Smith
-   SPDX-License-Identifier: GPL-3.0-or-later */
+ * SPDX-License-Identifier: GPL-3.0-or-later */
 
 @media (max-width: 700px) {
-	/* Popup notifications (install add-on etc.): set max-width, remove icon and
-	 * make font smaller so it fits the box */
-	.popup-notification-body-container {
-	  max-width: 170px;
-	}
-	.popup-notification-icon {
-	  display: none;
-	}
-	.popup-notification-body {
-	  font-size: 4pt;
-	}
+    /* Hack to prevent popups from flickering around. It looks like e.g. the
+     * editBookmarkPanel has two heights otherwise, and draws one frame with a
+     * short height and one frame with the proper one. */
+    #mainPopupSet {
+        position: fixed !important;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 100px;
+    }
 
-	/* "Site information" (displayed when clicking the lock icon)
-	 * Making everything so small doesn't look terribly nice, but least it fits the
-	 * popup and everything is clickable. */
-	#identity-popup-multiView .panel-viewcontainer {
-	  font-size: 4pt;
-	}
-	#identity-popup-clear-sitedata-footer,
-	#identity-popup-more-info-footer {
-	  font-size: 7pt;
-	}
+    /* Now that the navbar is at the bottom, we need to set an offset to have
+     * the notifications (like the one for installing addons) displayed
+     * on-screen. */
+    #notification-popup {
+        margin-left: -200px !important;
+        margin-top: -500px !important;
+    }
 
-	/* "Protections" (displayed when clicking the shield icon)
-	 * Same reasoning for small font, as for identity-popup above. */
-	#protections-popup-mainView {
-	  font-size: 4pt;
-	}
+    #downloadsPanel-mainView {
+        max-width: calc(100vw - 10px);
+    }
+
+    /* Menu that appears when long-pressing the back-button */
+    #backForwardMenu {
+        margin-top: -250px;
+        height: 200px;
+        min-height: 200px;
+    }
 }
