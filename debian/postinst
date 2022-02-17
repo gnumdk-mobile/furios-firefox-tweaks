@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = "configure" ]; then
+    # This ensures the "last modified" date is updated, as it's needed
+    # for those files to upgrade
+    touch /etc/mobile-config-firefox/*.css
+fi
+
+#DEBHELPER#
