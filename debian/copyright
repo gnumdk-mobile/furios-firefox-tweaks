@@ -8,19 +8,54 @@ Copyright: 2020 Oliver Smith <ollieparanoid@postmarketos.org>
 License: GPL-3.0-or-later
 
 Files: debian/*
-Copyright: 2020 Arnaud Ferraris <arnaud.ferraris@gmail.com>
+Copyright: 2020-2022 Arnaud Ferraris <arnaud.ferraris@gmail.com>
 License: GPL-3.0-or-later
 
-Files: src/mobile-config-autoconfig.js
+Files: src/common/header.css
+       src/mobile-config-autoconfig.js
 Copyright:
- 2020 Oliver Smith <ollieparanoid@postmarketos.org>
- 2020 Arnaud Ferraris <arnaud.ferraris@gmail.com>
+ 2021 Oliver Smith <ollieparanoid@postmarketos.org>
+ 2021 Arnaud Ferraris <arnaud.ferraris@gmail.com>
 License: GPL-3.0-or-later
 
 Files: src/mobile-config-prefs.js
 Copyright:
- 2020 Oliver Smith <ollieparanoid@postmarketos.org>
- 2020 Martijn Braam <martijn@brixit.nl>
+ 2021 Oliver Smith <ollieparanoid@postmarketos.org>
+ 2021 Martijn Braam <martijn@brixit.nl>
+License: GPL-3.0-or-later
+
+Files: src/userChrome/browser.css
+Copyright:
+ 2021 plata
+License: GPL-3.0-or-later
+
+Files: src/userChrome/tabmenu.css
+Copyright:
+ 2021 Oliver Smith <ollieparanoid@postmarketos.org>
+ 2021 Peter Mack
+License: GPL-3.0-or-later
+
+Files: src/userContent/addons.css
+       src/userContent/config.css
+       src/userContent/license.css
+       src/userContent/logins.css
+       src/userContent/policies.css
+       src/userContent/preferences.css
+       src/userContent/protections.css
+       src/userContent/rights.css
+Copyright:
+ 2021 Anri Dellal
+License: GPL-3.0-or-later
+
+Files: src/userContent/reader.css
+Copyright:
+ 2021 Tim Magee
+License: GPL-3.0-or-later
+
+Files: src/userContent/sidebar.css
+Copyright:
+ 2021 plata
+ 2021 Anri Dellal
 License: GPL-3.0-or-later
 
 Files: org.postmarketos.mobile_config_firefox.metainfo.xml
