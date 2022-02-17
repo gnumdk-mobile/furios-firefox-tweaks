@@ -3,10 +3,10 @@ Section: x11
 Priority: optional
 Maintainer: Arnaud Ferraris <arnaud.ferraris@gmail.com>
 Build-Depends: debhelper-compat (= 13)
-Standards-Version: 4.5.0
+Standards-Version: 4.6.0
 Homepage: https://gitlab.com/postmarketOS/mobile-config-firefox
-Vcs-Browser: https://gitlab.com/mobian1/packages/firefox-mobile-config
-Vcs-Git: https://gitlab.com/mobian1/packages/firefox-mobile-config.git
+Vcs-Browser: https://gitlab.com/mobian1/packages/firefox-esr-mobile-config
+Vcs-Git: https://gitlab.com/mobian1/packages/firefox-esr-mobile-config.git
 Rules-Requires-Root: no
 
 Package: firefox-esr-mobile-config
