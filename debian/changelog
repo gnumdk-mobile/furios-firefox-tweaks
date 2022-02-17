@@ -1,3 +1,19 @@
+firefox-esr-mobile-config (3.0.0-1) unstable; urgency=medium
+
+  * New upstream version
+  * d/patches: update for new release.
+  * d/patches: leave search engine choice to users.
+  * debian: ensure updated files get installed.
+  * d/patches: ensure new chrome files are immediately used on update.
+  * d/rules: remove the use of the DISTRO env var.
+  * d/rules: install system policy to correct directory.
+  * d/copyright: refresh copyright information
+  * d/control: bump Standards-Version, fix Vcs-* URLs
+  * d/watch: add version mangle for RC versions.
+  * d/gbp.conf: update for Mobian
+
+ -- Arnaud Ferraris <arnaud.ferraris@collabora.com>  Thu, 17 Feb 2022 16:31:58 +0100
+
 firefox-esr-mobile-config (2.2.0-1) unstable; urgency=medium
 
   * New upstream version 2.2.0
