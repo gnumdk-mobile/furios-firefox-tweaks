@@ -3,8 +3,5 @@
 %:
 	dh $@
 
-override_dh_auto_build:
-	dh_auto_build -- DISTRO=Mobian
-
 override_dh_auto_install:
-	dh_auto_install -- DISTRO=Mobian FIREFOX_DIR=/usr/lib/firefox-esr FIREFOX_CONFIG_DIR=/etc/firefox-esr
+	dh_auto_install -- FIREFOX_DIR=/usr/lib/firefox-esr FIREFOX_CONFIG_DIR=/etc/firefox-esr
