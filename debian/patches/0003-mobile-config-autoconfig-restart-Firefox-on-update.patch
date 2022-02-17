@@ -1,0 +1,53 @@
+From bbaf664273cf08bfeb3c7cc59179a34e52a84e6a Mon Sep 17 00:00:00 2001
+From: Arnaud Ferraris <arnaud.ferraris@collabora.com>
+Date: Thu, 17 Feb 2022 17:17:13 +0100
+Subject: [PATCH] mobile-config-autoconfig: restart Firefox on update
+
+With the current implementation, `userChrome.css` and `userContent.css`
+are effectively replaced on a package update, but the session still uses
+the previous version.
+
+Triggering a restart as soone as those files are updated ensures the
+latest version will be used immediately.
+---
+ src/mobile-config-autoconfig.js | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/src/mobile-config-autoconfig.js b/src/mobile-config-autoconfig.js
+index 3b28f1a..6c0af8f 100644
+--- a/src/mobile-config-autoconfig.js
++++ b/src/mobile-config-autoconfig.js
+@@ -9,6 +9,8 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
+ Cu.import("resource://gre/modules/Services.jsm");
+ Cu.import("resource://gre/modules/FileUtils.jsm");
+ 
++var updated = false;
++
+ // Create <profile>/chrome/ directory if not already present
+ var chromeDir = Services.dirsvc.get("ProfD", Ci.nsIFile);
+ chromeDir.append("chrome");
+@@ -30,6 +32,7 @@ if (chromeFile.exists() && defaultChrome.exists() &&
+ // Copy userChrome.css to <profile>/chrome/
+ if (!chromeFile.exists()) {
+     defaultChrome.copyTo(chromeDir, "userChrome.css");
++    updated = true;
+ }
+ 
+ // Create nsIFile objects for userContent.css in <profile>/chrome/ and in /etc/
+@@ -46,6 +49,13 @@ if (contentFile.exists() && defaultContent.exists() &&
+ // Copy userContent.css to <profile>/chrome/
+ if (!contentFile.exists()) {
+     defaultContent.copyTo(chromeDir, "userContent.css");
++    updated = true;
++}
++
++// Restart Firefox immediately if one of the files got updated
++if (updated == true) {
++    var appStartup = Cc["@mozilla.org/toolkit/app-startup;1"].getService(Ci.nsIAppStartup);
++    appStartup.quit(Ci.nsIAppStartup.eForceQuit | Ci.nsIAppStartup.eRestart);
+ }
+ 
+ // Select a mobile user agent for firefox (same as tor browser on android)
+-- 
+2.34.1
+
