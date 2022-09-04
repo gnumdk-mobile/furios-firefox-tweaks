@@ -31,4 +31,15 @@
         height: 200px;
         min-height: 200px;
     }
+
+    /* Hide some context menu items */
+    #context-inspect,
+    #context-inspect-a11y,
+    #context-savelinktopocket,
+    #context-searchselect,
+    #context-sendlinktodevice,
+    #context-viewpartialsource-selection,
+    #inspect-separator {
+        display: none !important
+    }
 }
