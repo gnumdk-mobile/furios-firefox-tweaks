@@ -1,5 +1,5 @@
-// Copyright 2021 Oliver Smith, Martijn Braam
-// SPDX-License-Identifier: GPL-3.0-or-later
+// Copyright 2022 Oliver Smith, Martijn Braam
+// SPDX-License-Identifier: MPL-2.0
 
 // Set up autoconfig (we use it to copy/update userChrome.css into profile dir)
 pref('general.config.filename', "mobile-config-autoconfig.js");
@@ -11,8 +11,8 @@ pref('dom.w3c.touch_events.enabled', true);
 pref('apz.allow_zooming', true);
 pref('apz.allow_double_tap_zooming', true);
 
-// Save vertical space by drawing directly in the titlebar
-pref('browser.tabs.drawInTitlebar', true);
+// Save vertical space by hiding the titlebar
+pref('browser.tabs.inTitlebar', 1);
 
 // Disable search suggestions
 pref('browser.search.suggest.enabled', false);

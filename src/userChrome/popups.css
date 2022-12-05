@@ -1,5 +1,5 @@
-/* Copyright 2021 Oliver Smith
- * SPDX-License-Identifier: GPL-3.0-or-later */
+/* Copyright 2022 Oliver Smith
+ * SPDX-License-Identifier: MPL-2.0 */
 
 @media (max-width: 700px) {
     /* Hack to prevent popups from flickering around. It looks like e.g. the
@@ -30,5 +30,16 @@
         margin-top: -250px;
         height: 200px;
         min-height: 200px;
+    }
+
+    /* Hide some context menu items */
+    #context-inspect,
+    #context-inspect-a11y,
+    #context-savelinktopocket,
+    #context-searchselect,
+    #context-sendlinktodevice,
+    #context-viewpartialsource-selection,
+    #inspect-separator {
+        display: none !important
     }
 }
