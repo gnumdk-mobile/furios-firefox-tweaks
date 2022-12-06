@@ -16,7 +16,6 @@ Architecture: all
 Depends:
  ${misc:Depends},
  firefox-esr,
-Conflicts: mobian-tweaks (<< 0.3.1)
 Description: Default mobile-friendly configuration for Firefox ESR
  This package provides a set of configuration files aimed at making Firefox ESR
  more mobile-friendly. It provides:
