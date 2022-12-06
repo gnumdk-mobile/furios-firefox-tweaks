@@ -4,36 +4,32 @@ Upstream-Contact: Oliver Smith <ollieparanoid@postmarketos.org>
 Source: https://gitlab.com/postmarketOS/mobile-config-firefox
 
 Files: *
-Copyright: 2020 Oliver Smith <ollieparanoid@postmarketos.org>
-License: GPL-3.0-or-later
+Copyright: 2020-2022, Oliver Smith <ollieparanoid@postmarketos.org>
+License: MPL-2.0
 
 Files: debian/*
-Copyright: 2020-2022 Arnaud Ferraris <arnaud.ferraris@gmail.com>
-License: GPL-3.0-or-later
+Copyright: 2020-2022, Arnaud Ferraris <aferraris@debian.org>
+License: MPL-2.0
 
 Files: src/common/header.css
        src/mobile-config-autoconfig.js
-Copyright:
- 2021 Oliver Smith <ollieparanoid@postmarketos.org>
- 2021 Arnaud Ferraris <arnaud.ferraris@gmail.com>
-License: GPL-3.0-or-later
+Copyright: 2021-2022, Oliver Smith <ollieparanoid@postmarketos.org>
+           2021-2022, Arnaud Ferraris <aferraris@debian.org>
+License: MPL-2.0
 
 Files: src/mobile-config-prefs.js
-Copyright:
- 2021 Oliver Smith <ollieparanoid@postmarketos.org>
- 2021 Martijn Braam <martijn@brixit.nl>
-License: GPL-3.0-or-later
+Copyright: 2021-2022, Oliver Smith <ollieparanoid@postmarketos.org>
+           2021-2022, Martijn Braam <martijn@brixit.nl>
+License: MPL-2.0
 
 Files: src/userChrome/browser.css
-Copyright:
- 2021 plata
-License: GPL-3.0-or-later
+Copyright: 2021-2022, plata
+License: MPL-2.0
 
 Files: src/userChrome/tabmenu.css
-Copyright:
- 2021 Oliver Smith <ollieparanoid@postmarketos.org>
- 2021 Peter Mack
-License: GPL-3.0-or-later
+Copyright: 2021-2022, Oliver Smith <ollieparanoid@postmarketos.org>
+           2021-2022, Peter Mack
+License: MPL-2.0
 
 Files: src/userContent/addons.css
        src/userContent/config.css
@@ -43,45 +39,38 @@ Files: src/userContent/addons.css
        src/userContent/preferences.css
        src/userContent/protections.css
        src/userContent/rights.css
-Copyright:
- 2021 Anri Dellal
-License: GPL-3.0-or-later
+Copyright: 2021-2022, Anri Dellal
+License: MPL-2.0
 
 Files: src/userContent/reader.css
-Copyright:
- 2021 Tim Magee
-License: GPL-3.0-or-later
+Copyright: 2021-2022, Tim Magee
+License: MPL-2.0
 
 Files: src/userContent/sidebar.css
-Copyright:
- 2021 plata
- 2021 Anri Dellal
-License: GPL-3.0-or-later
+Copyright: 2021-2022, plata
+           2021-2022, Anri Dellal
+License: MPL-2.0
 
 Files: org.postmarketos.mobile_config_firefox.metainfo.xml
-Copyright:
- 2021 Oliver Smith <ollieparanoid@postmarketos.org>
+Copyright: 2022, plata
 License: CC0-1.0
 
 License: CC0-1.0
  This work has been dedicated to the public domain.
  .
- On Debian systems, the complete text of the CC0 Licence version 1 can be found
+ On Debian systems, the complete text of the CC0 License version 1 can be found
  in "/usr/share/common-licenses/CC0-1.0".
 
-License: GPL-3.0-or-later
- This package is free software; you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
- (at your option) any later version.
+License: MPL-2.0
+ The contents of this file are subject to the Mozilla Public License Version
+ 2.0 (the "License"); you may not use this file except in compliance with
+ the License.
  .
- This package is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
+ Software distributed under the License is distributed on an "AS IS" basis,
+ WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ for the specific language governing rights and limitations under the
+ License.
  .
- You should have received a copy of the GNU General Public License
- along with this program. If not, see <https://www.gnu.org/licenses/>
- .
- On Debian systems, the complete text of the GNU General
- Public License version 3 can be found in "/usr/share/common-licenses/GPL-3".
+ On Debian systems, the complete text of the Mozilla Public License Version
+ 2.0 can be found in /usr/share/common-licenses/MPL-2.0.
+
