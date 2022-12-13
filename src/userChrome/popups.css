@@ -30,6 +30,7 @@
         margin-top: -250px;
         height: 200px;
         min-height: 200px;
+        max-width: 100vw !important;
     }
 
     /* Hide some context menu items */
@@ -41,5 +42,30 @@
     #context-viewpartialsource-selection,
     #inspect-separator {
         display: none !important
+    }
+
+    /* fix flickering of the protections, permissions,
+     * widget overflow and identity popups */
+    #protections-popup,
+    #permission-popup,
+    #widget-overflow,
+    #identity-popup {
+        max-width: 100vw !important;
+    }
+
+    /* fix the protections popup gettting
+     * too wide, making controls unaccessible */
+    #protections-popup-mainView {
+        min-width: 100vw !important;
+        max-width: 100vw !important;
+    }
+
+    /* fix flicker on extension menus.
+     * The compromise is that the overflow menu always use
+     * all available height.
+     * The -80px is here to prevent covering the main bars */
+    #widget-overflow,
+    #widget-overflow-mainView {
+        height: calc(100vh - 80px) !important;
     }
 }
