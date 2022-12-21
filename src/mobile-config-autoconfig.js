@@ -9,6 +9,8 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 
+var updated = false;
+
 // Create <profile>/chrome/ directory if not already present
 var chromeDir = Services.dirsvc.get("ProfD", Ci.nsIFile);
 chromeDir.append("chrome");
@@ -30,6 +32,7 @@ if (chromeFile.exists() && defaultChrome.exists() &&
 // Copy userChrome.css to <profile>/chrome/
 if (!chromeFile.exists()) {
     defaultChrome.copyTo(chromeDir, "userChrome.css");
+    updated = true;
 }
 
 // Create nsIFile objects for userContent.css in <profile>/chrome/ and in /etc/
@@ -46,6 +49,13 @@ if (contentFile.exists() && defaultContent.exists() &&
 // Copy userContent.css to <profile>/chrome/
 if (!contentFile.exists()) {
     defaultContent.copyTo(chromeDir, "userContent.css");
+    updated = true;
+}
+
+// Restart Firefox immediately if one of the files got updated
+if (updated == true) {
+    var appStartup = Cc["@mozilla.org/toolkit/app-startup;1"].getService(Ci.nsIAppStartup);
+    appStartup.quit(Ci.nsIAppStartup.eForceQuit | Ci.nsIAppStartup.eRestart);
 }
 
 // Select a mobile user agent for firefox (same as tor browser on android)
