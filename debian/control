@@ -7,8 +7,8 @@ Uploaders: Jarrah Gosbell <debian@undef.tools>,
 Build-Depends: debhelper-compat (= 13)
 Standards-Version: 4.6.1
 Homepage: https://gitlab.com/postmarketOS/mobile-config-firefox
-Vcs-Browser: https://salsa.debian.org/DebianOnMobile-team/packages/firefox-esr-mobile-config
-Vcs-Git: https://salsa.debian.org/DebianOnMobile-team/packages/firefox-esr-mobile-config.git
+Vcs-Browser: https://salsa.debian.org/DebianOnMobile-team/firefox-esr-mobile-config
+Vcs-Git: https://salsa.debian.org/DebianOnMobile-team/firefox-esr-mobile-config.git
 Rules-Requires-Root: no
 
 Package: firefox-esr-mobile-config
