@@ -1,10 +1,10 @@
-firefox-esr-mobile-config (3.2.0-1) UNRELEASED; urgency=medium
+firefox-esr-mobile-config (3.2.0-1) unstable; urgency=medium
 
   [ Jarrah Gosbell ]
   * New upstream release
   * d/patches: remove upstreamed restart firefox patch
 
- -- Jarrah Gosbell <debian@undef.tools>  Wed, 21 Dec 2022 07:59:29 +0000
+ -- Arnaud Ferraris <aferraris@debian.org>  Wed, 28 Dec 2022 04:01:46 +0100
 
 firefox-esr-mobile-config (3.1.0-1) unstable; urgency=medium
 
