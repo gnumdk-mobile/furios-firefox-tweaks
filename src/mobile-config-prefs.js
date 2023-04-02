@@ -11,6 +11,10 @@ pref('dom.w3c.touch_events.enabled', true);
 pref('apz.allow_zooming', true);
 pref('apz.allow_double_tap_zooming', true);
 
+// Enable legacy touch event APIs, as some websites use this to check for mobile compatibility
+// and Firefox on Android behaves the same way
+pref('dom.w3c_touch_events.legacy_apis.enabled', true);
+
 // Save vertical space by hiding the titlebar
 pref('browser.tabs.inTitlebar', 1);
 
