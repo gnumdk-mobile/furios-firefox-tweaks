@@ -29,6 +29,21 @@ function log(line) {
     logFileStream.write(line, line.length);
 }
 
+// Debug function for logging object attributes
+function log_obj(obj) {
+    var prop;
+    var value;
+
+    for (var prop in obj) {
+        try {
+            value = obj[prop];
+        } catch(e) {
+            value = e;
+        }
+        log(" - " + prop + ": " + value);
+    }
+}
+
 function trigger_firefox_restart() {
     log("Triggering Firefox restart");
     var appStartup = Cc["@mozilla.org/toolkit/app-startup;1"].getService(Ci.nsIAppStartup);
