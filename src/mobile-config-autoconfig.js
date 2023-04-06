@@ -10,6 +10,7 @@ Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 
 var updated = false;
+var fragments_cache = {}; // cache for css_file_get_fragments()
 
 // Create <profile>/chrome/ directory if not already present
 var chromeDir = Services.dirsvc.get("ProfD", Ci.nsIFile);
@@ -81,48 +82,131 @@ function set_default_prefs() {
     defaultPref('browser.newtabpage.enabled', true);
 }
 
+// Get an array of paths to the fragments for one CSS file
+// name: either "userChrome" or "userContent"
+function css_file_get_fragments(name) {
+    if (name in fragments_cache)
+        return fragments_cache[name];
+
+    var ret = [];
+    var path = "/etc/mobile-config-firefox/" + name + ".files";
+    log("Reading fragments from file: " + path);
+    var file = new FileUtils.File(path);
+
+    var istream = Cc["@mozilla.org/network/file-input-stream;1"].
+                  createInstance(Components.interfaces.nsIFileInputStream);
+    istream.init(file, 0x01, 0444, 0);
+    istream.QueryInterface(Components.interfaces.nsILineInputStream);
+
+    var has_more;
+    do {
+        var line = {};
+        has_more = istream.readLine(line);
+        ret.push("/etc/mobile-config-firefox/" + line.value);
+    } while (has_more);
+
+    istream.close();
+
+    fragments_cache[name] = ret;
+    return ret;
+}
+
+// Create a nsIFile object with one of the CSS files in the user's profile as
+// path. The file doesn't need to exist at this point.
+// name: either "userChrome" or "userContent"
+function css_file_get(name) {
+    var ret = chromeDir.clone();
+    ret.append(name + ".css");
+    return ret;
+}
+
+// Delete either userChrome.css or userContent.css inside the user's profile if
+// they have an older timestamp than the CSS fragments (or list of CSS
+// fragments) installed system-wide.
+// name: either "userChrome" or "userContent"
+// file: return of css_file_get()
+function css_file_delete_outdated(name, file) {
+    var depends = css_file_get_fragments(name).slice(); /* copy the array */
+    depends.push("/etc/mobile-config-firefox/" + name + ".files");
+    for (var i in depends) {
+        var depend = depends[i];
+        var file_depend = new FileUtils.File(depend);
+
+        if (file.lastModifiedTime < file_depend.lastModifiedTime) {
+            log("Removing outdated file: " + file.path + " (newer: "
+                + depend + ")");
+            file.remove(false);
+            return;
+        }
+    }
+
+    log("File is up-to-date: " + file.path);
+    return;
+}
+
+// Create userChrome.css / userContent.css in the user's profile, based on the
+// CSS fragments stored in /etc/mobile-config-firefox.
+// name: either "userChrome" or "userContent"
+// file: return of css_file_get()
+function css_file_merge(name, file) {
+    log("Creating CSS file from fragments: " + file.path);
+
+    var ostream = Cc["@mozilla.org/network/file-output-stream;1"].
+                  createInstance(Components.interfaces.nsIFileOutputStream);
+    ostream.init(file, 0x02 | 0x08 | 0x20, 0644, 0);
+
+    var fragments = css_file_get_fragments(name);
+    for (var i in fragments) {
+        var line;
+        var fragment = fragments[i];
+        log("- " + fragment);
+        line = "/* === " + fragment + " === */\n"
+        ostream.write(line, line.length);
+
+        var file_fragment = new FileUtils.File(fragment);
+
+        var istream = Cc["@mozilla.org/network/file-input-stream;1"].
+                      createInstance(Components.interfaces.nsIFileInputStream);
+        istream.init(file_fragment, 0x01, 0444, 0);
+        istream.QueryInterface(Components.interfaces.nsILineInputStream);
+
+        var has_more;
+        do {
+            var line = {};
+            has_more = istream.readLine(line);
+            line = line.value + "\n";
+            ostream.write(line, line.length);
+        } while (has_more);
+
+        istream.close();
+    }
+
+    ostream.close();
+    updated = true;
+}
+
+function css_files_update() {
+    var ff_version = get_firefox_version();
+    log("Firefox version: " + ff_version);
+
+    var names = ["userChrome", "userContent"];
+    for (var i in names) {
+        var name = names[i];
+        var file = css_file_get(name);
+
+        if (file.exists()) {
+            css_file_delete_outdated(name, file);
+        }
+
+        if (!file.exists()) {
+            css_file_merge(name, file);
+        }
+    }
+}
+
 log("Running mobile-config-autoconfig.js");
 
-var ff_version = get_firefox_version();
-log("Firefox version: " + ff_version);
-
-// Create nsIFile objects for userChrome.css in <profile>/chrome/ and in /etc/
-var chromeFile = chromeDir.clone();
-chromeFile.append("userChrome.css");
-var defaultChrome = new FileUtils.File("/etc/mobile-config-firefox/userChrome.css");
-
-// Remove the existing userChrome.css if older than the installed one
-if (chromeFile.exists() && defaultChrome.exists() &&
-        chromeFile.lastModifiedTime < defaultChrome.lastModifiedTime) {
-    log("Removing outdated userChrome.css from profile");
-    chromeFile.remove(false);
-}
-
-// Copy userChrome.css to <profile>/chrome/
-if (!chromeFile.exists()) {
-    log("Copying userChrome.css from /etc/mobile-config-firefox to profile");
-    defaultChrome.copyTo(chromeDir, "userChrome.css");
-    updated = true;
-}
-
-// Create nsIFile objects for userContent.css in <profile>/chrome/ and in /etc/
-var contentFile = chromeDir.clone();
-contentFile.append("userContent.css");
-var defaultContent = new FileUtils.File("/etc/mobile-config-firefox/userContent.css");
-
-// Remove the existing userContent.css if older than the installed one
-if (contentFile.exists() && defaultContent.exists() &&
-        contentFile.lastModifiedTime < defaultContent.lastModifiedTime) {
-    log("Removing outdated userContent.css from profile");
-    contentFile.remove(false);
-}
-
-// Copy userContent.css to <profile>/chrome/
-if (!contentFile.exists()) {
-    log("Copying userContent.css from /etc/mobile-config-firefox to profile");
-    defaultContent.copyTo(chromeDir, "userContent.css");
-    updated = true;
-}
+css_files_update();
 
 // Restart Firefox immediately if one of the files got updated
 if (updated == true)
