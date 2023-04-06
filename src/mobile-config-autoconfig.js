@@ -9,7 +9,7 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 
-var g_ff_major_version;
+var g_ff_version;
 var g_updated = false;
 var g_fragments_cache = {}; // cache for css_file_get_fragments()
 var g_logFileStream;
@@ -56,7 +56,7 @@ function log_obj(obj) {
 
 function get_firefox_version() {
     try {
-        return Services.appinfo.lastAppVersion;
+        return Services.appinfo.lastAppVersion.split(".")[0];
     } catch(e) {
         log("Failed to get FF version: " + e);
         return 0;
@@ -130,7 +130,7 @@ function set_default_prefs() {
 function css_fragment_check_firefox_version(fragment) {
     if (fragment.indexOf(".before-ff-") !== -1) {
         var before_ff_version = fragment.split("-").pop().split(".")[0];
-        if (g_ff_major_version >= before_ff_version) {
+        if (g_ff_version >= before_ff_version) {
             log("Fragment with FF version check not included: " + fragment);
             return false;
         } else {
@@ -246,10 +246,9 @@ function css_file_merge(name, file) {
 }
 
 function css_files_update() {
-    var ff = get_firefox_version();
-    g_ff_major_version = ff.split(".")[0];
+    g_ff_version = get_firefox_version();
     var ff_previous = get_firefox_version_previous();
-    log("Firefox version: " + ff + " (previous: " + ff_previous + ")");
+    log("Firefox version: " + g_ff_version + " (previous: " + ff_previous + ")");
 
     var names = ["userChrome", "userContent"];
     for (var i in names) {
@@ -257,7 +256,7 @@ function css_files_update() {
         var file = css_file_get(name);
 
         if (file.exists()) {
-            if (ff == ff_previous) {
+            if (g_ff_version == ff_previous) {
                 css_file_delete_outdated(name, file);
             } else {
                 log("Removing outdated file: " + file.path + " (Firefox" +
@@ -271,8 +270,8 @@ function css_files_update() {
         }
     }
 
-    if (ff != ff_previous)
-        set_firefox_version_previous(ff);
+    if (g_ff_version != ff_previous)
+        set_firefox_version_previous(g_ff_version);
 }
 
 function main() {
