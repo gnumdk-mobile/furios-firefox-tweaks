@@ -55,12 +55,7 @@ function log_obj(obj) {
 }
 
 function get_firefox_version() {
-    try {
-        return Services.appinfo.lastAppVersion.split(".")[0];
-    } catch(e) {
-        log("Failed to get FF version: " + e);
-        return 0;
-    }
+    return Services.appinfo.lastAppVersion.split(".")[0];
 }
 
 function get_firefox_version_previous() {
