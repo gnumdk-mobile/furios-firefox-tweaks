@@ -12,6 +12,7 @@ Cu.import("resource://gre/modules/FileUtils.jsm");
 var g_ff_major_version;
 var g_updated = false;
 var g_fragments_cache = {}; // cache for css_file_get_fragments()
+var g_logFileStream;
 
 // Create <profile>/chrome/ directory if not already present
 var g_chromeDir = Services.dirsvc.get("ProfD", Ci.nsIFile);
@@ -20,14 +21,16 @@ if (!g_chromeDir.exists()) {
     g_chromeDir.create(Ci.nsIFile.DIRECTORY_TYPE, FileUtils.PERMS_DIRECTORY);
 }
 
-var g_logFile = g_chromeDir.clone();
-g_logFile.append("mobile-config-firefox.log");
-var g_mode = FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_APPEND;
-var g_logFileStream = FileUtils.openFileOutputStream(g_logFile, g_mode);
-
 function write_line(ostream, line) {
     line = line + "\n"
     ostream.write(line, line.length);
+}
+
+function log_init() {
+    var mode = FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_APPEND;
+    var logFile = g_chromeDir.clone();
+    logFile.append("mobile-config-firefox.log");
+    g_logFileStream = FileUtils.openFileOutputStream(logFile, mode);
 }
 
 function log(line) {
@@ -285,6 +288,7 @@ function main() {
     log("Done");
 }
 
+log_init();
 try {
     main();
 } catch(e) {
