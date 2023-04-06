@@ -25,17 +25,21 @@ var g_ff_version;
 var g_updated = false;
 var g_fragments_cache = {}; // cache for css_file_get_fragments()
 var g_logFileStream;
+var g_chromeDir; // nsIFile object for the "chrome" dir in user's profile
 
-// Create <profile>/chrome/ directory if not already present
-var g_chromeDir = Services.dirsvc.get("ProfD", Ci.nsIFile);
-g_chromeDir.append("chrome");
-if (!g_chromeDir.exists()) {
-    g_chromeDir.create(Ci.nsIFile.DIRECTORY_TYPE, FileUtils.PERMS_DIRECTORY);
-}
 
 function write_line(ostream, line) {
     line = line + "\n"
     ostream.write(line, line.length);
+}
+
+// Create <profile>/chrome/ directory if not already present
+function chrome_dir_init() {
+    g_chromeDir = Services.dirsvc.get("ProfD", Ci.nsIFile);
+    g_chromeDir.append("chrome");
+    if (!g_chromeDir.exists()) {
+        g_chromeDir.create(Ci.nsIFile.DIRECTORY_TYPE, FileUtils.PERMS_DIRECTORY);
+    }
 }
 
 function log_init() {
@@ -294,6 +298,7 @@ function main() {
     log("Done");
 }
 
+chrome_dir_init();
 log_init();
 try {
     main();
