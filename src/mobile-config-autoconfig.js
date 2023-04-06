@@ -1,9 +1,21 @@
 // Copyright 2023 Arnaud Ferraris, Oliver Smith
 // SPDX-License-Identifier: MPL-2.0
+//
+// Generate and update userChrome.css and userContent.css for the user's
+// profile from CSS fragments in /etc/mobile-config-firefox, depending on the
+// installed Firefox version. Set various defaults for about:config options in
+// set_default_prefs().
+//
+// Log file:
+// $ find ~/.mozilla -name mobile-config-firefox.log
+//
 // This is a Firefox autoconfig file:
 // https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig
-// Import custom userChrome.css on startup or new profile creation
-// Log file: $(find ~/.mozilla -name mobile-config-firefox.log)
+//
+// The XPCOM APIs used here are the same as old Firefox add-ons used, and the
+// documentation for them has been removed (can we use something else? patches
+// welcome). They appear to still work fine for autoconfig scripts.
+// https://web.archive.org/web/20201018211550/https://developer.mozilla.org/en-US/docs/Archive/Add-ons/Code_snippets/File_I_O
 
 const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 Cu.import("resource://gre/modules/Services.jsm");
