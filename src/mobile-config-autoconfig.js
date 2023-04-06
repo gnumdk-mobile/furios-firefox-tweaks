@@ -24,10 +24,15 @@ logFile.append("mobile-config-firefox.log");
 var mode = FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_APPEND;
 var logFileStream = FileUtils.openFileOutputStream(logFile, mode);
 
+function write_line(ostream, line) {
+    line = line + "\n"
+    ostream.write(line, line.length);
+}
+
 function log(line) {
     var date = new Date().toISOString().replace("T", " ").slice(0, 19);
-    line = "[" + date + "] " + line + "\n";
-    logFileStream.write(line, line.length);
+    line = "[" + date + "] " + line;
+    write_line(logFileStream, line);
 }
 
 // Debug function for logging object attributes
@@ -160,8 +165,7 @@ function css_file_merge(name, file) {
         var line;
         var fragment = fragments[i];
         log("- " + fragment);
-        line = "/* === " + fragment + " === */\n"
-        ostream.write(line, line.length);
+        write_line(ostream, "/* === " + fragment + " === */");
 
         var file_fragment = new FileUtils.File(fragment);
 
@@ -174,8 +178,7 @@ function css_file_merge(name, file) {
         do {
             var line = {};
             has_more = istream.readLine(line);
-            line = line.value + "\n";
-            ostream.write(line, line.length);
+            write_line(ostream, line.value);
         } while (has_more);
 
         istream.close();
