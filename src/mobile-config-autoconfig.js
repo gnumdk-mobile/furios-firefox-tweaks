@@ -29,6 +29,34 @@ function log(line) {
     logFileStream.write(line, line.length);
 }
 
+function trigger_firefox_restart() {
+    log("Triggering Firefox restart");
+    var appStartup = Cc["@mozilla.org/toolkit/app-startup;1"].getService(Ci.nsIAppStartup);
+    appStartup.quit(Ci.nsIAppStartup.eForceQuit | Ci.nsIAppStartup.eRestart);
+}
+
+function set_default_prefs() {
+    log("Setting default preferences");
+    // Select a mobile user agent for firefox (same as tor browser on android)
+    defaultPref('general.useragent.override', 'Mozilla/5.0 (Android 10; Mobile; rv:110.0) Gecko/110.0 Firefox/110.0');
+
+    // Do not suggest facebook, ebay, reddit etc. in the urlbar. Same as
+    // Settings -> Privacy & Security -> Address Bar -> Shortcuts. As
+    // side-effect, the urlbar results are not immediatelly opened once
+    // clicking the urlbar.
+    defaultPref('browser.urlbar.suggest.topsites', false);
+
+    // Do not suggest search engines. Even though amazon is removed via
+    // policies.json, it gets installed shortly after the browser is opened.
+    // With this option, at least there is no big "Search with Amazon" message
+    // in the urlbar results as soon as typing the letter "a".
+    defaultPref('browser.urlbar.suggest.engines', false);
+
+    // Show about:home in new tabs, so it's not just a weird looking completely
+    // empty page.
+    defaultPref('browser.newtabpage.enabled', true);
+}
+
 log("Running mobile-config-autoconfig.js");
 
 // Create nsIFile objects for userChrome.css in <profile>/chrome/ and in /etc/
@@ -70,29 +98,10 @@ if (!contentFile.exists()) {
 }
 
 // Restart Firefox immediately if one of the files got updated
-if (updated == true) {
-    log("Triggering Firefox restart");
-    var appStartup = Cc["@mozilla.org/toolkit/app-startup;1"].getService(Ci.nsIAppStartup);
-    appStartup.quit(Ci.nsIAppStartup.eForceQuit | Ci.nsIAppStartup.eRestart);
-}
-
-// Select a mobile user agent for firefox (same as tor browser on android)
-defaultPref('general.useragent.override', 'Mozilla/5.0 (Android 10; Mobile; rv:110.0) Gecko/110.0 Firefox/110.0');
-
-// Do not suggest facebook, ebay, reddit etc. in the urlbar. Same as
-// Settings -> Privacy & Security -> Address Bar -> Shortcuts. As side-effect,
-// the urlbar results are not immediatelly opened once clicking the urlbar.
-defaultPref('browser.urlbar.suggest.topsites', false);
-
-// Do not suggest search engines. Even though amazon is removed via
-// policies.json, it gets installed shortly after the browser is opened. With
-// this option, at least there is no big "Search with Amazon" message in the
-// urlbar results as soon as typing the letter "a".
-defaultPref('browser.urlbar.suggest.engines', false);
-
-// Show about:home in new tabs, so it's not just a weird looking completely
-// empty page.
-defaultPref('browser.newtabpage.enabled', true);
+if (updated == true)
+    trigger_firefox_restart();
+else
+    set_default_prefs();
 
 log("Done");
 logFileStream.close();
