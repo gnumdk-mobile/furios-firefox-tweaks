@@ -249,15 +249,26 @@ function css_files_update() {
         set_firefox_version_previous(ff);
 }
 
-log("Running mobile-config-autoconfig.js");
+function main() {
+    log("Running mobile-config-autoconfig.js");
+    css_files_update();
 
-css_files_update();
+    // Restart Firefox immediately if one of the files got updated
+    if (updated == true)
+        trigger_firefox_restart();
+    else
+        set_default_prefs();
 
-// Restart Firefox immediately if one of the files got updated
-if (updated == true)
-    trigger_firefox_restart();
-else
-    set_default_prefs();
+    log("Done");
+}
 
-log("Done");
+try {
+    main();
+} catch(e) {
+    log("main() failed: " + e);
+
+    // Let Firefox display the generic error message that something went wrong
+    // in the autoconfig script.
+    error;
+}
 logFileStream.close();
