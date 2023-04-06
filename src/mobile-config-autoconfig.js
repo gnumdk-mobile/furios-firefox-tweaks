@@ -44,6 +44,15 @@ function log_obj(obj) {
     }
 }
 
+function get_firefox_version() {
+    try {
+        return Services.appinfo.lastAppVersion;
+    } catch(e) {
+        log("Failed to get FF version: " + e);
+        return 0;
+    }
+}
+
 function trigger_firefox_restart() {
     log("Triggering Firefox restart");
     var appStartup = Cc["@mozilla.org/toolkit/app-startup;1"].getService(Ci.nsIAppStartup);
@@ -73,6 +82,9 @@ function set_default_prefs() {
 }
 
 log("Running mobile-config-autoconfig.js");
+
+var ff_version = get_firefox_version();
+log("Firefox version: " + ff_version);
 
 // Create nsIFile objects for userChrome.css in <profile>/chrome/ and in /etc/
 var chromeFile = chromeDir.clone();
