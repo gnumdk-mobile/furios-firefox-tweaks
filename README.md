@@ -94,6 +94,16 @@ Note that after making changes to CSS files, and deploying them on your
 system (`make install`), you might need to restart firefox _twice_ before
 changes are applied.
 
+## Log file
+
+The `src/mobile-config-autoconfig.js` script generates `userChrome.css` and
+`userContent.css` while Firefox starts. It logs to your Firefox profile
+directory, find the log file with:
+
+```
+$ find ~/.mozilla -name mobile-config-firefox.log
+```
+
 ## Coding guidelines
 
 * Don't make longer lines than 79 columns where possible (like in PEP-8)
