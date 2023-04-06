@@ -283,6 +283,12 @@ function set_default_prefs() {
     // Show about:home in new tabs, so it's not just a weird looking completely
     // empty page.
     defaultPref('browser.newtabpage.enabled', true);
+
+    // Disable "Firefox View" feature by default. It's a pinned tab that allows
+    // to "pick up" tabs from other devices after registering an account, and
+    // shows recently closed tabs. The always pinned tab takes up screen estate
+    // and it's slightly annoying if you do not want to register an account.
+    defaultPref('browser.tabs.firefox-view', false);
 }
 
 function main() {
