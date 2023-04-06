@@ -9,6 +9,7 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 
+var ff_major_version;
 var updated = false;
 var fragments_cache = {}; // cache for css_file_get_fragments()
 
@@ -119,6 +120,25 @@ function set_default_prefs() {
     defaultPref('browser.newtabpage.enabled', true);
 }
 
+// Check if a CSS fragment should be used or not, depending on the current
+// Firefox version.
+// fragment: e.g. "userChrome/popups.before-ff-108.css"
+// returns: true if it should be used, false if it must not be used
+function css_fragment_check_firefox_version(fragment) {
+    if (fragment.indexOf(".before-ff-") !== -1) {
+        var before_ff_version = fragment.split("-").pop().split(".")[0];
+        if (ff_major_version >= before_ff_version) {
+            log("Fragment with FF version check not included: " + fragment);
+            return false;
+        } else {
+            log("Fragment with FF version check included: " + fragment);
+            return true;
+        }
+    }
+
+    return true;
+}
+
 // Get an array of paths to the fragments for one CSS file
 // name: either "userChrome" or "userContent"
 function css_file_get_fragments(name) {
@@ -139,7 +159,9 @@ function css_file_get_fragments(name) {
     do {
         var line = {};
         has_more = istream.readLine(line);
-        ret.push("/etc/mobile-config-firefox/" + line.value);
+        if (css_fragment_check_firefox_version(line.value))
+            ret.push("/etc/mobile-config-firefox/" + line.value);
+
     } while (has_more);
 
     istream.close();
@@ -222,6 +244,7 @@ function css_file_merge(name, file) {
 
 function css_files_update() {
     var ff = get_firefox_version();
+    ff_major_version = ff.split(".")[0];
     var ff_previous = get_firefox_version_previous();
     log("Firefox version: " + ff + " (previous: " + ff_previous + ")");
 

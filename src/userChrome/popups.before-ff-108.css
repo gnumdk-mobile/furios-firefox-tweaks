@@ -1,0 +1,15 @@
+/* Copyright 2022 Oliver Smith
+ * SPDX-License-Identifier: MPL-2.0 */
+
+@media (max-width: 700px) {
+    /* Hack to prevent popups from flickering around. It looks like e.g. the
+     * editBookmarkPanel has two heights otherwise, and draws one frame with a
+     * short height and one frame with the proper one. */
+    #mainPopupSet {
+        position: fixed !important;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        bottom: 100px;
+    }
+}
