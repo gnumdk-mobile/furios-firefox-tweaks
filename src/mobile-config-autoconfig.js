@@ -25,7 +25,7 @@ var defaultChrome = new FileUtils.File("/etc/mobile-config-firefox/userChrome.cs
 
 // Remove the existing userChrome.css if older than the installed one
 if (chromeFile.exists() && defaultChrome.exists() &&
-    chromeFile.lastModifiedTime < defaultChrome.lastModifiedTime) {
+        chromeFile.lastModifiedTime < defaultChrome.lastModifiedTime) {
     chromeFile.remove(false);
 }
 
@@ -42,7 +42,7 @@ var defaultContent = new FileUtils.File("/etc/mobile-config-firefox/userContent.
 
 // Remove the existing userContent.css if older than the installed one
 if (contentFile.exists() && defaultContent.exists() &&
-    contentFile.lastModifiedTime < defaultContent.lastModifiedTime) {
+        contentFile.lastModifiedTime < defaultContent.lastModifiedTime) {
     contentFile.remove(false);
 }
 
