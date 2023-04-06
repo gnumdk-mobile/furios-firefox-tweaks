@@ -1,10 +1,10 @@
-// Copyright 2022 Arnaud Ferraris, Oliver Smith
+// Copyright 2023 Arnaud Ferraris, Oliver Smith
 // SPDX-License-Identifier: MPL-2.0
-
 // This is a Firefox autoconfig file:
 // https://support.mozilla.org/en-US/kb/customizing-firefox-using-autoconfig
-
 // Import custom userChrome.css on startup or new profile creation
+// Log file: $(find ~/.mozilla -name mobile-config-firefox.log)
+
 const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
@@ -18,6 +18,19 @@ if (!chromeDir.exists()) {
     chromeDir.create(Ci.nsIFile.DIRECTORY_TYPE, FileUtils.PERMS_DIRECTORY);
 }
 
+var logFile = chromeDir.clone();
+logFile.append("mobile-config-firefox.log");
+var mode = FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_APPEND;
+var logFileStream = FileUtils.openFileOutputStream(logFile, mode);
+
+function log(line) {
+    var date = new Date().toISOString().replace("T", " ").slice(0, 19);
+    line = "[" + date + "] " + line + "\n";
+    logFileStream.write(line, line.length);
+}
+
+log("Running mobile-config-autoconfig.js");
+
 // Create nsIFile objects for userChrome.css in <profile>/chrome/ and in /etc/
 var chromeFile = chromeDir.clone();
 chromeFile.append("userChrome.css");
@@ -26,11 +39,13 @@ var defaultChrome = new FileUtils.File("/etc/mobile-config-firefox/userChrome.cs
 // Remove the existing userChrome.css if older than the installed one
 if (chromeFile.exists() && defaultChrome.exists() &&
         chromeFile.lastModifiedTime < defaultChrome.lastModifiedTime) {
+    log("Removing outdated userChrome.css from profile");
     chromeFile.remove(false);
 }
 
 // Copy userChrome.css to <profile>/chrome/
 if (!chromeFile.exists()) {
+    log("Copying userChrome.css from /etc/mobile-config-firefox to profile");
     defaultChrome.copyTo(chromeDir, "userChrome.css");
     updated = true;
 }
@@ -43,17 +58,20 @@ var defaultContent = new FileUtils.File("/etc/mobile-config-firefox/userContent.
 // Remove the existing userContent.css if older than the installed one
 if (contentFile.exists() && defaultContent.exists() &&
         contentFile.lastModifiedTime < defaultContent.lastModifiedTime) {
+    log("Removing outdated userContent.css from profile");
     contentFile.remove(false);
 }
 
 // Copy userContent.css to <profile>/chrome/
 if (!contentFile.exists()) {
+    log("Copying userContent.css from /etc/mobile-config-firefox to profile");
     defaultContent.copyTo(chromeDir, "userContent.css");
     updated = true;
 }
 
 // Restart Firefox immediately if one of the files got updated
 if (updated == true) {
+    log("Triggering Firefox restart");
     var appStartup = Cc["@mozilla.org/toolkit/app-startup;1"].getService(Ci.nsIAppStartup);
     appStartup.quit(Ci.nsIAppStartup.eForceQuit | Ci.nsIAppStartup.eRestart);
 }
@@ -75,3 +93,6 @@ defaultPref('browser.urlbar.suggest.engines', false);
 // Show about:home in new tabs, so it's not just a weird looking completely
 // empty page.
 defaultPref('browser.newtabpage.enabled', true);
+
+log("Done");
+logFileStream.close();
