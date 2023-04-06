@@ -59,6 +59,38 @@ function get_firefox_version() {
     }
 }
 
+function get_firefox_version_previous() {
+    var file = chromeDir.clone();
+    file.append("ff_previous.txt");
+
+    if (!file.exists())
+        return "unknown";
+
+    var istream = Cc["@mozilla.org/network/file-input-stream;1"].
+                  createInstance(Components.interfaces.nsIFileInputStream);
+    istream.init(file, 0x01, 0444, 0);
+    istream.QueryInterface(Components.interfaces.nsILineInputStream);
+
+    var line = {};
+    istream.readLine(line);
+    istream.close();
+
+    return line.value.trim();
+}
+
+function set_firefox_version_previous(new_version) {
+    log("Updating previous Firefox version to: " + new_version);
+
+    var file = chromeDir.clone();
+    file.append("ff_previous.txt");
+
+    var ostream = Cc["@mozilla.org/network/file-output-stream;1"].
+                  createInstance(Components.interfaces.nsIFileOutputStream);
+    ostream.init(file, 0x02 | 0x08 | 0x20, 0644, 0);
+    write_line(ostream, new_version);
+    ostream.close();
+}
+
 function trigger_firefox_restart() {
     log("Triggering Firefox restart");
     var appStartup = Cc["@mozilla.org/toolkit/app-startup;1"].getService(Ci.nsIAppStartup);
@@ -189,8 +221,9 @@ function css_file_merge(name, file) {
 }
 
 function css_files_update() {
-    var ff_version = get_firefox_version();
-    log("Firefox version: " + ff_version);
+    var ff = get_firefox_version();
+    var ff_previous = get_firefox_version_previous();
+    log("Firefox version: " + ff + " (previous: " + ff_previous + ")");
 
     var names = ["userChrome", "userContent"];
     for (var i in names) {
@@ -198,13 +231,22 @@ function css_files_update() {
         var file = css_file_get(name);
 
         if (file.exists()) {
-            css_file_delete_outdated(name, file);
+            if (ff == ff_previous) {
+                css_file_delete_outdated(name, file);
+            } else {
+                log("Removing outdated file: " + file.path + " (Firefox" +
+                    " version changed)");
+                file.remove(false);
+            }
         }
 
         if (!file.exists()) {
             css_file_merge(name, file);
         }
     }
+
+    if (ff != ff_previous)
+        set_firefox_version_previous(ff);
 }
 
 log("Running mobile-config-autoconfig.js");
