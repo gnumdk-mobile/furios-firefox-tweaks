@@ -9,21 +9,21 @@ const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
 Cu.import("resource://gre/modules/Services.jsm");
 Cu.import("resource://gre/modules/FileUtils.jsm");
 
-var ff_major_version;
-var updated = false;
-var fragments_cache = {}; // cache for css_file_get_fragments()
+var g_ff_major_version;
+var g_updated = false;
+var g_fragments_cache = {}; // cache for css_file_get_fragments()
 
 // Create <profile>/chrome/ directory if not already present
-var chromeDir = Services.dirsvc.get("ProfD", Ci.nsIFile);
-chromeDir.append("chrome");
-if (!chromeDir.exists()) {
-    chromeDir.create(Ci.nsIFile.DIRECTORY_TYPE, FileUtils.PERMS_DIRECTORY);
+var g_chromeDir = Services.dirsvc.get("ProfD", Ci.nsIFile);
+g_chromeDir.append("chrome");
+if (!g_chromeDir.exists()) {
+    g_chromeDir.create(Ci.nsIFile.DIRECTORY_TYPE, FileUtils.PERMS_DIRECTORY);
 }
 
-var logFile = chromeDir.clone();
-logFile.append("mobile-config-firefox.log");
-var mode = FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_APPEND;
-var logFileStream = FileUtils.openFileOutputStream(logFile, mode);
+var g_logFile = g_chromeDir.clone();
+g_logFile.append("mobile-config-firefox.log");
+var g_mode = FileUtils.MODE_WRONLY | FileUtils.MODE_CREATE | FileUtils.MODE_APPEND;
+var g_logFileStream = FileUtils.openFileOutputStream(g_logFile, g_mode);
 
 function write_line(ostream, line) {
     line = line + "\n"
@@ -33,7 +33,7 @@ function write_line(ostream, line) {
 function log(line) {
     var date = new Date().toISOString().replace("T", " ").slice(0, 19);
     line = "[" + date + "] " + line;
-    write_line(logFileStream, line);
+    write_line(g_logFileStream, line);
 }
 
 // Debug function for logging object attributes
@@ -61,7 +61,7 @@ function get_firefox_version() {
 }
 
 function get_firefox_version_previous() {
-    var file = chromeDir.clone();
+    var file = g_chromeDir.clone();
     file.append("ff_previous.txt");
 
     if (!file.exists())
@@ -82,7 +82,7 @@ function get_firefox_version_previous() {
 function set_firefox_version_previous(new_version) {
     log("Updating previous Firefox version to: " + new_version);
 
-    var file = chromeDir.clone();
+    var file = g_chromeDir.clone();
     file.append("ff_previous.txt");
 
     var ostream = Cc["@mozilla.org/network/file-output-stream;1"].
@@ -127,7 +127,7 @@ function set_default_prefs() {
 function css_fragment_check_firefox_version(fragment) {
     if (fragment.indexOf(".before-ff-") !== -1) {
         var before_ff_version = fragment.split("-").pop().split(".")[0];
-        if (ff_major_version >= before_ff_version) {
+        if (g_ff_major_version >= before_ff_version) {
             log("Fragment with FF version check not included: " + fragment);
             return false;
         } else {
@@ -142,8 +142,8 @@ function css_fragment_check_firefox_version(fragment) {
 // Get an array of paths to the fragments for one CSS file
 // name: either "userChrome" or "userContent"
 function css_file_get_fragments(name) {
-    if (name in fragments_cache)
-        return fragments_cache[name];
+    if (name in g_fragments_cache)
+        return g_fragments_cache[name];
 
     var ret = [];
     var path = "/etc/mobile-config-firefox/" + name + ".files";
@@ -166,7 +166,7 @@ function css_file_get_fragments(name) {
 
     istream.close();
 
-    fragments_cache[name] = ret;
+    g_fragments_cache[name] = ret;
     return ret;
 }
 
@@ -174,7 +174,7 @@ function css_file_get_fragments(name) {
 // path. The file doesn't need to exist at this point.
 // name: either "userChrome" or "userContent"
 function css_file_get(name) {
-    var ret = chromeDir.clone();
+    var ret = g_chromeDir.clone();
     ret.append(name + ".css");
     return ret;
 }
@@ -239,12 +239,12 @@ function css_file_merge(name, file) {
     }
 
     ostream.close();
-    updated = true;
+    g_updated = true;
 }
 
 function css_files_update() {
     var ff = get_firefox_version();
-    ff_major_version = ff.split(".")[0];
+    g_ff_major_version = ff.split(".")[0];
     var ff_previous = get_firefox_version_previous();
     log("Firefox version: " + ff + " (previous: " + ff_previous + ")");
 
@@ -277,7 +277,7 @@ function main() {
     css_files_update();
 
     // Restart Firefox immediately if one of the files got updated
-    if (updated == true)
+    if (g_updated == true)
         trigger_firefox_restart();
     else
         set_default_prefs();
@@ -294,4 +294,4 @@ try {
     // in the autoconfig script.
     error;
 }
-logFileStream.close();
+g_logFileStream.close();
