@@ -67,17 +67,17 @@ a website. So this is highly recommended when contributing changes to
     listens on all interfaces. Otherwise you'll need something like an SSH
     tunnel.
   * Close firefox
-* Connect to your phone via SSH
+* Connect to your phone via [SSH](https://wiki.postmarketos.org/wiki/SSH)
   * Set up environment variables properly, so you can start programs (one lazy
     way to do it, is `tmux` on your phone in the terminal, then `tmux a` in
     SSH)
   * Run `firefox --start-debugger-server 6000` (or another port if you desire)
 * Run Firefox on your PC
   * Go to `about:debugging`
-  * Add your phone as "network location"
+  * Add your phone as "network location" (`172.16.42.1:6000` if connected through USB Network)
   * Press the connect button on the left
   * If it does not work, check if a firewall on your phone is blocking the port
-    (i.e. nftables in postmarketOS).
+    (i.e. [nftables](https://wiki.postmarketos.org/wiki/Nftables) in postmarketOS).
 * On your phone
   * Confirm the connection on your phone's screen
     * If the button is not visible on the screen, try switching to a terminal
