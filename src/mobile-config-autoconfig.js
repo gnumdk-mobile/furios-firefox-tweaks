@@ -250,7 +250,10 @@ function css_files_update() {
         var file = css_file_get(name);
 
         if (file.exists()) {
-            if (g_ff_version != ff_previous) {
+            /* During the very first start, ff_previous is first "unknown",
+             * then the files get installed and Firefox gets restarted.
+             * Then ff_previous is 0. Don't restart it again. */
+            if (ff_previous != 0 && g_ff_version != ff_previous) {
                 log("Removing outdated file: " + file.path + " (Firefox" +
                     " version changed)");
                 file.remove(false);
