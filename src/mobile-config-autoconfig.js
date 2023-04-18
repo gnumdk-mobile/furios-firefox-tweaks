@@ -250,12 +250,12 @@ function css_files_update() {
         var file = css_file_get(name);
 
         if (file.exists()) {
-            if (g_ff_version == ff_previous) {
-                css_file_delete_outdated(name, file);
-            } else {
+            if (g_ff_version != ff_previous) {
                 log("Removing outdated file: " + file.path + " (Firefox" +
                     " version changed)");
                 file.remove(false);
+            } else {
+                css_file_delete_outdated(name, file);
             }
         }
 
