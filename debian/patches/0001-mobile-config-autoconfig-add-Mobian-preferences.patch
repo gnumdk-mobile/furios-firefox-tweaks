@@ -1,78 +1,80 @@
-From 06813606fc2944f2002fe1b7b7c1c5777dac0883 Mon Sep 17 00:00:00 2001
 From: Arnaud Ferraris <arnaud.ferraris@collabora.com>
 Date: Mon, 28 Sep 2020 19:36:55 +0200
 Subject: [PATCH] mobile-config-autoconfig: add Mobian preferences
 
+Forwarded: not-needed
 ---
- src/mobile-config-autoconfig.js | 72 +++++++++++++++++++++++++++++++++
- 1 file changed, 72 insertions(+)
+ src/mobile-config-autoconfig.js | 60 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 60 insertions(+)
 
 diff --git a/src/mobile-config-autoconfig.js b/src/mobile-config-autoconfig.js
-index 07e3194..8f50064 100644
+index 5d9691d..4750b0a 100644
 --- a/src/mobile-config-autoconfig.js
 +++ b/src/mobile-config-autoconfig.js
-@@ -66,2 +66,62 @@ if (chromeFile.exists() && defaultChrome.exists() &&
- // empty page.
- defaultPref('browser.newtabpage.enabled', true);
+@@ -297,6 +297,66 @@ function set_default_prefs() {
+     // shows recently closed tabs. The always pinned tab takes up screen estate
+     // and it's slightly annoying if you do not want to register an account.
+     defaultPref('browser.tabs.firefox-view', false);
 +
-+// Default preferences for Mobian (can be overridden by users)
++    // Default preferences for Debian (can be overridden by users)
 +
-+// Use smaller buttons
-+defaultPref("browser.uidensity", 1);
++    // Use smaller buttons
++    defaultPref("browser.uidensity", 1);
 +
-+// Allow Firefox accounts
-+defaultPref("webchannel.allowObject.urlWhitelist", "https://accounts.firefox.com https://content.cdn.mozilla.net https://input.mozilla.org https://support.mozilla.org https://install.mozilla.org");
++    // Allow Firefox accounts
++    defaultPref("webchannel.allowObject.urlWhitelist", "https://accounts.firefox.com https://content.cdn.mozilla.net https://input.mozilla.org https://support.mozilla.org https://install.mozilla.org");
 +
-+// Firefox is optimized for desktop.
-+// Some desktop optimizations might slow things on mobile.
-+// We should especially reduce CPU and RAM usage.
++    // Firefox is optimized for desktop.
++    // Some desktop optimizations might slow things on mobile.
++    // We should especially reduce CPU and RAM usage.
 +
-+// Reduce the number of content processes.
-+//
-+// The more content processes you have,
-+// the more CPU and RAM will be assigned to each tab.
-+//
-+// Source: https://bit.ly/3dc4A7W
-+// Defualt value: 4
-+// Goal: Save CPU and RAM.
-+defaultPref("dom.ipc.processCount", 1);
++    // Reduce the number of content processes.
++    //
++    // The more content processes you have,
++    // the more CPU and RAM will be assigned to each tab.
++    //
++    // Source: https://bit.ly/3dc4A7W
++    // Default value: 4
++    // Goal: Save CPU and RAM.
++    defaultPref("dom.ipc.processCount", 1);
 +
-+// Disable prefetching.
-+//
-+// Source: https://bit.ly/3dc4A7W
-+// Default value: true
-+// Goal: Save bandwith
-+defaultPref("network.prefetch-next", false);
++    // Disable prefetching.
++    //
++    // Source: https://bit.ly/3dc4A7W
++    // Default value: true
++    // Goal: Save bandwith
++    defaultPref("network.prefetch-next", false);
 +
-+// Limit content redraws.
-+//
-+// While this helps the browser feel snappy,
-+// frequent redraws increase the total page load time,
-+// so a longer content notify interval will improve performance.
-+//
-+// Source: https://bit.ly/3hLX47p
-+// Default value: 120000 (0.12s) / true
-+// Goal: Speed up page loading
-+defaultPref("content.notify.interval", 500000);
-+defaultPref("content.notify.ontimer", true);
++    // Limit content redraws.
++    //
++    // While this helps the browser feel snappy,
++    // frequent redraws increase the total page load time,
++    // so a longer content notify interval will improve performance.
++    //
++    // Source: https://bit.ly/3hLX47p
++    // Default value: 120000 (0.12s) / true
++    // Goal: Speed up page loading
++    defaultPref("content.notify.interval", 500000);
++    defaultPref("content.notify.ontimer", true);
 +
-+// Reduce the content switch threshold.
-+//
-+// If you haven't moved your mouse or touched the keyboard for the given time
-+// (the content switch threshold) then Firefox enters a low frequency interrupt mode,
-+// which means its interface becomes less responsive but your page loads more quickly.
-+//
-+// Source: https://bit.ly/3hLX47p
-+// Default value: 750000 (0.75s)
-+// Goal: Speed up page loading
-+defaultPref("content.switch.threshold", 250000);
++    // Reduce the content switch threshold.
++    //
++    // If you haven't moved your mouse or touched the keyboard for the given time
++    // (the content switch threshold) then Firefox enters a low frequency interrupt mode,
++    // which means its interface becomes less responsive but your page loads more quickly.
++    //
++    // Source: https://bit.ly/3hLX47p
++    // Default value: 750000 (0.75s)
++    // Goal: Speed up page loading
++    defaultPref("content.switch.threshold", 250000);
 +
-+// Reduce the number of visited web pages stored in memory,
-+// which you can access using the Back and Forward buttons.
-+//
-+// Source: https://bit.ly/3dc4A7W
-+// Default value: -1 (adaptable)
-+// Goal: Save RAM
-+defaultPref("browser.sessionhistory.max_total_viewers", 1);
---
-2.28.0
++    // Reduce the number of visited web pages stored in memory,
++    // which you can access using the Back and Forward buttons.
++    //
++    // Source: https://bit.ly/3dc4A7W
++    // Default value: -1 (adaptable)
++    // Goal: Save RAM
++    defaultPref("browser.sessionhistory.max_total_viewers", 1);
+ }
+ 
+ function main() {
