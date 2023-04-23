@@ -5,7 +5,7 @@ Maintainer: DebianOnMobile Maintainers <debian-on-mobile-maintainers@alioth-list
 Uploaders: Jarrah Gosbell <debian@undef.tools>,
            Arnaud Ferraris <aferraris@debian.org>,
 Build-Depends: debhelper-compat (= 13)
-Standards-Version: 4.6.1
+Standards-Version: 4.6.2
 Homepage: https://gitlab.com/postmarketOS/mobile-config-firefox
 Vcs-Browser: https://salsa.debian.org/DebianOnMobile-team/firefox-esr-mobile-config
 Vcs-Git: https://salsa.debian.org/DebianOnMobile-team/firefox-esr-mobile-config.git
