@@ -1,4 +1,4 @@
-# Copyright 2022 Oliver Smith
+# Copyright 2023 Oliver Smith
 # SPDX-License-Identifier: MPL-2.0
 
 HEADER_FILE := src/common/header.css
@@ -8,18 +8,22 @@ DESTDIR :=
 FIREFOX_DIR := /usr/lib/firefox
 FIREFOX_CONFIG_DIR := /etc/firefox
 
-all: out/userChrome.css out/userContent.css
+all: out/userChrome.files out/userContent.files
 
 clean:
 	rm -rf out
 out:
 	mkdir out
 
-out/userChrome.css: $(USERCHROME_FILES) out
-	cat $(USERCHROME_FILES) > $@
+out/userChrome.files: $(USERCHROME_FILES) out
+	for i in $(USERCHROME_FILES); do \
+        echo "$$i" | cut -d/ -f 2-; \
+    done > $@
 
-out/userContent.css: $(USERCONTENT_FILES) out
-	cat $(USERCONTENT_FILES) > $@
+out/userContent.files: $(USERCONTENT_FILES) out
+	for i in $(USERCONTENT_FILES); do \
+        echo "$$i" | cut -d/ -f 2-; \
+    done > $@
 
 install: all
 	install -Dm644 src/policies.json \
@@ -28,10 +32,18 @@ install: all
 		"$(DESTDIR)/$(FIREFOX_DIR)/defaults/pref/mobile-config-prefs.js"
 	install -Dm644 src/mobile-config-autoconfig.js \
 		"$(DESTDIR)/$(FIREFOX_DIR)/mobile-config-autoconfig.js"
-	install -Dm644 "out/userChrome.css" \
-		"$(DESTDIR)/etc/mobile-config-firefox/userChrome.css"
-	install -Dm644 "out/userContent.css" \
-		"$(DESTDIR)/etc/mobile-config-firefox/userContent.css"
+	install -Dm644 "out/userChrome.files" \
+		-t "$(DESTDIR)/etc/mobile-config-firefox"
+	install -Dm644 "out/userContent.files" \
+		-t "$(DESTDIR)/etc/mobile-config-firefox"
+	for dir in common userChrome userContent; do \
+		for i in src/$$dir/*.css; do \
+			install \
+				-Dm644 \
+				"$$i" \
+				-t "$(DESTDIR)/etc/mobile-config-firefox/$$dir"; \
+		done; \
+	done
 	install -Dm644 org.postmarketos.mobile_config_firefox.metainfo.xml \
 		"$(DESTDIR)/usr/share/metainfo/org.postmarketos.mobile_config_firefox.metainfo.xml"
 
