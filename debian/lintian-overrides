@@ -1,0 +1,2 @@
+# This file isn't a license file but a source file
+firefox-esr-mobile-config: extra-license-file [etc/mobile-config-firefox/userContent/license.css]
