@@ -37,7 +37,17 @@
     }
 
     #editBMPanel_folderRow,
-    #editBMPanel_tagsRow {
+    .editBMPanel_folderRow,
+    #editBMPanel_tagsRow,
+    .editBMPanel_tagsRow {
         display: none;
+    }
+
+    #editBookmarkPanelBottomButtons {
+        width: 250px !important;
+        min-width: 250px !important;
+        padding: 0px !important;
+        justify-content: flex-start !important;
+        margin: 0px 0px 20px 0px !important;
     }
 }
