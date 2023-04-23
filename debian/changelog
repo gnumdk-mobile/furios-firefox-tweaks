@@ -1,3 +1,17 @@
+firefox-esr-mobile-config (4.0.1-1) experimental; urgency=medium
+
+  [ Jarrah Gosbell ]
+  * d/control: fix VCS tags after move to DebianOnMobile.
+    While we got the team change, we missed the `packages` subdirectory.
+
+  [ Arnaud Ferraris ]
+  * New upstream version 4.0.1
+  * d/patches: refresh for new upstream version
+  * d/control: bump Standards-Version, no change needed
+  * debian: add lintian overrides
+
+ -- Arnaud Ferraris <aferraris@debian.org>  Sun, 23 Apr 2023 14:02:10 +0200
+
 firefox-esr-mobile-config (3.2.0-1) unstable; urgency=medium
 
   [ Jarrah Gosbell ]
