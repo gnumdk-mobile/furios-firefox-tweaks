@@ -67,10 +67,15 @@
         overflow-y: hidden !important;
     }
 
-    #allTabsMenu-multiView box.panel-viewstack {
+    #allTabsMenu-multiView box.panel-viewstack { /* before FF 102 or earlier */
         /* Use the whole height */
         height: calc(100vh - 100px) !important;
         max-height: calc(100vh - 100px) !important;
+    }
+    #customizationui-widget-multiview box.panel-viewstack { /* since FF 113 */
+        /* Use the whole height */
+        height: 300px !important;
+        max-height: 300px !important;
     }
 
     #allTabsMenu-allTabsViewTabs {
