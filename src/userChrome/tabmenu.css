@@ -78,7 +78,8 @@
         max-height: 300px !important;
     }
 
-    #allTabsMenu-allTabsViewTabs {
+    #allTabsMenu-allTabsViewTabs, /* before FF 106 */
+    #allTabsMenu-allTabsView-tabs { /* since FF 106 */
         /* Make sure tabs with long titles don't exceed the all tabs menu */
         max-width: calc(100vw - 20px);
     }
