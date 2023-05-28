@@ -98,10 +98,10 @@ changes are applied.
 
 The `src/mobile-config-autoconfig.js` script generates `userChrome.css` and
 `userContent.css` while Firefox starts. It logs to your Firefox profile
-directory, find the log file with:
+directory, follow the log file with:
 
 ```
-$ find ~/.mozilla -name mobile-config-firefox.log
+$ tail -F $(find ~/.mozilla -name mobile-config-firefox.log)
 ```
 
 ## Coding guidelines
