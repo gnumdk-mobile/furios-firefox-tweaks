@@ -4,7 +4,8 @@
 /* Move navigation bar to bottom */
 @media (max-width: 700px) {
     #browser {
-        -moz-box-ordinal-group: 0 !important;
+        -moz-box-ordinal-group: 0 !important; /* before FF 113 */
+        order: -1 !important; /* since FF 113 */
     }
 
     /* Hide navigation bar in kiosk mode (to prevent bug #29). We can assume FF

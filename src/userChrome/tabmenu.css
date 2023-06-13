@@ -56,7 +56,8 @@
         max-height: 300px !important;
         /* When messing around with tabs, it gets into a state where it does
          * not use the whole height anymore, it becomes a tiny window. Removing
-         * this attribute fixes it. */
+         * this attribute fixes it. Since FF 113, this no longer has any
+         * effect, but it doesn't seem to be necessary either. */
         -moz-box-flex: initial !important;
     }
 
@@ -67,13 +68,19 @@
         overflow-y: hidden !important;
     }
 
-    #allTabsMenu-multiView box.panel-viewstack {
+    #allTabsMenu-multiView box.panel-viewstack { /* before FF 102 or earlier */
         /* Use the whole height */
         height: calc(100vh - 100px) !important;
         max-height: calc(100vh - 100px) !important;
     }
+    #customizationui-widget-multiview box.panel-viewstack { /* since FF 113 */
+        /* Use the whole height */
+        height: 300px !important;
+        max-height: 300px !important;
+    }
 
-    #allTabsMenu-allTabsViewTabs {
+    #allTabsMenu-allTabsViewTabs, /* before FF 106 */
+    #allTabsMenu-allTabsView-tabs { /* since FF 106 */
         /* Make sure tabs with long titles don't exceed the all tabs menu */
         max-width: calc(100vw - 20px);
     }
