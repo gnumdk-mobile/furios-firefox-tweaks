@@ -71,12 +71,7 @@ function log_obj(obj) {
 }
 
 function get_firefox_version() {
-    try {
-        return Services.appinfo.lastAppVersion.split(".")[0];
-    } catch(e) {
-        log("Couldn't get Firefox version (expected on first start): " + e);
-        return 0;
-    }
+    return Services.appinfo.version.split(".")[0];
 }
 
 function get_firefox_version_previous() {
@@ -250,10 +245,7 @@ function css_files_update() {
         var file = css_file_get(name);
 
         if (file.exists()) {
-            /* During the very first start, ff_previous is first "unknown",
-             * then the files get installed and Firefox gets restarted.
-             * Then ff_previous is 0. Don't restart it again. */
-            if (ff_previous != 0 && g_ff_version != ff_previous) {
+            if (g_ff_version != ff_previous) {
                 log("Removing outdated file: " + file.path + " (Firefox" +
                     " version changed)");
                 file.remove(false);
