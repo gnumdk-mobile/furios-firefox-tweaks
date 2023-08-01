@@ -11,7 +11,6 @@ This does not replace a proper implementation in
 * Adapt UI elements and "about:" pages to small screen sizes (when opened on
   small screen)
 * Enable mobile gestures
-* User agent set to same as Tor Browser for Android
 * Privacy tweaks:
   * Disable search suggestions
   * Disable Firefox studies
