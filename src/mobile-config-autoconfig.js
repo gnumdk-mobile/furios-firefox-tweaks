@@ -263,8 +263,31 @@ function css_files_update() {
         set_firefox_version_previous(g_ff_version);
 }
 
+/**
+ * Builds a user-agent as similar to the default as possible, but with "Mobile"
+ * inserted into the platforms section.
+ *
+ * @returns {string}
+ */
+function build_user_agent() {
+    var appinfo = Services.appinfo;
+    var vendor = appinfo.vendor || "Mozilla";
+    var os = appinfo.OS || "Linux";
+    var version = get_firefox_version() + ".0";
+    var name = appinfo.name || "Firefox";
+    var arch = (appinfo.XPCOMABI && appinfo.XPCOMABI.includes("-"))
+        ? appinfo.XPCOMABI.split("-")[0]
+        : "aarch64";
+
+    return `${vendor}/5.0 (X11; ${os} ${arch}; Mobile; rv:${version}) Gecko/20100101 ${name}/${version}`;
+}
+
 function set_default_prefs() {
     log("Setting default preferences");
+
+    var user_agent = build_user_agent();
+    defaultPref('general.useragent.override', user_agent);
+
     // Do not suggest facebook, ebay, reddit etc. in the urlbar. Same as
     // Settings -> Privacy & Security -> Address Bar -> Shortcuts. As
     // side-effect, the urlbar results are not immediatelly opened once
