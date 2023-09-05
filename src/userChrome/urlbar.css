@@ -82,6 +82,14 @@
     #PersonalToolbar {
         display: none;
     }
+
+    /* If the bookmarks toolbar is configured to only show on the new tab page,
+     * Firefox makes the toolbar overlap the browser. When it's then hidden by
+     * the rule above, the urlbar is pushed off the bottom of the window. To
+     * prevent this, set the height of the overlapped toolbar to 0. */
+    :root {
+        --bookmarks-toolbar-overlapping-browser-height: 0 !important;
+    }
 }
 
 /* Even though amazon is removed as search engine in policies.json, it gets
