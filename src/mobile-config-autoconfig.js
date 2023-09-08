@@ -309,6 +309,12 @@ function set_default_prefs() {
     // shows recently closed tabs. The always pinned tab takes up screen estate
     // and it's slightly annoying if you do not want to register an account.
     defaultPref('browser.tabs.firefox-view', false);
+
+    // FF >= 116 allows to use cameras via Pipewire. While it will likely still
+    // take a while until this is made the default, on most mobile devices it
+    // makes a lot of sense to enable it unconditionally, as cameras usually
+    // only work with libcamera, not via plain v4l2.
+    defaultPref('media.webrtc.camera.allow-pipewire', true);
 }
 
 function main() {
