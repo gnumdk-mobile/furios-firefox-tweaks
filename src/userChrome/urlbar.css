@@ -4,6 +4,7 @@
 /* Reduce minimum window width */
 #urlbar-container {
     min-width: 150px !important;
+    flex-shrink: 1 !important;
 }
 
 @media (max-width: 700px) {
@@ -81,6 +82,14 @@
      * through bookmarks is much more efficient. */
     #PersonalToolbar {
         display: none;
+    }
+
+    /* If the bookmarks toolbar is configured to only show on the new tab page,
+     * Firefox makes the toolbar overlap the browser. When it's then hidden by
+     * the rule above, the urlbar is pushed off the bottom of the window. To
+     * prevent this, set the height of the overlapped toolbar to 0. */
+    :root {
+        --bookmarks-toolbar-overlapping-browser-height: 0 !important;
     }
 }
 

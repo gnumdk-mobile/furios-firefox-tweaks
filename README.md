@@ -1,6 +1,7 @@
 # mobile-config-firefox
 
-Mobile and privacy friendly configuration for Firefox >= 91.
+Mobile and privacy friendly configuration for current standard and extended
+support releases of Firefox.
 
 This does not replace a proper implementation in
 [Firefox upstream](https://bugzilla.mozilla.org/show_bug.cgi?id=1579348)
