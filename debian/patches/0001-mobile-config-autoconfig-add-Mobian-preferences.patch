@@ -8,13 +8,13 @@ Forwarded: not-needed
  1 file changed, 60 insertions(+)
 
 diff --git a/src/mobile-config-autoconfig.js b/src/mobile-config-autoconfig.js
-index 5d9691d..4750b0a 100644
+index 5693847..ba7c3aa 100644
 --- a/src/mobile-config-autoconfig.js
 +++ b/src/mobile-config-autoconfig.js
-@@ -297,6 +297,66 @@ function set_default_prefs() {
-     // shows recently closed tabs. The always pinned tab takes up screen estate
-     // and it's slightly annoying if you do not want to register an account.
-     defaultPref('browser.tabs.firefox-view', false);
+@@ -315,6 +315,66 @@ function set_default_prefs() {
+     // makes a lot of sense to enable it unconditionally, as cameras usually
+     // only work with libcamera, not via plain v4l2.
+     defaultPref('media.webrtc.camera.allow-pipewire', true);
 +
 +    // Default preferences for Debian (can be overridden by users)
 +
