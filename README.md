@@ -117,3 +117,5 @@ $ tail -F $(find ~/.mozilla -name mobile-config-firefox.log)
 * [How to use the Firefox Browser Toolbox](https://developer.mozilla.org/en-US/docs/Tools/Browser_Toolbox)
 * [firefox-csshacks](https://github.com/MrOtherGuy/firefox-csshacks/)
 * [FirefoxCSS subreddit](https://www.reddit.com/r/FirefoxCSS/)
+* [whattrainisitnow.com](https://whattrainisitnow.com/): FF and FF ESR releases
+  currently supported upstream, we try to support these with this config
