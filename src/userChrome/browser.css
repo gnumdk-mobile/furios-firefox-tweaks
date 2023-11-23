@@ -4,7 +4,6 @@
 @media (max-width: 700px) {
     /* Move navigation bar to bottom */
     #browser {
-        -moz-box-ordinal-group: 0 !important; /* before FF 113 */
         order: -1 !important; /* since FF 113 */
     }
 

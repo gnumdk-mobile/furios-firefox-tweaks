@@ -18,7 +18,7 @@
 // https://web.archive.org/web/20201018211550/https://developer.mozilla.org/en-US/docs/Archive/Add-ons/Code_snippets/File_I_O
 
 const {classes: Cc, interfaces: Ci, utils: Cu} = Components;
-const Services = globalThis.Services || Cu.import("resource://gre/modules/Services.jsm").Services; // for compatibility with FF < 104
+const Services = globalThis.Services;
 Cu.import("resource://gre/modules/FileUtils.jsm");
 
 var g_ff_version;
