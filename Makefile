@@ -26,6 +26,7 @@ out/userContent.files: $(USERCONTENT_FILES) out
     done > $@
 
 install: all
+	src/prepare_install.sh "$(FIREFOX_DIR)" "$(DESTDIR)"
 	install -Dm644 src/policies.json \
 		"$(DESTDIR)/$(FIREFOX_CONFIG_DIR)/policies/policies.json"
 	install -Dm644 src/mobile-config-prefs.js \
