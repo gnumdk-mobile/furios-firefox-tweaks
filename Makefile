@@ -47,4 +47,13 @@ install: all
 	install -Dm644 org.postmarketos.mobile_config_firefox.metainfo.xml \
 		"$(DESTDIR)/usr/share/metainfo/org.postmarketos.mobile_config_firefox.metainfo.xml"
 
-.PHONY: all clean install
+uninstall:
+	src/prepare_uninstall.sh "$(FIREFOX_DIR)" "$(DESTDIR)"
+	rm -fv "$(DESTDIR)/$(FIREFOX_CONFIG_DIR)/policies/policies.json"
+	rm -fv "$(DESTDIR)/$(FIREFOX_DIR)/defaults/pref/mobile-config-prefs.js"
+	rm -fv "$(DESTDIR)/$(FIREFOX_DIR)/mobile-config-autoconfig.js"
+	rm -rfv "$(DESTDIR)/etc/mobile-config-firefox"
+	rm -fv "$(DESTDIR)/usr/share/metainfo/org.postmarketos.mobile_config_firefox.metainfo.xml"
+
+
+.PHONY: all clean install uninstall
