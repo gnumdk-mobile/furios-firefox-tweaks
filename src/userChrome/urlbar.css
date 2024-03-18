@@ -41,8 +41,8 @@
     }
 
     /* urlbar: Hide translate and picture-in-picture icon */
-    #urlbar #translations-button, #urlbar #picture-in-picture-button {
-        display: none;
+    #urlbar #translations-button, #urlbar #picture-in-picture-button, #urlbar #identity-box #identity-permission-box {
+        display: none !important;
     }
 
     /* Focused urlbar: hide all icons around it, so we have more space to edit the URL */
