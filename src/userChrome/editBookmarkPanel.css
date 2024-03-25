@@ -1,4 +1,4 @@
-/* Copyright 2022 Oliver Smith
+/* Copyright 2024 Oliver Smith, Peter Mack
  * SPDX-License-Identifier: MPL-2.0 */
 
 @media (max-width: 700px) {
@@ -30,7 +30,11 @@
      * you bring up the menu, no need for a screenshot. Also it has a glitch
      * when taking the screenshot in mobile portrait view, half the screenshot
      * is just black. Let's rather use the space to edit the bookmark
-     * information. */
+     * information.
+     * Note: There's no more screenshot in FF 124, so likely part of
+     * this can be dropped with ESR 128 */
+
+
     #editBookmarkPanelInfoArea,
     #editBookmarkSeparator {
         display: none;
@@ -43,6 +47,12 @@
         display: none;
     }
 
+    /* Fix remove/save buttons for Firefox 124 */
+    #editBookmarkPanel * .panel-footer {
+        justify-content: flex-start !important;
+    }
+
+    /* Fix buttons for FF 115, likely obsolete with FF ESR 128 */
     #editBookmarkPanelBottomButtons {
         width: 250px !important;
         min-width: 250px !important;
