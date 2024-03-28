@@ -1,18 +1,37 @@
-/* Copyright 2022 Oliver Smith
- * Copyright 2023 user0
+/* Copyright 2024 Oliver Smith, user0, Peter Mack *
  * SPDX-License-Identifier: MPL-2.0 */
 
 @media (max-width: 700px) {
     /* Now that the navbar is at the bottom, we need to set an offset to have
      * the notifications (like the one for installing addons) displayed
      * on-screen. */
+    /* fixes for installing extensions */
+    .popup-notification-panel  {
+        margin-top: -280px !important;
+        max-width: 98vw;
+    }
+    /* Additional fix for "Add $extension" menu */
     #notification-popup {
-        margin-left: -200px !important;
-        margin-top: -500px !important;
+        margin-top: -330px !important;
+        padding-left: 30px;
     }
 
     #downloadsPanel-mainView {
         max-width: calc(100vw - 10px);
+    }
+
+    /* Fix unified-extensions and protections menu */
+    .panel-viewstack {
+        height: 100vh !important;
+        max-height: calc(100vh - 100px) !important;
+    }
+
+    /* Allow extensions to use full popup */
+    .webextension-popup-browser {
+        height: 100% !important;
+        min-height: 100% !important;
+        width: 100vw !important;
+        min-width: 100vw !important;
     }
 
     /* Menu that appears when long-pressing the back-button */
@@ -23,14 +42,16 @@
         max-width: 100vw !important;
     }
 
-    /* Hide some context menu items */
+    /* Hide some context menu items,
+     * hide 'Customize Toolbar' in overflow menu */
     #context-inspect,
     #context-inspect-a11y,
     #context-savelinktopocket,
     #context-searchselect,
     #context-sendlinktodevice,
     #context-viewpartialsource-selection,
-    #inspect-separator {
+    #inspect-separator,
+    #overflowMenu-customize-button {
         display: none !important
     }
 
