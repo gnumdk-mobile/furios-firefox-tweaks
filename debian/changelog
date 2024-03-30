@@ -1,3 +1,10 @@
+firefox-esr-mobile-config (4.3.0-1) unstable; urgency=medium
+
+  * New upstream release
+  * d/watch: Update for current GitLab tags page
+
+ -- Jarrah Gosbell <debian@undef.tools>  Sat, 30 Mar 2024 23:06:10 +0000
+
 firefox-esr-mobile-config (4.2.0-1) unstable; urgency=medium
 
   * New upstream release
