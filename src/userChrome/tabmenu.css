@@ -16,10 +16,17 @@
         display: block;
     }
 
+    /* Hide firefox-view tab, as none of the options in about:config hides it on FF 123 */
+    #firefox-view-button {
+        display: none;
+    }
+
     /* Increase tab width, to have more space for displaying the title of the
-     * website and to make the "all tabs" button show up. */
+     * website and to make the "all tabs" button show up.
+     * Hide the would be divider to the Firefox View button */
     #tabbrowser-tabs {
         --tab-min-width: calc(100vw - 116px) !important;
+        border-inline-start: 0 !important;
     }
 
     /* Rotate the arrow on the "all tabs" button to point upwards, since the
@@ -54,11 +61,6 @@
         /* Use the whole height */
         height: 300px !important;
         max-height: 300px !important;
-        /* When messing around with tabs, it gets into a state where it does
-         * not use the whole height anymore, it becomes a tiny window. Removing
-         * this attribute fixes it. Since FF 113, this no longer has any
-         * effect, but it doesn't seem to be necessary either. */
-        -moz-box-flex: initial !important;
     }
 
     #allTabsMenu-allTabsView vbox.panel-subview-body:first-child {
@@ -68,18 +70,12 @@
         overflow-y: hidden !important;
     }
 
-    #allTabsMenu-multiView box.panel-viewstack { /* before FF 102 or earlier */
-        /* Use the whole height */
-        height: calc(100vh - 100px) !important;
-        max-height: calc(100vh - 100px) !important;
-    }
     #customizationui-widget-multiview box.panel-viewstack { /* since FF 113 */
         /* Use the whole height */
         height: 300px !important;
         max-height: 300px !important;
     }
 
-    #allTabsMenu-allTabsViewTabs, /* before FF 106 */
     #allTabsMenu-allTabsView-tabs { /* since FF 106 */
         /* Make sure tabs with long titles don't exceed the all tabs menu */
         max-width: calc(100vw - 20px);
