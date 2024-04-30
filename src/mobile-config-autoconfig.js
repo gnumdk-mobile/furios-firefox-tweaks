@@ -180,19 +180,119 @@ function css_file_delete_outdated(name, file) {
     var depends = css_file_get_fragments(name).slice(); /* copy the array */
     depends.push("/etc/mobile-config-firefox/" + name + ".files");
     for (var i in depends) {
-        var depend = depends[i];
-        var file_depend = new FileUtils.File(depend);
+        try {
+            var depend = depends[i];
+            var file_depend = new FileUtils.File(depend);
 
-        if (file.lastModifiedTime < file_depend.lastModifiedTime) {
-            log("Removing outdated file: " + file.path + " (newer: "
-                + depend + ")");
-            file.remove(false);
-            return;
+            if (file.lastModifiedTime < file_depend.lastModifiedTime) {
+                log("Removing outdated file: " + file.path + " (newer: "
+                    + depend + ")");
+                file.remove(false);
+                return;
+            }
+        } catch(e) {
+            log("Error checking file " + depend + ": " + e);
         }
     }
 
     log("File is up-to-date: " + file.path);
     return;
+}
+
+// Read a CSS file line by line and resolve any @import statements relative to
+// the file's directory. Also embeds any relative SVG files.
+// file: nsIFile
+// returns: array of CSS lines
+function css_file_resolve_recursive(file) {
+    var ret = [];
+    var istream = Cc["@mozilla.org/network/file-input-stream;1"].
+                    createInstance(Components.interfaces.nsIFileInputStream);
+    istream.init(file, 0x01, 0444, 0);
+    istream.QueryInterface(Components.interfaces.nsILineInputStream);
+
+    var line_buffer = {};
+
+    do {
+        var has_more = istream.readLine(line_buffer);
+        var line = line_buffer.value;
+        if (line.slice(0, 7) == "@import") {
+            var filename_clean = line.split(" ")[1].replace(/['";]+/g, "");
+            var resolved_path = file.parent.path + "/" + filename_clean;
+            var import_file = new FileUtils.File(resolved_path);
+            if (!import_file.exists()) {
+                log("CSS import from " + file.path + " not found: " + resolved_path);
+                continue;
+            }
+            ret = ret.concat(css_file_resolve_recursive(import_file));
+        } else {
+            // Look for SVG files and embed them as data URIs
+            var svg_match = line.match(/url\(['"]?([^'")]+\.svg)['"]?\)/);
+            if (svg_match) {
+                log("Line contains SVG:" + line);
+                var svg_file = new FileUtils.File(file.parent.path + "/" + svg_match[1]);
+                if (svg_file.exists()) {
+                    var svg_fstream = Cc["@mozilla.org/network/file-input-stream;1"].
+                                        createInstance(Components.interfaces.nsIFileInputStream);
+                    svg_fstream.init(svg_file, 0x01, 0444, 0);
+                    var svg_sstream = Cc["@mozilla.org/scriptableinputstream;1"].
+                                        createInstance(Components.interfaces.nsIScriptableInputStream);
+                    svg_sstream.init(svg_fstream);
+
+                    var svg = "";
+                    var svg_chunk = "";
+                    do {
+                        svg_chunk = svg_sstream.read(4096);
+                        svg += svg_chunk;
+                    } while (svg_chunk.length > 0);
+
+                    svg_sstream.close();
+                    svg_fstream.close();
+
+                    // XUL does not seem to expose btoa(), or I am too stupid to find it
+                    // but I am also stupid enough to write it myself. Maybe.
+                    function btoa(input) {
+                        var keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+                        var output = "";
+                        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
+                        var i = 0;
+
+                        while (i < input.length) {
+                            chr1 = input.charCodeAt(i++);
+                            chr2 = input.charCodeAt(i++);
+                            chr3 = input.charCodeAt(i++);
+
+                            enc1 = chr1 >> 2;
+                            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
+                            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
+                            enc4 = chr3 & 63;
+
+                            if (isNaN(chr2)) {
+                                enc3 = enc4 = 64;
+                            } else if (isNaN(chr3)) {
+                                enc4 = 64;
+                            }
+
+                            output = output + keyStr.charAt(enc1) + keyStr.charAt(enc2) +
+                                     keyStr.charAt(enc3) + keyStr.charAt(enc4);
+                        }
+
+                        return output;
+                    }
+
+                    var svg_data_uri = "url('data:image/svg+xml;base64," +
+                                       btoa(svg) + "')";
+                    line = line.replace(/url\(['"]?[^'")]+\.svg['"]?\)/, svg_data_uri);
+                } else {
+                    log("SVG file not found: " + svg_file.path);
+                }
+            }
+            ret.push(line);
+        }
+    } while (has_more);
+
+    istream.close();
+
+    return ret;
 }
 
 // Create userChrome.css / userContent.css in the user's profile, based on the
@@ -214,20 +314,10 @@ function css_file_merge(name, file) {
         write_line(ostream, "/* === " + fragment + " === */");
 
         var file_fragment = new FileUtils.File(fragment);
-
-        var istream = Cc["@mozilla.org/network/file-input-stream;1"].
-                      createInstance(Components.interfaces.nsIFileInputStream);
-        istream.init(file_fragment, 0x01, 0444, 0);
-        istream.QueryInterface(Components.interfaces.nsILineInputStream);
-
-        var has_more;
-        do {
-            var line = {};
-            has_more = istream.readLine(line);
-            write_line(ostream, line.value);
-        } while (has_more);
-
-        istream.close();
+        var fragment_lines = css_file_resolve_recursive(file_fragment);
+        for (var i = 0; i < fragment_lines.length; i++) {
+            write_line(ostream, fragment_lines[i]);
+        }
     }
 
     ostream.close();
