@@ -1,0 +1,3 @@
+[submodule "firefox-gnome-theme"]
+	path = src/firefox-gnome-theme
+	url = https://github.com/rafaelmardojai/firefox-gnome-theme
