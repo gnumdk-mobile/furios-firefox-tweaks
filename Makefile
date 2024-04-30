@@ -4,6 +4,10 @@
 HEADER_FILE := src/common/header.css
 USERCHROME_FILES := $(HEADER_FILE) $(sort $(wildcard src/userChrome/*.css))
 USERCONTENT_FILES := $(HEADER_FILE) $(sort $(wildcard src/userContent/*.css))
+
+USERCHROME_FILES += src/firefox-gnome-theme/userChrome.css
+USERCONTENT_FILES += src/firefox-gnome-theme/userContent.css
+
 DESTDIR :=
 FIREFOX_DIR := /usr/lib/firefox
 FIREFOX_CONFIG_DIR := /etc/firefox
@@ -37,14 +41,26 @@ install: all
 		-t "$(DESTDIR)/etc/mobile-config-firefox"
 	install -Dm644 "out/userContent.files" \
 		-t "$(DESTDIR)/etc/mobile-config-firefox"
-	for dir in common userChrome userContent; do \
-		for i in src/$$dir/*.css; do \
-			install \
-				-Dm644 \
-				"$$i" \
-				-t "$(DESTDIR)/etc/mobile-config-firefox/$$dir"; \
+	# Ensure DESTDIR is an absolute path \
+	DESTDIR=$$(realpath "$(DESTDIR)"); \
+	walk_dir() { \
+		echo "1 = $$1" ; \
+		for i in "$$1"/*; do \
+			echo "i = $$i"; \
+			if [ -d "$$i" ]; then \
+				echo "Installing directory: $$i"; \
+				walk_dir "$$i"; \
+			else \
+				echo "Installing file: $$i to $$DESTDIR/etc/mobile-config-firefox/$$i"; \
+				install -Dm644 "$$i" -t "$$DESTDIR/etc/mobile-config-firefox/$$(dirname "$$i")"; \
+			fi; \
 		done; \
-	done
+	}; \
+	cd src; \
+	for dir in common userChrome userContent firefox-gnome-theme; do \
+		walk_dir "$$dir"; \
+	done; \
+	cd ..
 	install -Dm644 org.postmarketos.mobile_config_firefox.metainfo.xml \
 		"$(DESTDIR)/usr/share/metainfo/org.postmarketos.mobile_config_firefox.metainfo.xml"
 
