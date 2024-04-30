@@ -5,7 +5,7 @@ set -e
 if [ "$1" = "configure" ]; then
     # This ensures the "last modified" date is updated, as it's needed
     # for those files to upgrade
-    touch /etc/mobile-config-firefox/*.css
+    find /etc/mobile-config-firefox -type f -exec touch {} \;
 fi
 
 #DEBHELPER#
