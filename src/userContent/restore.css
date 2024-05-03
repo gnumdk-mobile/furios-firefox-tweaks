@@ -1,0 +1,7 @@
+@-moz-document url-prefix("about:sessionrestore") {
+    @media (max-width: 700px) {
+        body {
+            padding: 10px !important;
+        }
+    }
+}
