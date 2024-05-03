@@ -14,5 +14,27 @@
             width: 100% !important;
         }
 
+        main {
+            margin: 0 !important;
+            width: 100% !important;
+        }
+
+        main > div {
+            padding: 0 !important;
+        }
+
+        section.collapsible-section.top-sites {
+            padding: 0 !important;
+        }
+
+        main .search-inner-wrapper {
+            width: 100% !important;
+            padding: 0 18px !important;
+        }
+
+        ul.top-sites-list {
+            width: unset !important;
+            text-align: center !important;
+        }
     }
 }
