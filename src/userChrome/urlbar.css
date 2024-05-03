@@ -38,6 +38,17 @@
     /* Smaller font: show more of the URL */
     #urlbar-input {
         font-size: 9pt !important;
+        padding: 0px 4px !important;
+        /* Fade rightmost part with a gradient so it's clear that the URL is truncated */
+        mask-image: linear-gradient(to right, black 90%, transparent 100%);
+    }
+
+    #urlbar[focused] #urlbar-input {
+        mask-image: none;
+    }
+
+    #identity-box {
+        margin: 0 !important;
     }
 
     /* urlbar: Hide translate and picture-in-picture icon */
@@ -60,24 +71,6 @@
      * label. The icon itself is still visible. */
     #identity-icon-label {
         display: none;
-    }
-
-    /* Move urlbar results to cover the whole displayed website, instead of
-     * being below the urlbar. */
-    .urlbarView {
-        position: fixed !important;
-        inset: 0px 0px 84px 0px;
-        width: 100% !important;
-
-        background: var(--arrowpanel-background);
-
-        margin: 0px !important;
-        margin-inline: 0px !important;
-        border-inline: 0px !important;
-
-        overflow-y:  auto !important;
-        overflow-x: none !important;
-        scrollbar-width: none;
     }
 
     /* Bookmarks toolbar. Firefox shows it for some reason when opening a
