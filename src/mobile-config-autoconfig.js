@@ -228,7 +228,6 @@ function css_file_resolve_recursive(file) {
             // Look for SVG files and embed them as data URIs
             var svg_match = line.match(/url\(['"]?([^'")]+\.svg)['"]?\)/);
             if (svg_match) {
-                log("Line contains SVG:" + line);
                 var svg_file = new FileUtils.File(file.parent.path + "/" + svg_match[1]);
                 if (svg_file.exists()) {
                     var svg_fstream = Cc["@mozilla.org/network/file-input-stream;1"].
@@ -378,33 +377,11 @@ function set_default_prefs() {
     var user_agent = build_user_agent();
     defaultPref('general.useragent.override', user_agent);
 
-    // Do not suggest facebook, ebay, reddit etc. in the urlbar. Same as
-    // Settings -> Privacy & Security -> Address Bar -> Shortcuts. As
-    // side-effect, the urlbar results are not immediatelly opened once
-    // clicking the urlbar.
-    defaultPref('browser.urlbar.suggest.topsites', false);
-
-    // Do not suggest search engines. Even though amazon is removed via
-    // policies.json, it gets installed shortly after the browser is opened.
-    // With this option, at least there is no big "Search with Amazon" message
-    // in the urlbar results as soon as typing the letter "a".
-    defaultPref('browser.urlbar.suggest.engines', false);
-
-    // Show about:home in new tabs, so it's not just a weird looking completely
-    // empty page.
-    defaultPref('browser.newtabpage.enabled', true);
-
     // Disable "Firefox View" feature by default. It's a pinned tab that allows
     // to "pick up" tabs from other devices after registering an account, and
     // shows recently closed tabs. The always pinned tab takes up screen estate
     // and it's slightly annoying if you do not want to register an account.
     defaultPref('browser.tabs.firefox-view', false);
-
-    // FF >= 116 allows to use cameras via Pipewire. While it will likely still
-    // take a while until this is made the default, on most mobile devices it
-    // makes a lot of sense to enable it unconditionally, as cameras usually
-    // only work with libcamera, not via plain v4l2.
-    defaultPref('media.webrtc.camera.allow-pipewire', true);
 }
 
 function main() {
@@ -417,12 +394,72 @@ function main() {
     else
         set_default_prefs();
 
+    // Keep the browser open even when the last window is closed. This allows us to
+    // receive WebPush notifications in the background and speeds up subsequent launches.
+    Services.startup.enterLastWindowClosingSurvivalArea();
+
     log("Done");
 }
+
+var REPLACEMENTS = {};
+/* REPLACEMENTS["chrome://global/content/elements/panel.js"] = "file:///etc/mobile-config-firefox/overrides/panel.js";
+REPLACEMENTS["chrome://global/content/elements/menupopup.js"] = "file:///etc/mobile-config-firefox/overrides/menupopup.js";
+REPLACEMENTS["chrome://global/content/elements/autocomplete-popup.js"] = "file:///etc/mobile-config-firefox/overrides/autocomplete-popup.js";
+REPLACEMENTS["chrome://global/content/customElements.js"] = "file:///etc/mobile-config-firefox/overrides/customElements.js"; */
+
+var UserChromeJS = {
+    init: function() {
+        var { Log } = ChromeUtils.importESModule("resource://gre/modules/Log.sys.mjs");
+        this.logger = Log.repository.getLogger("addons.xpi");
+
+        this.logger.warn("UserChromeJS init");
+        Services.obs.addObserver(this, "domwindowopened", false);
+    },
+
+    observe: function(subject, topic, data) {
+        this.logger.warn("New window opened: " + subject.toString());
+
+        var logger = this.logger;
+
+        if (!Services.scriptloader_orig) {
+            Services.scriptloader_orig = Services.scriptloader;
+            Services.scriptloader = {};
+            for (var prop in Services.scriptloader_orig) {
+                if (prop == "loadSubScript") {
+                    Services.scriptloader[prop] = function(url, target) {
+                        logger.warn("Loading script: " + url);
+                        if (REPLACEMENTS[url]) {
+                            logger.warn("   -> replacement script: " + REPLACEMENTS[url]);
+                            return Services.scriptloader_orig.loadSubScript(REPLACEMENTS[url], target);
+                        }
+                        return Services.scriptloader_orig.loadSubScript(url, target);
+                    };
+                } else {
+                    Services.scriptloader[prop] = Services.scriptloader_orig[prop];
+                }
+            }
+
+            this.logger.warn("Scriptloader hooked");
+        }
+
+        Services.scriptloader.loadSubScript("file:///etc/mobile-config-firefox/userChrome.js", subject);
+
+        subject.addEventListener("DOMContentLoaded", this, {capture: true, once: true});
+    },
+
+    handleEvent: function(event) {
+        // Load userChrome.js into every window so we can patch deeper into the UI.
+        var document = event.originalTarget;
+        var window = document.defaultView;
+        Services.scriptloader.loadSubScript("file:///etc/mobile-config-firefox/userChrome.js", window);
+    }
+};
+
 
 chrome_dir_init();
 log_init();
 try {
+    UserChromeJS.init();
     main();
 } catch(e) {
     log("main() failed: " + e);

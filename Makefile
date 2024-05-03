@@ -41,6 +41,8 @@ install: all
 		-t "$(DESTDIR)/etc/mobile-config-firefox"
 	install -Dm644 "out/userContent.files" \
 		-t "$(DESTDIR)/etc/mobile-config-firefox"
+	install -Dm644 "src/userChrome.js" \
+		-t "$(DESTDIR)/etc/mobile-config-firefox"
 	# Ensure DESTDIR is an absolute path \
 	DESTDIR=$$(realpath "$(DESTDIR)"); \
 	walk_dir() { \
@@ -57,7 +59,7 @@ install: all
 		done; \
 	}; \
 	cd src; \
-	for dir in common userChrome userContent firefox-gnome-theme; do \
+	for dir in common userChrome userContent firefox-gnome-theme overrides; do \
 		walk_dir "$$dir"; \
 	done; \
 	cd ..

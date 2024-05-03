@@ -18,20 +18,8 @@ pref('dom.w3c_touch_events.legacy_apis.enabled', true);
 // Save vertical space by hiding the titlebar
 pref('browser.tabs.inTitlebar', 1);
 
-// Disable search suggestions
-pref('browser.search.suggest.enabled', false);
-
-// Empty new tab page: faster, less distractions
-pref('browser.newtabpage.enabled', false);
-
 // Allow UI customizations with userChrome.css and userContent.css
 pref('toolkit.legacyUserProfileCustomizations.stylesheets', true);
 
 // Select the entire URL with one click
 pref('browser.urlbar.clickSelectsAll', true);
-
-// Disable cosmetic animations, save CPU
-pref('toolkit.cosmeticAnimations.enabled', false);
-
-// Disable download animations, save CPU
-pref('browser.download.animateNotifications', false);
