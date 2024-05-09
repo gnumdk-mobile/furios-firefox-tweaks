@@ -30,11 +30,37 @@
         main .search-inner-wrapper {
             width: 100% !important;
             padding: 0 18px !important;
+            min-height: 52px !important;
         }
 
         ul.top-sites-list {
             width: unset !important;
             text-align: center !important;
+        }
+
+        div.ds-top-sites {
+            overflow-x: hidden !important;
+        }
+
+        main {
+            padding-top: 0 !important;
+        }
+
+        .search-wrapper {
+            position: initial !important;
+            padding: 16px 0 !important;
+            padding-bottom: 0 !important;
+            border: none !important;
+        }
+
+        .non-collapsible-section {
+            position: sticky !important;
+            top: -110px !important;
+            z-index: 1000 !important;
+        }
+
+        body:not(.inline-onboarding) .fixed-search .search-wrapper .logo-and-wordmark {
+            display: flex !important;
         }
     }
 }
