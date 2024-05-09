@@ -3,7 +3,7 @@
 
 @namespace url("http://www.w3.org/1999/xhtml");
 
-@-moz-document url("about:home"), url("about:blank"), url("about:newtab") {
+@-moz-document url-prefix("about:home"), url-prefix("about:blank"), url-prefix("about:newtab") {
     @media (max-width: 700px) {
 
         .outer-wrapper.only-search {

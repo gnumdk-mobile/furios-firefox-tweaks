@@ -1,7 +1,7 @@
 /* Copyright 2022 Anri Dellal
  * SPDX-License-Identifier: MPL-2.0 */
 
-@-moz-document url("about:license") {
+@-moz-document url-prefix("about:license") {
     @media (max-width: 500px) {
         .license-header {
             background-image: none !important;

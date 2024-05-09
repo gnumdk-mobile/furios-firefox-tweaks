@@ -1,7 +1,7 @@
 /* Copyright 2022 Anri Dellal
  * SPDX-License-Identifier: MPL-2.0 */
 
-@-moz-document url("about:config") {
+@-moz-document url-prefix("about:config") {
     #search-container,
     #toolbar, #prefs {
         min-width: 300px !important;
