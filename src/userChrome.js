@@ -27,3 +27,17 @@
         panel.setAttribute('remote', true);
     }
 }
+
+{
+    // When the user touches the browser, get stuff out of the way
+    document.addEventListener('DOMContentLoaded', () => {
+        const browser = document.getElementById('browser');
+        if (!browser) {
+            return;
+        }
+
+        browser.addEventListener('touchstart', () => {
+            gURLBar.blur();
+        }, { passive: true });
+    });
+}
