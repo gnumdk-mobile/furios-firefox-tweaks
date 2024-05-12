@@ -53,6 +53,8 @@ pref('apz.one_touch_pinch.enabled', true);
 pref('apz.windows.check_for_pan_gesture_conversion', false);
 pref('apz.wr.activate_all_scroll_frames', true);
 pref('apz.zoom-to-focused-input.enabled', false);
+// Reduces input latency in appMenu
+pref('apz.paint_skipping.enabled', false);
 
 // Responsiveness tweaks; prioritize user interaction
 pref('content.sink.interactive_parse_time', 500);
