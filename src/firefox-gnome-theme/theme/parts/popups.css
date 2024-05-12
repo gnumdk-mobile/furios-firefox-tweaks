@@ -53,11 +53,6 @@ menuitem[disabled="true"]:hover, menupopup menu[disabled="true"]:hover {
   padding: 0 !important;
 }
 
-/* Adjust popovers position */
-panel[type=arrow] {
-	margin-top: 8px !important;
-}
-
 /* Style popovers */
 panel:not([remote]) {
 	--arrowpanel-background: var(--gnome-menu-background) !important;

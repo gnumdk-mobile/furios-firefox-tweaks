@@ -145,9 +145,6 @@ toolbarspring {
 	margin: 0 !important;
 	height: 100%  !important;
 }
-#notification-popup-box {
-	height: 100%  !important;
-}
 
 /* Search mode indicator */
 #urlbar-search-mode-indicator,
