@@ -93,7 +93,10 @@ pref('gfx.webrender.max-shared-surface-size', 4096);
 pref('gfx.webrender.precache-shaders', true);
 pref('gfx.webrender.allow-partial-present-buffer-age', false);
 pref('gfx.will-change.ignore-opacity', false);
-pref('layers.acceleration.disabled', false);
+
+// I know this doesn't make sense at all, but disabled + force-enabled somehow improves performance and stability.
+// Without force-enabled, it's laggy. Without disabled, it's crashy. I dunno.
+pref('layers.acceleration.disabled', true);
 pref('layers.acceleration.force-enabled', true);
 pref('gfx.webrender.multithreading', false);
 pref('layers.offmainthreadcomposition.force-disabled', true);
