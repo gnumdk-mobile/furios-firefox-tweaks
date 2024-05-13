@@ -35,6 +35,16 @@
                 && (mutation.attributeName === 'panelopen'
                     || mutation.attributeName === 'remote'
                     || mutation.attributeName === 'type')) {
+                // Don't mess with browser elements; we want about: pages to still be not remote.
+                // If you set the remote attribute on a browser element that points to, say, about:config,
+                // the behavior becomes very glitchy - tapping on the tab makes it go blank, etc.
+                // Same goes for hbox. Ideally this would be a whitelist, but...
+                if (mutation.target instanceof XULElement
+                    && (mutation.target.localName === 'browser'
+                        || mutation.target.localName === 'hbox')) {
+                    continue;
+                }
+
                 // Unset the type attribute, as type="arrow" causes slower animation performance. (?)
                 if (mutation.target.getAttribute('type') === 'arrow') {
                     mutation.target.removeAttribute('type');
