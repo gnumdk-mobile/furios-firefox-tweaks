@@ -1,6 +1,6 @@
 /* about:privatebrowsing */
 
-@-moz-document url("about:privatebrowsing") {
+@-moz-document url-prefix("about:privatebrowsing") {
     html.private {
         --in-content-page-background: var(--gnome-private-in-content-page-background) !important;
 
