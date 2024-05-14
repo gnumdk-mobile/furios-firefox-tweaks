@@ -43,6 +43,11 @@ install: all
 		-t "$(DESTDIR)/etc/mobile-config-firefox"
 	install -Dm644 "src/userChrome.js" \
 		-t "$(DESTDIR)/etc/mobile-config-firefox"
+
+	# Disable crash reporter by writing src/99-firefox-crash-reporter.sh to /etc/profile.d
+	install -Dm755 src/99-firefox-crash-reporter.sh \
+		"$(DESTDIR)/etc/profile.d/99-firefox-crash-reporter.sh"
+
 	# Ensure DESTDIR is an absolute path \
 	DESTDIR=$$(realpath "$(DESTDIR)"); \
 	walk_dir() { \
