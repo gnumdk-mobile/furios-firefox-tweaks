@@ -1,3 +1,0 @@
-version=4
-opts="searchmode=plain" \
- https://gitlab.com/postmarketOS/mobile-config-firefox/tags?sort=updated_desc -/archive/v?\d[\d.]+/mobile-config-firefox-@ANY_VERSION@@ARCHIVE_EXT@ debian uupdate

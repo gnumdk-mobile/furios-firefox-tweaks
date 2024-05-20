@@ -1,17 +1,15 @@
-Source: firefox-esr-mobile-config
+Source: furios-firefox-tweaks
 Section: x11
 Priority: optional
-Maintainer: DebianOnMobile Maintainers <debian-on-mobile-maintainers@alioth-lists.debian.net>
-Uploaders: Jarrah Gosbell <debian@undef.tools>,
-           Arnaud Ferraris <aferraris@debian.org>,
+Maintainer: Bardia Moshiri <fakeshell@bardia.tech>
+Uploaders: Bardia Moshiri <fakeshell@bardia.tech> 
 Build-Depends: debhelper-compat (= 13)
 Standards-Version: 4.6.2
-Homepage: https://gitlab.com/postmarketOS/mobile-config-firefox
-Vcs-Browser: https://salsa.debian.org/DebianOnMobile-team/firefox-esr-mobile-config
-Vcs-Git: https://salsa.debian.org/DebianOnMobile-team/firefox-esr-mobile-config.git
+Vcs-Browser: https://github.com/FuriLabs/furios-firefox-tweaks
+Vcs-Git: https://github.com/FuriLabs/furios-firefox-tweaks.git
 Rules-Requires-Root: no
 
-Package: firefox-esr-mobile-config
+Package: furios-firefox-tweaks
 Architecture: all
 Depends:
  ${misc:Depends},
