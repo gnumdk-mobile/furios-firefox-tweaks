@@ -40,28 +40,15 @@ pref('ui.touch.radius.topmm', 2);
 pref('webgl.default-antialias', false);
 pref('webgl.enable-debug-renderer-info', false);
 pref('webgl.force-enabled', true);
-pref('webgl.msaa-samples', 1);
-pref('widget.dmabuf-webgl.enabled', false);
 
 // Improvements for touch gestures (zoom, etc)
-pref('apz.allow_double_tap_zooming', false);
-pref('apz.drag.enabled', false);
-pref('apz.drag.initial.enabled', false);
-pref('apz.drag.touch.enabled', false);
 pref('apz.gtk.pangesture.enabled', false);
 pref('apz.one_touch_pinch.enabled', true);
-pref('apz.windows.check_for_pan_gesture_conversion', false);
-pref('apz.wr.activate_all_scroll_frames', true);
-pref('apz.zoom-to-focused-input.enabled', false);
-// Reduces input latency in appMenu
-pref('apz.paint_skipping.enabled', false);
+pref('apz.content_response_timeout', 1000);
 
 // Responsiveness tweaks; prioritize user interaction
-pref('content.sink.interactive_parse_time', 500);
-pref('content.sink.perf_parse_time', 2000);
-pref('content.sink.interactive_time', 7500000);
-pref('content.sink.initial_perf_time', 500);
-
+pref('content.max.deflected.tokens', 64);
+pref('content.max.tokenizing.time', 10000);
 
 // Temporary workaround: don't throttle offscreen animations. This fixes the
 // animations in the app menu being slow. Should be fixed properly in the future.
@@ -73,54 +60,40 @@ pref('gfx.blithelper.precision', 0);
 // More misc rendering performance tweaks
 pref('gfx.canvas.accelerated.aa-stroke.enabled', false);
 pref('gfx.canvas.accelerated.force-enabled', true);
-pref('gfx.canvas.accelerated.max-surface-size', 4096);
+pref('gfx.canvas.accelerated.max-surface-size', 2048);
 pref('gfx.canvas.accelerated.stroke-to-fill-path', true);
-pref('gfx.content.skia-font-cache-size', 32);
-pref('gfx.direct2d.destroy-dt-on-paintthread', false);
+pref('gfx.content.skia-font-cache-size', 16);
 
-// Disable vblank - causes crashes and slows down rendering. Since we're on Wayland, we don't need it.
-pref('gfx.vsync.force-disable-waitforvblank', true);
-
-// WebRender tweaks. Of note is that we disable threading, OMTC, etc. Browser is a LOT faster without it.
+// WebRender tweaks
 pref('gfx.webrender.all', true);
 pref('gfx.webrender.blob-tile-size', 128);
 pref('gfx.webrender.compositor', true);
 pref('gfx.webrender.compositor.force-enabled', true);
 pref('gfx.webrender.fallback.software', false);
 pref('gfx.webrender.force-disabled', false);
+pref('gfx.webrender.enabled', true);
+pref('gfx.webrender.force-enabled', true);
+pref('gfx.webrender.multithreading', true);
+pref('gfx.webrender.prefer-robustness', false);
 pref('gfx.webrender.low-quality-pinch-zoom', true);
-pref('gfx.webrender.max-shared-surface-size', 4096);
+pref('gfx.webrender.max-shared-surface-size', 2048);
 pref('gfx.webrender.precache-shaders', true);
 pref('gfx.webrender.allow-partial-present-buffer-age', false);
+pref('gfx.webrender.program-binary-disk', true);
+pref('gfx.webrender.scissored-cache-clears.enabled', true);
+pref('gfx.webrender.scissored-cache-clears.force-enabled', true);
 pref('gfx.will-change.ignore-opacity', false);
-
-// I know this doesn't make sense at all, but disabled + force-enabled somehow improves performance and stability.
-// Without force-enabled, it's laggy. Without disabled, it's crashy. I dunno.
-pref('layers.acceleration.disabled', true);
-pref('layers.acceleration.force-enabled', true);
-pref('gfx.webrender.multithreading', false);
-pref('layers.offmainthreadcomposition.force-disabled', true);
 pref('dom.animations.mainthread-synchronization-with-geometric-animations', false);
-pref('webgl.cgl.multithreaded', false);
-pref('browser.tabs.remote.force-paint', false);
+pref('gfx.webrender.multithreading', true);
+pref('webgl.cgl.multithreaded', true);
+pref('webgl.out-of-process.async-present', true);
+pref('layers.gpu-process.enabled', true);
+pref('layers.offmainthreadcomposition.force-disabled', false);
+pref('layout.scrollbars.always-layerize-track', false);
 
-// JS performance finetuning. TODO: are these really improving performance?
-// Some of these are kinda security related, so might be good to reduce.
-pref('javascript.options.gc_delay', 10000);
-pref('javascript.options.gc_delay.interslice', 1000);
-pref('javascript.options.mem.gc_incremental_slice_ms', 15);
-pref('javascript.options.mem.gc_parallel_marking', true);
-pref('javascript.options.mem.gc_parallel_marking_threshold_mb', 2);
-pref('javascript.options.spectre.disable_for_isolated_content', true);
-pref('javascript.options.spectre.index_masking', false);
-pref('javascript.options.spectre.jit_to_cxx_calls', false);
-pref('javascript.options.spectre.object_mitigations', false);
-pref('javascript.options.spectre.string_mitigations', false);
-pref('javascript.options.spectre.value_masking', false);
+pref('gfx.display.max-frame-rate', 120);
 
-// Prerender up to 3x our viewport size while transforming. Improves appmenu further.
-pref('layout.animation.prerender.partial', true);
-pref('layout.animation.prerender.viewport-ratio-limit', '3');
+
 
 // Reuse stacking contexts
 pref('layout.display-list.retain.sc', true);
@@ -132,3 +105,54 @@ pref('layout.throttle_in_process_iframes', false);
 
 // Disable backdrop-filter - it's usually used for blurs and is very slow right now.
 pref('layout.css.backdrop-filter.enabled', false);
+
+// Fix icon coloring
+pref('svg.context-properties.content.enabled', true);
+
+// Disable caret browsing, can be confusing on mobile
+pref('accessibility.browsewithcaret_shortcut.enabled', false);
+pref('accessibility.typeaheadfind', false);
+
+// Download without asking
+pref('browser.download.folderList', 1);
+pref('browser.download.useDownloadDir', true);
+
+// Directly open PDFs
+pref('browser.download.open_pdf_attachments_inline', true);
+pref('pdfjs.handleOctetStream', true);
+
+// Keep a couple processes alive to improve responsiveness
+pref('dom.ipc.keepProcessesAlive.extension', 1);
+pref('dom.ipc.keepProcessesAlive.web', 1);
+
+// Allow webpush notifications to open stuff even if they take a bit to start up
+pref('dom.serviceWorkers.disable_open_click_delay', 100000);
+
+// Improve caret usability
+pref('layout.accessiblecaret.caret_shown_when_long_tapping_on_empty_content', false);
+pref('layout.accessiblecaret.extend_selection_for_phone_number', true);
+pref('layout.accessiblecaret.script_change_update_mode', 1);
+
+// Not super sure what these actually do; stole from Fennec
+pref('image.cache.size', 1048576); // bytes
+pref('media.video-queue.default-size', 3);
+pref('media.video-queue.send-to-compositor-size', 1);
+pref('network.http.http2.default-hpack-buffer', 4096);
+pref('network.http.http2.push-allowance', 32768);
+pref('network.http.keep-alive.timeout', 109);
+pref('network.tickle-wifi.enabled', true);
+
+// Disable PiP controls - they don't work here and are just annoying
+pref('media.videocontrols.picture-in-picture.enabled', false);
+
+// Restart the GPU process when it crashes instead of giving up the ghost
+pref('layers.gpu-process.max_restarts', 64);
+pref('layers.gpu-process.stable.frame-threshold', 1);
+pref('layers.gpu-process.stable.min-uptime-ms', 1);
+
+// Correctly calculate vsync rate even if idle -- fixes hitch when interacting after a few seconds
+pref('widget.wayland.vsync.keep-firing-at-idle', true);
+
+// Disable pointer lock API, causes crash if no mouse is connected
+pref('full-screen-api.pointer-lock.enabled', false);
+pref('dom.pointer-lock.enabled', false);
