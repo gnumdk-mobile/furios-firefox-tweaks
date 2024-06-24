@@ -9,20 +9,11 @@
         /* background: var(--gnome-tabbar-background) !important; */
     }
 
-    /* Allow extensions to use full popup */
-    .webextension-popup-browser {
-        height: 100% !important;
-        min-height: 100% !important;
-        width: 100vw !important;
-        min-width: 100vw !important;
-    }
-
     /* Adjust dialogues like "Confirm before closing multiple
      * tabs" or "Allow open in app" */
      .dialogFrame {
         max-width: 100%;
     }
-
  }
 
  /* CAREFUL: do not gate these (or anything that runs inside a popup/panel) behind a media query!
@@ -80,4 +71,18 @@ menupopup
     max-height: calc(100vh - 16px) !important;
     display: block !important;
     overflow: clip !important;
+}
+
+/* Fix webextension popups */
+browser.webextension-popup-browser {
+    background: transparent !important;
+    min-height: 40vh !important;
+    max-height: 70vh !important;
+}
+
+.webextension-popup-browser, .webextension-popup-stack {
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 100% !important;
+    height: 100% !important;
 }
