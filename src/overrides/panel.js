@@ -7,6 +7,10 @@
 // This is loaded into all XUL windows. Wrap in a block to prevent
 // leaking to window scope.
 {
+  const areTopTabsEnabled = function() {
+    return Services.prefs.getBoolPref("furi.topTabs");
+  };
+
   class MozPanel extends MozElements.MozElementMixin(XULPopupElement) {
     static get markup() {
       return `<html:slot part="content" style="display: none !important"/>`;
@@ -38,10 +42,10 @@
           this.setAttribute("flip", "both");
         }
         if (!this.hasAttribute("side")) {
-          this.setAttribute("side", "bottom");
+          this.setAttribute("side", areTopTabsEnabled() ? "top" : "bottom");
         }
         if (!this.hasAttribute("position")) {
-          this.setAttribute("position", "bottomleft bottomleft");
+          this.setAttribute("position", areTopTabsEnabled() ? "bottomleft topleft" : "bottomleft bottomleft");
         }
         if (!this.hasAttribute("consumeoutsideclicks")) {
           this.setAttribute("consumeoutsideclicks", "false");
@@ -127,6 +131,7 @@
     }
 
     on_popupshowing(event) {
+      this.setAttribute("remote", "true");
       if (event.target == this) {
         this.panelContent.style.display = "";
       }
@@ -299,6 +304,7 @@
     }
 
     fixPanelPosition() {
+      // if (areTopTabsEnabled()) return 0;
       if (!this.children.length) return 0;
       // ??? We need to call moveToAnchor, even if element is null, for moveTo to work
       // Why?!
@@ -311,7 +317,7 @@
     }
 
     openPopup(anchor, position, x, y, isContextMenu, attributesOverride) {
-      // super.openPopup(anchor, position, x, y, isContextMenu, attributesOverride);
+      // if (areTopTabsEnabled()) return super.openPopup(anchor, position, x, y, isContextMenu, attributesOverride);
       super.openPopupAtScreen(0, this.getPanelY(), isContextMenu, attributesOverride);
       this.fixPanelPosition();
     }
