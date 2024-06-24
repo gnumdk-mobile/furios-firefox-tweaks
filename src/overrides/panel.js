@@ -51,6 +51,20 @@
           this.setAttribute("consumeoutsideclicks", "false");
         }
       }
+
+      // Whenever the window is resized, ensure we reposition ourselves relative to the new size
+      let previousHeight = window.innerHeight;
+      const resizeObserver = new ResizeObserver(() => {
+        if (window.innerHeight !== previousHeight) {
+          if (this.getAttribute("panelopen") && !areTopTabsEnabled()) {
+            const newY = this.screenY - (previousHeight - window.innerHeight);
+            this.moveToAnchor(null, "before_start", 0, newY, true);
+            this.moveTo(0, newY);
+          }
+          previousHeight = window.innerHeight;
+        }
+      });
+      resizeObserver.observe(document.documentElement);
     }
 
     ensureInitialized() {
@@ -312,7 +326,7 @@
       this.moveToAnchor(null, "before_start", 0, y, true);
       this.moveTo(
         0,
-        this.getPanelY()
+        y
       );
     }
 
