@@ -2,11 +2,6 @@
  * SPDX-License-Identifier: MPL-2.0 */
 
 @media (max-width: 700px) {
-    /* Move navigation bar to bottom */
-    #browser {
-        order: -1 !important; /* since FF 113 */
-    }
-
     /* Hide navigation bar in kiosk mode (to prevent bug #29). We can assume FF
      * is in kiosk mode when fullscreen and max-width conditions are met,
      * because at this max-width the fullscreen button is hidden
@@ -19,5 +14,59 @@
     /* Hide minimize/maximize/close buttons */
     .titlebar-buttonbox-container {
         display: none;
+    }
+
+    vbox.urlbarView {
+        position: fixed !important;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px 8px 8px 3px !important;
+        left: 0 !important;
+        right: 0 !important;
+        border-radius: 0 !important;
+        border: none !important;
+        width: unset !important;
+        margin: 0 !important;
+        top: 82px !important;
+    }
+}
+
+@media ((max-width: 700px)
+        and (not (-moz-bool-pref: "furi.topTabs"))) {
+    /* Move navigation bar to bottom */
+    #browser {
+        order: -1 !important; /* since FF 113 */
+    }
+
+    vbox.urlbarView
+    {
+        bottom: 82px !important;
+        top: unset !important;
+        box-shadow: rgba(0, 0, 0, 0.05) 0px -8px 8px 3px !important;
+    }
+
+    vbox.urlbarView div#urlbar-results
+    {
+        display: flex !important;
+        flex-direction: column-reverse;
+    }
+
+    /* Ensure search results are always shown at the very top */
+    vbox.urlbarView div#urlbar-results div[type="search"]
+    {
+        order: 100 !important;
+    }
+
+    vbox.urlbarView div#urlbar-results div.urlbarView-row
+    {
+        margin-top: 0 !important;
+    }
+
+    vbox.urlbarView div#urlbar-results div.urlbarView-row::before
+    {
+        display: none !important;
+    }
+
+    hbox.search-panel-one-offs-header.search-panel-header
+    {
+        margin-top: 1.5px !important;
     }
 }
