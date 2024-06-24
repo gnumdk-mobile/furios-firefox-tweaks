@@ -314,7 +314,7 @@
     getPanelY() {
       if (!this.children.length) return 0;
       const contentHeight = Array.from(this.children).reduce(function(acc, el) { return acc + el.scrollHeight }, 0);
-      return document.documentElement.clientHeight - contentHeight - 104;
+      return areTopTabsEnabled() ? 88 : document.documentElement.clientHeight - contentHeight - 104;
     }
 
     fixPanelPosition() {
