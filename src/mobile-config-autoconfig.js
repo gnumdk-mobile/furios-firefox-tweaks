@@ -352,29 +352,10 @@ function css_files_update() {
         set_firefox_version_previous(g_ff_version);
 }
 
-/**
- * Builds a user-agent as similar to the default as possible, but with "Mobile"
- * inserted into the platforms section.
- *
- * @returns {string}
- */
-function build_user_agent() {
-    var appinfo = Services.appinfo;
-    var vendor = appinfo.vendor || "Mozilla";
-    var os = appinfo.OS || "Linux";
-    var version = get_firefox_version() + ".0";
-    var name = appinfo.name || "Firefox";
-    var arch = (appinfo.XPCOMABI && appinfo.XPCOMABI.includes("-"))
-        ? appinfo.XPCOMABI.split("-")[0]
-        : "aarch64";
-
-    return `${vendor}/5.0 (X11; ${os} ${arch}; Mobile; rv:${version}) Gecko/20100101 ${name}/${version}`;
-}
-
 function set_default_prefs() {
     log("Setting default preferences");
 
-    var user_agent = build_user_agent();
+    var user_agent = "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.3";
     defaultPref('general.useragent.override', user_agent);
 
     // Disable "Firefox View" feature by default. It's a pinned tab that allows
@@ -390,7 +371,7 @@ function main() {
 
     // Restart Firefox immediately if one of the files got updated
     if (g_updated == true)
-        trigger_firefox_restart();
+        return trigger_firefox_restart();
     else
         set_default_prefs();
 
