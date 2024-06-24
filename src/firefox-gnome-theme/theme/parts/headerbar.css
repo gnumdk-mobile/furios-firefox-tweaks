@@ -2,8 +2,11 @@
 @namespace xul "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 
 /* Headerbar */
-#nav-bar {
+html:not([lwtheme]) #nav-bar {
 	background: var(--gnome-headerbar-background) !important;
+}
+
+#nav-bar {
 	padding: 6px 3px !important;
 }
 
@@ -12,7 +15,7 @@
 	background: url("../icons/eye-not-looking-symbolic.svg") no-repeat;
 	background-size: 64px 64px;
 	content: "";
-	display: block;	
+	display: block;
 	position: absolute;
 	width: 64px;
 	height: 46px;
@@ -30,7 +33,7 @@
 
 /* Overlay headerbar on fullscreen */
 @media (-moz-bool-pref: "browser.fullscreen.autohide") {
-	#navigator-toolbox[inFullscreen] { 	
+	#navigator-toolbox[inFullscreen] {
 		position: fixed !important;
 		transition: margin 300ms ease-in-out 0s !important;
 		line-height: 0;

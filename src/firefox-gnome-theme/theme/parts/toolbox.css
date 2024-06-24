@@ -8,7 +8,7 @@
 @namespace xul "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul";
 
 /* Toolbox colors */
-#navigator-toolbox {
+html:not([lwtheme]) #navigator-toolbox {
 	background: var(--gnome-toolbar-background) !important;
 	border-color: var(--gnome-toolbar-border-color) !important;
 }
@@ -16,15 +16,19 @@
 #PersonalToolbar, #toolbar-menubar, #TabsToolbar, findbar {
 	appearance: none !important;
 	border: 0 !important;
+}
+
+html:not([lwtheme]) #PersonalToolbar, html:not([lwtheme]) #toolbar-menubar, html:not([lwtheme]) #TabsToolbar, html:not([lwtheme]) findbar {
 	background: var(--gnome-toolbar-background) !important;
 }
+
 findbar {
 	border-top: 1px solid var(--gnome-toolbar-border-color) !important;
 }
 #nav-bar:-moz-window-inactive,
-#PersonalToolbar:-moz-window-inactive, 
-#toolbar-menubar:-moz-window-inactive, 
-#TabsToolbar:-moz-window-inactive, 
+#PersonalToolbar:-moz-window-inactive,
+#toolbar-menubar:-moz-window-inactive,
+#TabsToolbar:-moz-window-inactive,
 findbar:-moz-window-inactive,
 .container.infobar:-moz-window-inactive {
 	transition: background .2s ease-out;
@@ -120,7 +124,7 @@ findbar:-moz-window-inactive description,
 	margin: 8px 0 !important;
 }
 .notificationbox-stack notification-message[type="warning"] {
-	background: #ffe900 !important;	
+	background: #ffe900 !important;
 }
 .notificationbox-stack notification-message[type="critical"] {
 	background: #d70022 !important;

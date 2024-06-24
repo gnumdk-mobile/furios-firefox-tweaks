@@ -8,11 +8,14 @@
 
 #TabsToolbar {
     --toolbarbutton-inner-padding: var(--toolbarbutton-inner-padding) !important;
-	background-color: var(--gnome-tabbar-background) !important;
 	border-bottom: 0 !important;
 	padding: 0 !important;
 	position: relative;
 	z-index: 1;
+}
+
+html:not([lwtheme]) #TabsToolbar {
+    background-color: var(--gnome-tabbar-background) !important;
 }
 
 #TabsToolbar .titlebar-buttonbox-container:not(#hack) {
@@ -85,7 +88,7 @@ tab > stack {
 #scrollbutton-up:has(~ .scrollbox-clip[orient="horizontal"]):not([disabled])::after {
 	background: linear-gradient(to right, var(--gnome-tabbar-fade-background) 10px, transparent);
 	left: 0;
-	
+
 }
 .scrollbox-clip[orient="horizontal"] ~ #scrollbutton-down:not([disabled])::after {
 	background: linear-gradient(to left, var(--gnome-tabbar-fade-background) 10px, transparent);
@@ -546,7 +549,7 @@ tab {
 		order: 0 !important;
 		margin-left: 0 !important;
 	}
-	
+
 	/* Overlay is nor longer needed */
 	.tabbrowser-tab:not([pinned]) .tab-content::before {
 		display: none !important;
@@ -602,6 +605,10 @@ tab {
 	}
 }
 
+html:not([lwtheme]) #titlebar {
+    background-color: var(--toolbar-bgcolor) !important;
+}
+
 /* OPTIONAL: Use tabs as headerbar */
 @media (-moz-bool-pref: "gnomeTheme.tabsAsHeaderbar") {
 	/* Rearrange bars */
@@ -636,15 +643,15 @@ tab {
 	}
 
 	/* Remove nav-bar rounding and padding */
-	:root[tabsintitlebar][sizemode="normal"]:not([gtktiledwindow="true"]) #nav-bar { 
-		border-radius: 0 !important; 
-	 } 
+	:root[tabsintitlebar][sizemode="normal"]:not([gtktiledwindow="true"]) #nav-bar {
+		border-radius: 0 !important;
+	 }
 	:root[tabsintitlebar]:not([inFullscreen]) #nav-bar,
 	:root[tabsintitlebar][inFullscreen] #nav-bar {
 		padding-left: 3px !important;
 		padding-right: 3px !important;
 	}
-	
+
 	/* Round and pad tab-bar */
 	:root[tabsintitlebar][sizemode="normal"]:not([gtktiledwindow="true"]) #TabsToolbar {
 		border-radius: env(-moz-gtk-csd-titlebar-radius) env(-moz-gtk-csd-titlebar-radius) 0 0 !important
@@ -652,19 +659,19 @@ tab {
 	:root[tabsintitlebar]:not([inFullscreen], [sizemode="maximized"]) #TabsToolbar .toolbar-items {
 		padding: 0 46px;
 	}
-	
+
 	/* Hide duplicate window controls from menubar */
 	:root[tabsintitlebar] #toolbar-menubar .titlebar-buttonbox-container {
 		display: none !important;
 	}
-	
+
 	/* Force displaying controls in tab-bar */
 	:root[tabsintitlebar]:not([inDOMFullscreen]) #TabsToolbar .titlebar-buttonbox-container:not(#hack) {
 		display: flex !important;
 		position: static !important;
 		visibility: visible !important;
 	}
-	
+
 	/* Blend single tab into whole bar */
 	@media (-moz-bool-pref: "gnomeTheme.hideSingleTab") {
 		#tabbrowser-tabs:not(:has(tab:not([hidden="true"]) ~ tab:not([hidden="true"]))) :is(
