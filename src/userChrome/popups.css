@@ -1,16 +1,12 @@
 /* Copyright 2024 Oliver Smith, user0, Peter Mack *
  * SPDX-License-Identifier: MPL-2.0 */
 
-@media (max-width: 700px) {
-    panel, panelmultiview, panelview {
+ @media (max-width: 700px) {
+ panel, panelmultiview, panelview {
         min-width: 100vw !important;
         width: 100vw !important;
         max-width: 100vw !important;
         /* background: var(--gnome-tabbar-background) !important; */
-    }
-
-    menupopup {
-        max-width: 100vw !important;
     }
 
     /* Allow extensions to use full popup */
@@ -21,25 +17,67 @@
         min-width: 100vw !important;
     }
 
-    /* Hide some context menu items,
-     * hide 'Customize Toolbar' in overflow menu */
-    #context-inspect,
-    #context-inspect-a11y,
-    #context-savelinktopocket,
-    #context-searchselect,
-    #context-sendlinktodevice,
-    #context-viewpartialsource-selection,
-    #inspect-separator,
-    #appmenu-moreTools-button,
-    #appmenu-moreTools-button + toolbarseparator,
-    #overflowMenu-customize-button {
-        display: none !important
-    }
-
     /* Adjust dialogues like "Confirm before closing multiple
      * tabs" or "Allow open in app" */
-    .dialogFrame {
+     .dialogFrame {
         max-width: 100%;
     }
 
+ }
+
+ /* CAREFUL: do not gate these (or anything that runs inside a popup/panel) behind a media query!
+             if you do, there will be a size calculation conflict between the DOM in the main window
+             and the popup/panel, and the popup/panel will be sized incorrectly. this is extremely
+             hard to debug, and I encourage you to increase this counter at your own leisure:
+
+             hours lost to this bug: 17
+*/
+
+/* Hide some context menu items,
+    * hide 'Customize Toolbar' in overflow menu */
+#context-inspect,
+#context-inspect-a11y,
+#context-savelinktopocket,
+#context-searchselect,
+#context-sendlinktodevice,
+#context-viewpartialsource-selection,
+#inspect-separator,
+#context-sep-selectall,
+#frame-sep,
+#appmenu-moreTools-button,
+#appmenu-moreTools-button + toolbarseparator,
+#overflowMenu-customize-button {
+    display: none !important
+}
+
+/* Fix menu sizes being wrong more often than not */
+#mainPopupSet
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+menupopup
+{
+    display: inline-block !important;
+    width: max-content !important;
+    min-width: max-content !important;
+    max-width: max-content !important;
+    block-size: max-content !important;
+    max-block-size: max-content !important;
+    min-block-size: max-content !important;
+}
+
+.menupopup-arrowscrollbox
+{
+    width: max-content !important;
+    max-width: calc(100vw - 16px) !important;
+    height: max-content !important;
+    max-height: calc(100vh - 16px) !important;
+    display: block !important;
+    overflow: clip !important;
 }

@@ -385,10 +385,7 @@ function main() {
 var REPLACEMENTS = {};
 REPLACEMENTS["chrome://global/content/elements/panel.js"] = "file:///etc/mobile-config-firefox/overrides/panel.js";
 REPLACEMENTS["chrome://global/content/elements/popupnotification.js"] = "file:///etc/mobile-config-firefox/overrides/popupnotification.js";
-// REPLACEMENTS["resource:///modules/PanelMultiView.sys.mjs"] = "file:///etc/mobile-config-firefox/overrides/PanelMultiView.sys.mjs";
-// REPLACEMENTS["chrome://global/content/elements/menupopup.js"] = "file:///etc/mobile-config-firefox/overrides/menupopup.js";
-// REPLACEMENTS["chrome://global/content/elements/autocomplete-popup.js"] = "file:///etc/mobile-config-firefox/overrides/autocomplete-popup.js";
-// REPLACEMENTS["chrome://global/content/customElements.js"] = "file:///etc/mobile-config-firefox/overrides/customElements.js";
+REPLACEMENTS["chrome://global/content/elements/menupopup.js"] = "file:///etc/mobile-config-firefox/overrides/menupopup.js";
 
 var UserChromeJS = {
     init: function() {
