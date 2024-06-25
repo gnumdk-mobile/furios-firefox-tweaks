@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="addon">
-  <id>org.postmarketos.mobile_config_firefox</id>
+  <id>io.furios.furios_firefox_tweaks</id>
 
   <name>Mobile Config for Firefox</name>
   <summary>Mobile and privacy friendly configuration for Firefox (distro-independent)</summary>
@@ -14,7 +14,7 @@
 
   <description>
     <p>
-      UI optimizations to allow using Firefox on mobile devices (i.e. small touch screen), including two finger zoom and enforcing of mobile user agent. Privacy enhancements such as disabled search suggestions, disabled Firefox studies, disabled Telemetry and DuckDuckGo as default search engine.
+      UI optimizations to allow using Firefox on mobile devices (i.e. small touch screen), including two finger zoom and enforcing of mobile user agent.
     </p>
   </description>
 </component>

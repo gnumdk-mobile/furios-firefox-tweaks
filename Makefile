@@ -1,4 +1,5 @@
 # Copyright 2023 Oliver Smith
+# Copyright 2024 Bardia Moshiri
 # SPDX-License-Identifier: MPL-2.0
 
 HEADER_FILE := src/common/header.css
@@ -8,9 +9,11 @@ USERCONTENT_FILES := $(HEADER_FILE) $(sort $(wildcard src/userContent/*.css))
 USERCHROME_FILES += src/firefox-gnome-theme/userChrome.css
 USERCONTENT_FILES += src/firefox-gnome-theme/userContent.css
 
+PREFIX ?= /usr
 DESTDIR :=
-FIREFOX_DIR := /usr/lib/firefox
+FIREFOX_DIR := $(PREFIX)/lib/firefox
 FIREFOX_CONFIG_DIR := /etc/firefox
+FIREFOX_MOBILE_CONFIG_DIR := $(PREFIX)/share/furios-firefox-tweaks
 
 all: out/userChrome.files out/userContent.files
 
@@ -38,11 +41,11 @@ install: all
 	install -Dm644 src/mobile-config-autoconfig.js \
 		"$(DESTDIR)/$(FIREFOX_DIR)/mobile-config-autoconfig.js"
 	install -Dm644 "out/userChrome.files" \
-		-t "$(DESTDIR)/etc/mobile-config-firefox"
+		-t "$(DESTDIR)/$(FIREFOX_MOBILE_CONFIG_DIR)"
 	install -Dm644 "out/userContent.files" \
-		-t "$(DESTDIR)/etc/mobile-config-firefox"
+		-t "$(DESTDIR)/$(FIREFOX_MOBILE_CONFIG_DIR)"
 	install -Dm644 "src/userChrome.js" \
-		-t "$(DESTDIR)/etc/mobile-config-firefox"
+		-t "$(DESTDIR)/$(FIREFOX_MOBILE_CONFIG_DIR)"
 
 	# Disable crash reporter by writing src/99-firefox-crash-reporter.sh to /etc/profile.d
 	install -Dm755 src/99-firefox-crash-reporter.sh \
@@ -58,8 +61,9 @@ install: all
 				echo "Installing directory: $$i"; \
 				walk_dir "$$i"; \
 			else \
-				echo "Installing file: $$i to $$DESTDIR/etc/mobile-config-firefox/$$i"; \
-				install -Dm644 "$$i" -t "$$DESTDIR/etc/mobile-config-firefox/$$(dirname "$$i")"; \
+				install_path="furios-firefox-tweaks/$$(realpath --relative-to=src $$i)"; \
+				echo "Installing file: $$i to $$DESTDIR/$(FIREFOX_MOBILE_CONFIG_DIR)/$$install_path"; \
+				install -Dm644 "$$i" -t "$$DESTDIR/$(FIREFOX_MOBILE_CONFIG_DIR)/$$(dirname "$$install_path")"; \
 			fi; \
 		done; \
 	}; \
@@ -68,16 +72,15 @@ install: all
 		walk_dir "$$dir"; \
 	done; \
 	cd ..
-	install -Dm644 org.postmarketos.mobile_config_firefox.metainfo.xml \
-		"$(DESTDIR)/usr/share/metainfo/org.postmarketos.mobile_config_firefox.metainfo.xml"
+	install -Dm644 io.furios.furios_firefox_tweaks.metainfo.xml \
+		"$(DESTDIR)/$(PREFIX)/share/metainfo/io.furios.furios_firefox_tweaks.metainfo.xml"
 
 uninstall:
 	src/prepare_uninstall.sh "$(FIREFOX_DIR)" "$(DESTDIR)"
 	rm -fv "$(DESTDIR)/$(FIREFOX_CONFIG_DIR)/policies/policies.json"
 	rm -fv "$(DESTDIR)/$(FIREFOX_DIR)/defaults/pref/mobile-config-prefs.js"
 	rm -fv "$(DESTDIR)/$(FIREFOX_DIR)/mobile-config-autoconfig.js"
-	rm -rfv "$(DESTDIR)/etc/mobile-config-firefox"
-	rm -fv "$(DESTDIR)/usr/share/metainfo/org.postmarketos.mobile_config_firefox.metainfo.xml"
-
+	rm -rfv "$(DESTDIR)/$(FIREFOX_MOBILE_CONFIG_DIR)"
+	rm -fv "$(DESTDIR)/$(PREFIX)/share/metainfo/io.furios.furios_firefox_tweaks.metainfo.xml"
 
 .PHONY: all clean install uninstall
