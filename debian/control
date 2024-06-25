@@ -14,10 +14,8 @@ Architecture: all
 Depends:
  ${misc:Depends},
  firefox-esr,
-Replaces: firefox-esr-mobile-config
-Breaks: firefox-esr-mobile-config
-Description: Default mobile-friendly configuration for Firefox ESR
- This package provides a set of configuration files aimed at making Firefox ESR
+Description: Default mobile-friendly FuriOS configuration for Firefox
+ This package provides a set of configuration files aimed at making Firefox
  more mobile-friendly. It provides:
   * default preferences values
   * custom userChrome.css
