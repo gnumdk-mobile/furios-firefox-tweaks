@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 //
 // Generate and update userChrome.css and userContent.css for the user's
-// profile from CSS fragments in /etc/mobile-config-firefox, depending on the
+// profile from CSS fragments in /usr/share/furios-firefox-tweaks, depending on the
 // installed Firefox version. Set various defaults for about:config options in
 // set_default_prefs().
 //
@@ -138,7 +138,7 @@ function css_file_get_fragments(name) {
         return g_fragments_cache[name];
 
     var ret = [];
-    var path = "/etc/mobile-config-firefox/" + name + ".files";
+    var path = "/usr/share/furios-firefox-tweaks/" + name + ".files";
     log("Reading fragments from file: " + path);
     var file = new FileUtils.File(path);
 
@@ -152,7 +152,7 @@ function css_file_get_fragments(name) {
         var line = {};
         has_more = istream.readLine(line);
         if (css_fragment_check_firefox_version(line.value))
-            ret.push("/etc/mobile-config-firefox/" + line.value);
+            ret.push("/usr/share/furios-firefox-tweaks/" + line.value);
 
     } while (has_more);
 
@@ -178,7 +178,7 @@ function css_file_get(name) {
 // file: return of css_file_get()
 function css_file_delete_outdated(name, file) {
     var depends = css_file_get_fragments(name).slice(); /* copy the array */
-    depends.push("/etc/mobile-config-firefox/" + name + ".files");
+    depends.push("/usr/share/furios-firefox-tweaks/" + name + ".files");
     for (var i in depends) {
         try {
             var depend = depends[i];
@@ -295,7 +295,7 @@ function css_file_resolve_recursive(file) {
 }
 
 // Create userChrome.css / userContent.css in the user's profile, based on the
-// CSS fragments stored in /etc/mobile-config-firefox.
+// CSS fragments stored in /usr/share/furios-firefox-tweaks.
 // name: either "userChrome" or "userContent"
 // file: return of css_file_get()
 function css_file_merge(name, file) {
@@ -383,9 +383,9 @@ function main() {
 }
 
 var REPLACEMENTS = {};
-REPLACEMENTS["chrome://global/content/elements/panel.js"] = "file:///etc/mobile-config-firefox/overrides/panel.js";
-REPLACEMENTS["chrome://global/content/elements/popupnotification.js"] = "file:///etc/mobile-config-firefox/overrides/popupnotification.js";
-REPLACEMENTS["chrome://global/content/elements/menupopup.js"] = "file:///etc/mobile-config-firefox/overrides/menupopup.js";
+REPLACEMENTS["chrome://global/content/elements/panel.js"] = "file:///usr/share/furios-firefox-tweaks/overrides/panel.js";
+REPLACEMENTS["chrome://global/content/elements/popupnotification.js"] = "file:///usr/share/furios-firefox-tweaks/overrides/popupnotification.js";
+REPLACEMENTS["chrome://global/content/elements/menupopup.js"] = "file:///usr/share/furios-firefox-tweaks/overrides/menupopup.js";
 
 var UserChromeJS = {
     init: function() {
@@ -422,7 +422,7 @@ var UserChromeJS = {
             this.logger.warn("Scriptloader hooked");
         }
 
-        Services.scriptloader.loadSubScript("file:///etc/mobile-config-firefox/userChrome.js", subject);
+        Services.scriptloader.loadSubScript("file:///usr/share/furios-firefox-tweaks/userChrome.js", subject);
 
         subject.addEventListener("DOMContentLoaded", this, {capture: true, once: true});
     },
@@ -431,7 +431,7 @@ var UserChromeJS = {
         // Load userChrome.js into every window so we can patch deeper into the UI.
         var document = event.originalTarget;
         var window = document.defaultView;
-        Services.scriptloader.loadSubScript("file:///etc/mobile-config-firefox/userChrome.js", window);
+        Services.scriptloader.loadSubScript("file:///usr/share/furios-firefox-tweaks/userChrome.js", window);
     }
 };
 
