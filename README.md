@@ -1,34 +1,17 @@
-# mobile-config-firefox
+# furios-firefox-tweaks
 
 Mobile and privacy friendly configuration for current standard and extended
 support releases of Firefox.
-
-This does not replace a proper implementation in
-[Firefox upstream](https://bugzilla.mozilla.org/show_bug.cgi?id=1579348)
-*(interesting stuff happens in issues linked in "References")*.
 
 ## What this config does
 
 * Adapt UI elements and "about:" pages to small screen sizes (when opened on
   small screen)
 * Enable mobile gestures
-* Privacy tweaks:
-  * Disable search suggestions
-  * Disable Firefox studies
-  * Disable Telemetry
-  * Set DuckDuckGo as default search engine, remove other search engines except
-    for Wikipedia (only works in Firefox ESR, limitation of
-    [policies.json](https://github.com/mozilla/policy-templates/blob/cab6a5076c1d8e5a1574637709c19b54bdbd669e/README.md#searchengines--remove))
-  * Install [uBlock origin](https://github.com/gorhill/uBlock) by default
-    ([why?](https://gitlab.com/postmarketOS/mobile-config-firefox/-/commit/160a1056c2cf35572157762f66174ea7c0b1db06))
 * Uncluttering:
   * Disable built-in advertisements (e.g. hardcoded links for certain social
     media sites on the start page)
   * Disable "User Messaging" about new features etc.
-
-There's a
-[screenshot thread](https://fosstodon.org/web/@ollieparanoid/107394745970284867)
-of the `3.0.0_rc1` release.
 
 ## For users: making changes
 
@@ -44,10 +27,10 @@ if you do not want it. Without editing the file, it can only be disabled in the
 add-on settings, and not removed, this is a limitation of `policies.json`.
 
 Feel free to
-[create an issue](https://gitlab.com/postmarketOS/mobile-config-firefox/-/issues)
+[create an issue](https://github.com/FuriLabs/furios-firefox-tweaks/issues?q=sort%3Aupdated-desc+is%3Aissue+is%3Aopen)
 if you run into problems. Or even better, attempt to fix the problem yourself
 (see development instructions below) and submit a
-[merge request](https://gitlab.com/postmarketOS/mobile-config-firefox/-/merge_requests).
+[pull request](https://github.com/FuriLabs/furios-firefox-tweaks/pulls?q=sort%3Aupdated-desc+is%3Apr+is%3Aopen).
 
 ## Contributing changes to userChrome
 Firefox' developer tools include a
@@ -67,17 +50,14 @@ a website. So this is highly recommended when contributing changes to
     listens on all interfaces. Otherwise you'll need something like an SSH
     tunnel.
   * Close firefox
-* Connect to your phone via [SSH](https://wiki.postmarketos.org/wiki/SSH)
   * Set up environment variables properly, so you can start programs (one lazy
     way to do it, is `tmux` on your phone in the terminal, then `tmux a` in
     SSH)
   * Run `firefox --start-debugger-server 6000` (or another port if you desire)
 * Run Firefox on your PC
   * Go to `about:debugging`
-  * Add your phone as "network location" (`172.16.42.1:6000` if connected through USB Network)
+  * Add your phone as "network location" (`10.15.19.82:6000` if connected through USB Network)
   * Press the connect button on the left
-  * If it does not work, check if a firewall on your phone is blocking the port
-    (i.e. [nftables](https://wiki.postmarketos.org/wiki/Nftables) in postmarketOS).
 * On your phone
   * Confirm the connection on your phone's screen
     * If the button is not visible on the screen, try switching to a terminal
@@ -110,8 +90,6 @@ $ tail -F $(find ~/.mozilla -name mobile-config-firefox.log)
 * Use 4 spaces for indent in all files, except for shell scripts (use tabs
   there). Consider configuring your editor to use `.editorconfig`, then it gets
   configured automatically.
-* Linter: `.ci/lint.sh` (consider setting it as pre-commit hook, requires GNU
-  grep)
 
 ## Additional resources
 * [How to use the Firefox Browser Toolbox](https://developer.mozilla.org/en-US/docs/Tools/Browser_Toolbox)
