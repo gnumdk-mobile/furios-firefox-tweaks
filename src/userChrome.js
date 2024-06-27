@@ -43,3 +43,41 @@ if (document)
         }
     });
 }
+
+// Load JS into tabs. Used to deeply customize about: pages etc
+{
+   var INJECT_JS = {};
+   INJECT_JS["about:preferences"] = "file:///etc/mobile-config-firefox/overrides/pages/preferences.js";
+
+   const tryInject = function(target) {
+       const baseUri = target.baseURI;
+       if (baseUri !== target.location.href) return;
+
+       const uri = new URL(baseUri);
+       const cleanString = uri.protocol + uri.hostname + uri.pathname;
+
+       if (INJECT_JS[cleanString]) {
+           const innerDoc = target.documentElement.parentNode;   // ??? documentElement should be the root node
+                                                                 // so wtf is parentNode in this case?
+           const script = innerDoc.createElement('script');
+           script.src = INJECT_JS[cleanString];
+           innerDoc.head.appendChild(script);
+       }
+   }
+
+   document.addEventListener('DOMWindowCreated', function(event) {
+       const target = event.target;
+
+       if (target instanceof HTMLDocument) {
+           tryInject(target);
+       }
+
+       // Also watch for navigation events
+       const window = event.target.defaultView;
+       if (window) {
+           window.addEventListener('DOMContentLoaded', function(e) {
+               tryInject(window.document);
+           });
+       }
+   });
+}

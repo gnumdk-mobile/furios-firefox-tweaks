@@ -1,7 +1,7 @@
 /* Copyright 2022 Anri Dellal
  * SPDX-License-Identifier: MPL-2.0 */
 
-@-moz-document url-prefix("about:preferences") {
+ @-moz-document url-prefix("about:preferences") {
     .sticky-container {
         display: flex;
     }
@@ -11,13 +11,544 @@
     }
 
     /* #sync page */
-    .fxaMobilePromo {
+    .fxaMobilePromo,
+    #category-more-from-mozilla {
         display: none;
+    }
+
+    :root
+    {
+        --in-content-page-background: var(--gnome-window-background) !important;
+        --in-content-accent-color: AccentColor !important;
+        --color-accent-primary: AccentColor !important;
+        --textbox-search-icon-opacity: 1;
     }
 
     @media (max-width: 700px) {
         .fxaSyncIllustration {
             display: none;
         }
+
+        [data-subcategory]
+        {
+            margin-inline: 0 !important;
+            padding-inline: 0 !important;
+        }
+
+        vbox.navigation {
+            position: absolute !important;
+            top: -16px;
+            left: 0;
+            right: 0;
+            z-index: 100;
+
+            padding-right: 64px;
+            box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+            background-color: var(--in-content-page-background);
+
+            & #categories
+            {
+                flex-direction: row;
+                margin-top: 16px !important;
+                width: 100% !important;
+
+                & .category
+                {
+                    background: none !important;
+                }
+            }
+
+            & spacer, & .sidebar-footer-list {
+                display: none;
+            }
+        }
+
+        body
+        {
+            opacity: 0;
+            transition: opacity 0.2s ease-out;
+        }
+
+        body.loaded
+        {
+            opacity: 1;
+        }
+
+        /* Prevent keyboard from flashing on initial load */
+        body:not(.loaded) #searchInput
+        {
+            display: none;
+        }
+
+        .textbox-search-sign
+        {
+            opacity: var(--textbox-search-icon-opacity);
+        }
+
+        #searchInput
+        {
+            position: fixed;
+            top: 9px;
+            right: 10px;
+
+            width: calc(100% - 20px) !important;
+            margin: 0 !important;
+            --textbox-search-icon-opacity: 0;
+
+            transition: transform 0.3s cubic-bezier(.10,0,0,1),
+                color 0.3s cubic-bezier(.10,0,0,1),
+                background-color 0.3s cubic-bezier(.10,0,0,1),
+                outline-color 0.3s cubic-bezier(.10,0,0,1);
+
+            transform: translateX(0);
+            transition-delay: 0.15s;
+            contain: strict;
+
+            &:not([focused]):not(.has-text)
+            {
+            	transform: translateX(calc(100vw - 64px));
+                background-color: transparent !important;
+                color: transparent !important;
+
+                outline: 2px solid transparent;
+                outline-offset: -1px;
+            }
+
+            &:after
+            {
+                display: block;
+                content: '';
+                position: absolute;
+                top: 2px;
+                left: -1px;
+                bottom: 0;
+                aspect-ratio: 1 / 1;
+                background-color: var(--in-content-page-color);
+                mask-image: url('chrome://global/skin/icons/search-textbox.svg');
+                mask-repeat: no-repeat;
+                mask-position: center center;
+                transform: scale(1.15) translateX(2px) translateY(-1px);
+                opacity: 0.5;
+
+                transition: transform 0.3s cubic-bezier(.10,0,0,1), opacity 0.3s cubic-bezier(.10,0,0,1);
+                transition-delay: 0.05s;
+            }
+
+            &:not([focused]):not(.has-text):after
+            {
+                transform: scale(2) translateX(0) translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .pane-container
+        {
+            width: 100vw !important;
+            min-width: 100vw !important;
+            margin: 0 !important;
+            margin-top: 64px !important;
+            margin-inline-end: 0 !important;
+
+            & .sticky-container
+            {
+                width: 100% !important;
+                background: transparent !important;
+                z-index: 120 !important;
+                margin-inline: 0 !important;
+                padding-inline: 0 !important;
+            }
+        }
+
+        label span.accesskey
+        {
+            text-decoration: none !important;
+        }
+
+        hbox.subcategory
+        {
+            display: none;
+        }
+
+        groupbox hbox > label
+        {
+            flex: 1;
+        }
+
+        vbox.indent
+        {
+            margin: 0 !important;
+        }
+
+        #homeContentsGroup > vbox > vbox > hbox
+        {
+            margin-top: 4px;
+            margin-bottom: 8px;
+
+            & > description
+            {
+                margin-top: 0 !important;
+                margin-bottom: 0 !important;
+            }
+        }
+
+        .pane-container groupbox
+        {
+            position: relative;
+            background-color: transparent !important;
+            margin-bottom: 16px !important;
+
+
+            & > label, & > h2, & > description
+            {
+            	color: var(--gnome-view-color);
+            }
+
+            & tree
+            {
+                border: none !important;
+                border-radius: 4px !important;
+            }
+
+            & > vbox:not(.indent), & > vbox.indent > checkbox, & > checkbox, & > hbox, & > tree,
+            & #web-appearance-chooser, & #web-appearance-chooser + div
+            {
+                background-color: var(--gnome-menu-background);
+                padding-inline: unset !important;
+                padding: 14px 14px !important;
+                border-bottom: 1px solid var(--gnome-secondary-sidebar-background);
+                margin: 0 !important;
+                transition: background-color 0.1s ease-out;
+                box-shadow: 0 0 0 1px rgba(0, 0, 0, .03), 0 1px 3px 1px rgba(0, 0, 0, .07), 0 2px 6px 2px rgba(0, 0, 0, .03);
+                clip-path: rect(0 -16px 100% 150%);
+
+                position: relative;
+
+                /* align "checkbox" circle thingy */
+                &::before, &::after
+                {
+                    right: 18px;
+                }
+
+                &:active
+                {
+                    background-color: var(--gnome-tabbar-tab-active-background);
+                }
+
+                &:first-child, h2 + &, label + &, description + &,
+                #ctrlTabRecentlyUsedOrder + &,
+                #useAutoScroll + &,
+                &#web-appearance-chooser,
+                &#languagesBox
+                {
+					border-top-left-radius: 12px !important;
+                    border-top-right-radius: 12px !important;
+                    margin-top: 16px !important;
+                    clip-path: rect(-16px -16px 100% 150%);
+
+                    & + div
+                    {
+                        margin-top: -18px !important;
+                        clip-path: rect(0 -16px 150% 150%);
+                    }
+                }
+
+                &:last-child, &#mediaControlBox, &#enginesSuggestion, &#browserSeparateDefaultEngine
+                {
+					border-bottom-left-radius: 12px !important;
+                    border-bottom-right-radius: 12px !important;
+                    border-bottom: none !important;
+                    clip-path: rect(0 -16px 150% 150%);
+                }
+            }
+
+            & #zoomBox,
+            & #saveWhere
+            {
+                padding-top: 10px !important;
+                padding-bottom: 10px !important;
+
+                & > *
+                {
+                    margin-top: 0 !important;
+                    margin-bottom: 0 !important;
+                }
+            }
+
+            & > vbox > checkbox + *
+            {
+                margin-top: 6px !important;
+                margin-bottom: -10px !important;
+            }
+
+            & > vbox > checkbox, & > hbox > checkbox
+            {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+            & > checkbox
+            {
+                padding-top: 20px;
+                padding-bottom: 18px;
+                margin: 0 !important;
+                display: flex !important;
+                justify-content: center;
+            }
+        }
+
+        #saveTo
+        {
+            margin: 0 !important;
+        }
+
+        #downloadFolder
+        {
+            border: none !important;
+            color: var(--grey-60) !important;
+        }
+
+        button
+        {
+            min-width: unset !important;
+        }
+
+        checkbox
+        {
+           flex: 1;
+        }
+
+        .checkbox-check
+        {
+            order: 99;
+            margin: 0 !important;
+            appearance: none !important;
+            width: 44px !important;
+            height: 24px !important;
+            padding: 2px !important;
+            box-sizing: content-box;
+            border-radius: 1000px;
+            background-color: var(--gnome-tabbar-tab-active-hover-background);
+            margin-inline-end: 0 !important;
+            -moz-default-appearance: none !important;
+            transition: background-color 0.15s ease-in-out;
+        }
+
+        checkbox, hbox#translations-manage-description
+        {
+            position: relative;
+            gap: 16px !important;
+        }
+
+        hbox#translations-manage-description
+        {
+            margin-bottom: 16px;
+        }
+
+        #translations-manage-install-list
+        {
+            border: none !important;
+            background: transparent !important;
+            resize: none !important;
+            height: fit-content !important;
+        }
+
+        .translations-manage-language, #translations-manage-install-list
+        {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+
+            & > label
+            {
+                margin: 0 !important;
+            }
+        }
+
+        /* sigh: xul elements don't support pseudo elements */
+        checkbox::before, checkbox::after
+        {
+            content: '';
+            display: block;
+            position: absolute;
+            top: calc(50% - 10px);
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 12px;
+            z-index: 100;
+            background-color: white;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, .03), 0 1px 3px 1px rgba(0, 0, 0, .07), 0 2px 6px 2px rgba(0, 0, 0, .03);
+            transform: translateX(-20px);
+            transition: transform 0.15s ease-in-out;
+        }
+
+        checkbox[checked="true"]::before
+        {
+            transform: translateX(0);
+        }
+
+        checkbox[disabled="true"]
+        {
+            opacity: 0.5;
+        }
+
+        .checkbox-check:not([disabled="true"])[checked="true"]
+        {
+            background-color: AccentColor;
+        }
+
+        checkbox::after
+        {
+            transition: none;
+            box-shadow: unset;
+            width: 6.5px;
+            height: 6.5px;
+            top: calc(50% - 5px);
+            background-color: transparent;
+            border: 2px solid var(--gnome-toolbar-icon-fill);
+            transform: translateX(-3px);
+            transition: all 0s step-end 0.08s;
+        }
+
+        checkbox[checked="true"]::after
+        {
+            width: 2.25px;
+            height: 11px;
+            border: none;
+            top: calc(50% - 5px);
+            background-color: white;
+            border-radius: 0;
+            transform: translateX(-30px);
+        }
+
+        /* Hide some properties that are pretty much useless on mobile */
+		#ctrlTabRecentlyUsedOrder,
+        #warnOnQuitKey,
+        #colorsGroup,
+        #fontsGroup,
+        #dataMigrationGroup,
+        #browserLanguagesBox,
+        #useSystemLocale,
+        #performanceGroup,
+        #searchStartTyping,
+        #mediaControlBox > a,
+        hbox[data-subcategory="cfraddons"],
+        hbox[data-subcategory="cfrfeatures"],
+        #connectionGroup,
+        #useAutoScroll,
+        #useCursorNavigation,
+        #applicationsGroup,
+        [data-l10n-id="home-prefs-shortcuts-by-option-sponsored"]
+        {
+            display: none !important;
+        }
+
+        #translationsGroup > label
+        {
+            display: none;
+        }
+
+        #browsingGroup
+        {
+            order: -1;
+        }
+
+        #startupGroup
+        {
+            order: -2;
+        }
+
+        #updateApp
+        {
+            order: 99;
+        }
+
+        #browsingGroup > label
+        {
+            display: block !important;
+        }
+
+        .pane-container > vbox
+        {
+            max-width: calc(100% - 48px) !important;
+            margin: 24px !important;
+            margin-top: 0 !important;
+        }
+
+        .web-appearance-choice
+        {
+            border: none !important;
+            position: relative;
+            margin-bottom: 2em !important;
+            overflow: visible !important;
+
+            & .web-appearance-choice-image-container
+            {
+                background-color: transparent !important;
+                padding: 6px !important;
+                margin: 0 !important;
+
+                & img
+                {
+                	width: 100% !important;
+                    height: auto !important;
+                    box-sizing: border-box;
+                }
+            }
+
+            & .web-appearance-choice-footer
+            {
+                display: block !important;
+                border: none !important;
+                padding: 0 !important;
+
+                & input
+                {
+                    position: absolute;
+                    appearance: none;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    width: unset !important;
+                    height: unset !important;
+                    border: 3px solid transparent;
+                    border-radius: 8px;
+                    margin: 0 !important;
+
+                    &:checked
+                    {
+                        border-color: AccentColor;
+                    }
+                }
+
+                & span
+                {
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                    margin-top: 6px;
+                    text-align: center;
+                    display: block;
+                }
+            }
+        }
     }
+
+    menulist
+    {
+        margin: 0 !important;
+    }
+
+     #trackingGroup vbox, #updateApp hbox
+     {
+         clip-path: none !important;
+     }
+
+     #updateApp
+     {
+         margin-top: 64px !important;
+         margin-bottom: -32px !important;
+     }
 }
