@@ -6,7 +6,6 @@
         min-width: 100vw !important;
         width: 100vw !important;
         max-width: 100vw !important;
-        /* background: var(--gnome-tabbar-background) !important; */
     }
 
     /* Adjust dialogues like "Confirm before closing multiple
@@ -39,17 +38,6 @@
 #appmenu-moreTools-button + toolbarseparator,
 #overflowMenu-customize-button {
     display: none !important
-}
-
-/* Fix menu sizes being wrong more often than not */
-#mainPopupSet
-{
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
 }
 
 menupopup

@@ -8,7 +8,7 @@
 // leaking to window scope.
 {
   const areTopTabsEnabled = function() {
-    return Services.prefs.getBoolPref("furi.topTabs");
+    return Services.prefs.getBoolPref("furi.topTabs", false);
   };
 
   class MozPanel extends MozElements.MozElementMixin(XULPopupElement) {
@@ -37,19 +37,15 @@
         this.ensureInitialized();
       }
 
-      if (this.isArrowPanel) {
-        if (!this.hasAttribute("flip")) {
-          this.setAttribute("flip", "both");
-        }
-        if (!this.hasAttribute("side")) {
-          this.setAttribute("side", areTopTabsEnabled() ? "top" : "bottom");
-        }
-        if (!this.hasAttribute("position")) {
-          this.setAttribute("position", areTopTabsEnabled() ? "bottomleft topleft" : "bottomleft bottomleft");
-        }
-        if (!this.hasAttribute("consumeoutsideclicks")) {
-          this.setAttribute("consumeoutsideclicks", "false");
-        }
+      this.setAttribute("flip", "none");
+      if (!this.hasAttribute("side")) {
+        this.setAttribute("side", areTopTabsEnabled() ? "top" : "bottom");
+      }
+      if (!this.hasAttribute("position")) {
+        this.setAttribute("position", areTopTabsEnabled() ? "bottomleft topleft" : "bottomleft bottomleft");
+      }
+      if (!this.hasAttribute("consumeoutsideclicks")) {
+        this.setAttribute("consumeoutsideclicks", "false");
       }
 
       // Whenever the window is resized, ensure we reposition ourselves relative to the new size
