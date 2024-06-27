@@ -54,7 +54,6 @@
 
 menupopup
 {
-    display: inline-block !important;
     width: max-content !important;
     min-width: max-content !important;
     max-width: max-content !important;
