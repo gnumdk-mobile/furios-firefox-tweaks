@@ -363,6 +363,41 @@ function set_default_prefs() {
     // shows recently closed tabs. The always pinned tab takes up screen estate
     // and it's slightly annoying if you do not want to register an account.
     defaultPref('browser.tabs.firefox-view', false);
+
+    // Disable PiP controls - they don't work here and are just annoying
+    defaultPref('media.videocontrols.picture-in-picture.enabled', false);
+    defaultPref('media.videocontrols.picture-in-picture.keyboard-controls.enabled', false);
+    defaultPref('media.videocontrols.picture-in-picture.urlbar-button.enabled', false);
+    defaultPref('media.videocontrols.picture-in-picture.video-toggle.enabled', false);
+    defaultPref('media.videocontrols.picture-in-picture.video-toggle.first-seen-secs', 1719363395);
+
+    // Restore timer precision
+    defaultPref('privacy.reduceTimerPrecision', false);
+    defaultPref('privacy.reduceTimerPrecision.unconditional', false);
+    defaultPref('privacy.resistFingerprinting.reduceTimerPrecision.jitter', false);
+
+    // Use new & nicer clear history dialog
+    defaultPref('privacy.sanitize.useOldClearHistoryDialog', false);
+
+    // Hide annoying orange thing when using WebRTC
+    defaultPref('privacy.webrtc.hideGlobalIndicator', true);
+
+    // Get rid of https:// in the URL bar so more of the URL is visible
+    defaultPref('browser.urlbar.trimHttps', true);
+
+    // Don't let websites mess with the window size
+    defaultPref('dom.disable_window_move_resize', true);
+
+    // Disable telemetry
+    defaultPref('security.app_menu.recordEventTelemetry', false);
+    defaultPref('toolkit.telemetry.bhrPing.enabled', false);
+    defaultPref('toolkit.telemetry.firstShutdownPing.enabled', false);
+    defaultPref('toolkit.telemetry.newProfilePing.enabled', false);
+    defaultPref('toolkit.telemetry.pioneer-new-studies-available', false);
+    defaultPref('toolkit.telemetry.reportingpolicy.firstRun', false);
+    defaultPref('toolkit.telemetry.shutdownPingSender.enabled', false);
+    defaultPref('toolkit.telemetry.unified', false);
+    defaultPref('toolkit.telemetry.updatePing.enabled', false);
 }
 
 function main() {
@@ -375,9 +410,19 @@ function main() {
     else
         set_default_prefs();
 
+    Services.prefs.addObserver( "furi.browser.preload.disabled", {
+        observe: function( subject, topic, data ) {
+            if (!Services.prefs.getBoolPref( "furi.browser.preload.disabled", false ))
+                Services.startup.enterLastWindowClosingSurvivalArea();
+            else
+                Services.startup.exitLastWindowClosingSurvivalArea();
+        }
+    } );
+
     // Keep the browser open even when the last window is closed. This allows us to
     // receive WebPush notifications in the background and speeds up subsequent launches.
-    Services.startup.enterLastWindowClosingSurvivalArea();
+    if (!Services.prefs.getBoolPref( "furi.browser.preload.disabled", false ))
+        Services.startup.enterLastWindowClosingSurvivalArea();
 
     log("Done");
 }

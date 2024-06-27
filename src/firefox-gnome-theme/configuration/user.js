@@ -15,5 +15,5 @@ user_pref("svg.context-properties.content.enabled", true);
 user_pref("browser.theme.dark-private-windows", false);
 
 // Enable rounded bottom window corners
-user_pref("widget.gtk.rounded-bottom-corners.enabled", true);
+user_pref("widget.gtk.rounded-bottom-corners.enabled", false);
 
