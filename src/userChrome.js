@@ -47,7 +47,7 @@ if (document)
 // Load JS into tabs. Used to deeply customize about: pages etc
 {
    var INJECT_JS = {};
-   INJECT_JS["about:preferences"] = "file:///etc/mobile-config-firefox/overrides/pages/preferences.js";
+   INJECT_JS["about:preferences"] = "file:///usr/share/furios-firefox-tweaks/overrides/pages/preferences.js";
 
    const tryInject = function(target) {
        const baseUri = target.baseURI;
