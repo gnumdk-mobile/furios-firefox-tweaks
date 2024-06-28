@@ -438,7 +438,8 @@
         #useAutoScroll,
         #useCursorNavigation,
         #applicationsGroup,
-        [data-l10n-id="home-prefs-shortcuts-by-option-sponsored"]
+        [data-l10n-id="home-prefs-shortcuts-by-option-sponsored"],
+        #tabPreviewShowThumbnails
         {
             display: none !important;
         }
