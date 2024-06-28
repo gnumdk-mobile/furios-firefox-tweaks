@@ -1,7 +1,8 @@
 /* Copyright 2022 plata
  * SPDX-License-Identifier: MPL-2.0 */
 
-@media (max-width: 700px) {
+@media ((max-width: 700px)
+    or (not (-moz-bool-pref: "furi.landscapeDesktop"))) {
     /* Hide navigation bar in kiosk mode (to prevent bug #29). We can assume FF
      * is in kiosk mode when fullscreen and max-width conditions are met,
      * because at this max-width the fullscreen button is hidden
@@ -29,7 +30,8 @@
     }
 }
 
-@media ((max-width: 700px)
+@media (((max-width: 700px)
+    or (not (-moz-bool-pref: "furi.landscapeDesktop")))
         and (not (-moz-bool-pref: "furi.topTabs"))) {
     /* Move navigation bar to bottom */
     #browser {
