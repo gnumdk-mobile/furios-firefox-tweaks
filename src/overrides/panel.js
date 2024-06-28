@@ -44,9 +44,7 @@
       if (!this.hasAttribute("position")) {
         this.setAttribute("position", areTopTabsEnabled() ? "bottomleft topleft" : "bottomleft bottomleft");
       }
-      if (!this.hasAttribute("consumeoutsideclicks")) {
-        this.setAttribute("consumeoutsideclicks", "false");
-      }
+      this.setAttribute("consumeoutsideclicks", "true");
 
       // Whenever the window is resized, ensure we reposition ourselves relative to the new size
       let previousHeight = window.innerHeight;
