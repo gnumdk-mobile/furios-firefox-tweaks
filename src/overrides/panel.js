@@ -47,8 +47,16 @@
       this.setAttribute("consumeoutsideclicks", "true");
 
       // Whenever the window is resized, ensure we reposition ourselves relative to the new size
+      let previousWidth = window.innerWidth;
       let previousHeight = window.innerHeight;
       const resizeObserver = new ResizeObserver(() => {
+        if (window.innerWidth !== previousWidth) {
+            previousWidth = window.innerWidth;
+            // Looks like a rotation or resize! Let's just close ourselves...
+            this.hidePopup(true);
+            return;
+        }
+        previousWidth = window.innerWidth;
         if (window.innerHeight !== previousHeight) {
           if (this.getAttribute("panelopen") && !areTopTabsEnabled()) {
             const newY = this.screenY - (previousHeight - window.innerHeight);
