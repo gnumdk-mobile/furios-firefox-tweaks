@@ -84,6 +84,7 @@
     {
         createPreferenceCheckbox( "preload", "Keep Firefox open in the background", "furi.browser.preload.disabled", "startupPageBox", true )
         createPreferenceCheckbox( "topTabs", "Display tab bar on the bottom of the screen", "furi.topTabs", "warnCloseMultiple", true )
+        createPreferenceCheckbox( "appMenuDual", "Always use dual-pane app menu", "furi.appMenuDualPortrait", "mediaControlBox", false )
 
         document.body.classList.add( "loaded" )
     } )
