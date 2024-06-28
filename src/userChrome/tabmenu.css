@@ -7,14 +7,9 @@
      * the tab bar for the private-browsing-indicator (that mask icon). This
      * gives the tab bar a consistent width in both the regular and the private
      * browsing mode, so the increased width hack below looks good in both. */
-    #titlebar {
-        padding-right: 30px;
-    }
+
     hbox.private-browsing-indicator {
-        position: fixed !important;
-        right: 0px;
-        bottom: 50px;
-        display: block;
+        display: none !important;
     }
 
     /* Hide firefox-view tab, as none of the options in about:config hides it on FF 123 */
