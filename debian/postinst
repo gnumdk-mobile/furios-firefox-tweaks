@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = "configure" ]; then
+    # This ensures the "last modified" date is updated, as it's needed
+    # for those files to upgrade
+    find /usr/share/furios-firefox-tweaks -type f -exec touch {} \;
+
+    su -l furios -c "/bin/bash /usr/share/furios-firefox-tweaks/migrate.sh"
+fi
+
+#DEBHELPER#
