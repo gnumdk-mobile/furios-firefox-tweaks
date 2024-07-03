@@ -51,9 +51,6 @@ install: all
 	install -Dm755 src/99-firefox-crash-reporter.sh \
 		"$(DESTDIR)/etc/profile.d/99-firefox-crash-reporter.sh"
 
-	# Install ESR -> release migration script
-	install -Dm755 src/migrate.sh "$(DESTDIR)/$(FIREFOX_MOBILE_CONFIG_DIR)/migrate.sh"
-
 	# Ensure DESTDIR is an absolute path \
 	DESTDIR=$$(realpath "$(DESTDIR)"); \
 	walk_dir() { \
