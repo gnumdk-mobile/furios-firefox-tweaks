@@ -86,13 +86,14 @@
  @media ((min-width: 701px)
      or (-moz-bool-pref: "furi.appMenuDualPortrait"))
 {
-    #appMenu-popup .panel-subview-body
+    #appMenu-mainView > .panel-subview-body
     {
         display: grid !important;
         grid-auto-flow: dense;
     }
 
-    #appMenu-proton-addon-banners,
+    #appMenu-proton-addon-banners,   /* this ID is obsolete as of FF 127. keeping it for a bit for compatibility */
+    #appMenu-addon-banners,
     #appMenu-fxa-status2,
     #appMenu-profiles-button,
     #appMenu-popup toolbarseparator,
