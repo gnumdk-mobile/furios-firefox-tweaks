@@ -28,6 +28,7 @@
       this.addEventListener("popuphiding", this);
       this.addEventListener("popuphidden", this);
       this.addEventListener("popuppositioned", this);
+      this.addEventListener("touchstart", this);
     }
 
     connectedCallback() {
@@ -44,29 +45,8 @@
       if (!this.hasAttribute("position")) {
         this.setAttribute("position", areTopTabsEnabled() ? "bottomleft topleft" : "bottomleft bottomleft");
       }
-      this.setAttribute("consumeoutsideclicks", "true");
 
       // Whenever the window is resized, ensure we reposition ourselves relative to the new size
-      let previousWidth = window.innerWidth;
-      let previousHeight = window.innerHeight;
-      const resizeObserver = new ResizeObserver(() => {
-        if (window.innerWidth !== previousWidth) {
-            previousWidth = window.innerWidth;
-            // Looks like a rotation or resize! Let's just close ourselves...
-            this.hidePopup(true);
-            return;
-        }
-        previousWidth = window.innerWidth;
-        if (window.innerHeight !== previousHeight) {
-          if (this.getAttribute("panelopen") && !areTopTabsEnabled()) {
-            const newY = this.screenY - (previousHeight - window.innerHeight);
-            this.moveToAnchor(null, "before_start", 0, newY, true);
-            this.moveTo(0, newY);
-          }
-          previousHeight = window.innerHeight;
-        }
-      });
-      resizeObserver.observe(document.documentElement);
     }
 
     ensureInitialized() {
@@ -147,6 +127,8 @@
     }
 
     on_popupshowing(event) {
+      this.setAttribute("flip", "slide");
+      this.setAttribute("type", "");
       this.setAttribute("remote", "true");
       if (event.target == this) {
         this.panelContent.style.display = "";
@@ -303,39 +285,28 @@
       }
     }
 
+    on_touchstart(event) {
+      // jesus: the panel is now full-height even if the content is smaller. We do this so that
+      // the content can grow upwards from the bottom in a performant way. But now, if the user
+      // touches anywhere inside the panel but outside the content (i.e. target is ourselves),
+      // we should disappear.
+      // The correct way to do this would be to set pointer-events: none on the panel and
+      // pointer-events: auto on the content, but that doesn't work because the panel is a window.
+      // Or maybe because it's a XUL element. Dunno. In any case, we gotta do this the crappy way.
+
+      if (event.target == this && this.getAttribute("consumeoutsideclicks") != "true" && this.getAttribute("noautohide") != "true") {
+        this.hidePopup();
+      }
+    }
+
     on_popuppositioned(event) {
       if (event.target == this) {
         this._setSideAttribute(event);
       }
     }
 
-    // We don't want to fully rely on anchors because they don't correctly position or size the panel
-    // when it's bottom aligned. So we implement our own anchor logic here, which will be called from
-    // a global observer. We also don't really care about the anchor itself, so we use absolute positioning.
-
-    getPanelY() {
-      if (!this.children.length) return 0;
-      const contentHeight = Array.from(this.children).reduce(function(acc, el) { return acc + el.scrollHeight }, 0);
-      return areTopTabsEnabled() ? 88 : document.documentElement.clientHeight - contentHeight - 104;
-    }
-
-    fixPanelPosition() {
-      // if (areTopTabsEnabled()) return 0;
-      if (!this.children.length) return 0;
-      // ??? We need to call moveToAnchor, even if element is null, for moveTo to work
-      // Why?!
-      const y = this.getPanelY()
-      this.moveToAnchor(null, "before_start", 0, y, true);
-      this.moveTo(
-        0,
-        y
-      );
-    }
-
     openPopup(anchor, position, x, y, isContextMenu, attributesOverride) {
-      // if (areTopTabsEnabled()) return super.openPopup(anchor, position, x, y, isContextMenu, attributesOverride);
-      super.openPopupAtScreen(0, this.getPanelY(), isContextMenu, attributesOverride);
-      this.fixPanelPosition();
+      super.openPopupAtScreen(0, 0, isContextMenu, attributesOverride);
     }
   }
 

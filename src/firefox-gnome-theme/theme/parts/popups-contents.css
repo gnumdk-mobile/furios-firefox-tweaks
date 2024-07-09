@@ -138,15 +138,6 @@
 	color: white !important;
 }
 
-/* URLbar popups */
-#identity-popup-mainView,
-#permission-popup-mainView,
-#protections-popup-mainView,
-#identity-popup-mainView-panel-header {
-	max-width: calc(var(--popup-width) + (var(--gnome-menu-padding) * 2)) !important;
-	min-width: calc(var(--popup-width) + (var(--gnome-menu-padding) * 2)) !important;
-}
-
 /* Identity popup */
 #identity-popup-security,
 .identity-popup-section,
@@ -212,7 +203,7 @@
 
 /* Protections popup */
 .protections-popup-section,
-#protections-popup-not-blocking-section-header {	
+#protections-popup-not-blocking-section-header {
 	border: 0 !important;
 }
 #protections-popup-mainView-panel-header-section {
@@ -259,18 +250,21 @@
 #cfr-protections-panel-link-text {
 	color: var(--gnome-window-color) !important;
 }
+
+vbox#protections-popup-content
+{
+    width: 100% !important;
+    margin: 0 var(--arrowpanel-menuitem-padding);
+}
+
+#protections-popup-category-list > *
+{
+    padding: 0 !important;
+}
+
 .whatsNew-message-body {
 	padding: 0 6px;
 }
-
-#protections-popup-tp-switch-section {
-	background: var(--gnome-menu-background);
-	border: 1px solid var(--gnome-button-border-color) !important;
-	border-radius: 9px;
-	padding: 12px 0 !important;
-	margin: 0 !important;
-}
-
 #protections-popup[hasException] #protections-popup-tp-switch-section {
 	background: var(--gnome-menu-background) !important;
 }
@@ -287,8 +281,8 @@
 #protections-popup-blocking-section-header,
 #protections-popup-not-found-section-header,
 #protections-popup-not-blocking-section-header{
-	padding: 0px 5px !important;
-	margin-top: 20px !important;
+	padding: 0 !important;
+	margin-top: 10px !important;
 	height: auto !important;
 }
 
@@ -305,12 +299,6 @@
 	opacity: 0.7;
 }
 
-#protections-popup-footer  {
-	display: flex;
-	justify-content: flex-start;
-	flex-wrap: wrap;
-	margin-top: 12px;
-}
 #protections-popup-show-report-stack,
 #protections-popup-settings-button {
 	width: 100% !important;
@@ -318,24 +306,9 @@
 #protections-popup-show-report-button {
 	height: 32px !important;
 }
-#protections-popup-footer-protection-type-label  {
-	margin-left: 6px !important;
-}
-.protections-popup-description {
-    border-bottom: 0 !important;
-}
-.protections-popup-description > description {
-    margin: 8px !important;
-}
-
 /* Feature recommendation notification, fix width */
 #contextual-feature-recommendation-notification {
     width: auto !important;
-}
-
-/* Extensions sometimes assume a white background */
-.webextension-popup-browser {
-	background-color: #fff !important;
 }
 
 /* Translate */
