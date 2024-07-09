@@ -11,6 +11,10 @@
      "resource://gre/modules/AppConstants.sys.mjs"
    );
 
+   const areTopTabsEnabled = function() {
+     return Services.prefs.getBoolPref("furi.topTabs", false);
+   };
+
    document.addEventListener(
      "popupshowing",
      function (e) {
@@ -51,6 +55,7 @@
 
          this.setAttribute("flip", "slide");
          this.setAttribute("remote", (parseInt(this.getAttribute("remote")) || 0) + 1);
+         this.shouldRestorePosition = false;
 
          var combinedWidth = Array.from(this.shadowRoot.children).reduce(
               (acc, child) => acc + child.scrollWidth,
@@ -70,6 +75,32 @@
        if (this.delayConnectedCallback() || this.hasConnected) {
          return;
        }
+
+      // Whenever the window is resized, ensure we reposition ourselves relative to the new size
+      let previousWidth, previousHeight;
+
+      const resizeObserver = new ResizeObserver(() => {
+        if (window.innerWidth !== previousWidth) {
+            previousWidth = window.innerWidth;
+            // Looks like a rotation or resize! Let's just close ourselves...
+            this.hidePopup(true);
+            return;
+        }
+
+        previousWidth = window.innerWidth;
+        if (window.innerHeight !== previousHeight) {
+          if (this.state == "open") {
+            const bottom = this.screenY + this.scrollHeight;
+            if (bottom > window.innerHeight || (!areTopTabsEnabled() && !gContextMenu) || this.shouldRestorePosition) {
+              this.setAttribute("flip", "none");
+              this.moveTo(this.screenX, this.screenY - (previousHeight - window.innerHeight));
+              this.shouldRestorePosition = true;
+            }
+          }
+          previousHeight = window.innerHeight;
+        }
+      });
+      resizeObserver.observe(document.documentElement);
 
        this.hasConnected = true;
      }
