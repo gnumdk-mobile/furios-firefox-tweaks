@@ -14,7 +14,6 @@ Architecture: all
 Depends:
  ${misc:Depends},
  firefox,
- dconf-cli
 Description: Default mobile-friendly FuriOS configuration for Firefox
  This package provides a set of configuration files aimed at making Firefox
  more mobile-friendly. It provides:
